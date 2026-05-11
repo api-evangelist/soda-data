@@ -28,6 +28,16 @@ common:
     url: https://www.soda.io
   - type: Documentation
     url: https://docs.soda.io
+  - type: Integrations
+    url: https://soda.io/integrations
+integrations:
+  - name: AICPA SOC
+  - name: Giga OM
+  - name: TW
+  - name: Gartner
+  - name: High Performer 2025 badge
+  - name: Best Roi 2025 badge
+  - name: Momentum Leader 2025 badge
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
