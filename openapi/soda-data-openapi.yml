@@ -1,0 +1,276 @@
+openapi: 3.1.0
+info:
+  title: Soda Cloud REST API
+  description: |
+    The Soda Cloud REST API enables programmatic access to Soda's data quality
+    platform, including data contracts, checks, attributes, and dataset ingestion.
+    Endpoints and authentication are derived from the public Soda documentation
+    at https://docs.soda.io/reference/rest-api.md.
+  version: "1.0.0"
+  contact:
+    name: Soda
+    url: https://www.soda.io
+  license:
+    name: Proprietary
+servers:
+  - url: https://cloud.soda.io
+    description: EU region
+  - url: https://cloud.us.soda.io
+    description: US region
+security:
+  - basicAuth: []
+tags:
+  - name: Authentication
+  - name: Attributes
+  - name: Checks
+  - name: Contracts
+  - name: Datasets
+paths:
+  /api/v1/test-login:
+    get:
+      tags: [Authentication]
+      summary: Verify login credentials
+      operationId: testLogin
+      responses:
+        '200':
+          description: Credentials are valid
+        '401':
+          description: Unauthorized
+  /api/v1/attributes:
+    get:
+      tags: [Attributes]
+      summary: Retrieve all attributes
+      operationId: listAttributes
+      responses:
+        '200':
+          description: A list of attributes
+    post:
+      tags: [Attributes]
+      summary: Create a new attribute
+      operationId: createAttribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Attribute created
+  /api/v1/attributes/{attributeId}:
+    parameters:
+      - in: path
+        name: attributeId
+        required: true
+        schema:
+          type: string
+    post:
+      tags: [Attributes]
+      summary: Update an existing attribute
+      operationId: updateAttribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Attribute updated
+    delete:
+      tags: [Attributes]
+      summary: Remove an attribute
+      operationId: deleteAttribute
+      responses:
+        '204':
+          description: Attribute removed
+  /api/v1/checks:
+    get:
+      tags: [Checks]
+      summary: Retrieve all checks
+      operationId: listChecks
+      parameters:
+        - in: query
+          name: checkIds
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+          description: Optional list of check IDs to filter by
+      responses:
+        '200':
+          description: A list of checks
+  /api/v1/checks/{checkId}:
+    parameters:
+      - in: path
+        name: checkId
+        required: true
+        schema:
+          type: string
+    delete:
+      tags: [Checks]
+      summary: Remove a check
+      operationId: deleteCheck
+      responses:
+        '204':
+          description: Check removed
+  /api/v1/contracts:
+    get:
+      tags: [Contracts]
+      summary: List all contracts
+      operationId: listContracts
+      responses:
+        '200':
+          description: A list of contracts
+    post:
+      tags: [Contracts]
+      summary: Create a new contract
+      operationId: createContract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Contract created
+  /api/v1/contracts/actions/createSkeleton:
+    post:
+      tags: [Contracts]
+      summary: Initiate contract skeleton generation
+      operationId: createContractSkeleton
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '202':
+          description: Skeleton generation initiated
+  /api/v1/contracts/actions/createSkeleton/{operationId}:
+    parameters:
+      - in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Contracts]
+      summary: Retrieve skeleton generation status
+      operationId: getContractSkeletonStatus
+      responses:
+        '200':
+          description: Skeleton generation status
+  /api/v1/contracts/actions/generate:
+    post:
+      tags: [Contracts]
+      summary: Start contract generation
+      operationId: generateContract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '202':
+          description: Contract generation started
+  /api/v1/contracts/actions/generate/{operationId}:
+    parameters:
+      - in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Contracts]
+      summary: Check contract generation progress
+      operationId: getContractGenerateStatus
+      responses:
+        '200':
+          description: Contract generation progress
+  /api/v1/contracts/{contractId}:
+    parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Contracts]
+      summary: Fetch a specific contract
+      operationId: getContract
+      responses:
+        '200':
+          description: A contract
+    post:
+      tags: [Contracts]
+      summary: Update a contract
+      operationId: updateContract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Contract updated
+  /api/v1/contracts/{contractId}/verify:
+    parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+    post:
+      tags: [Contracts]
+      summary: Validate a contract
+      operationId: verifyContract
+      responses:
+        '200':
+          description: Contract validation result
+  /api/v1/contracts/{contractId}/versions:
+    parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+    get:
+      tags: [Contracts]
+      summary: Retrieve contract version history
+      operationId: getContractVersions
+      responses:
+        '200':
+          description: A list of contract versions
+  /api/v1/datasets/{datasetId}:
+    parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+    post:
+      tags: [Datasets]
+      summary: Create or update data for a dataset
+      operationId: upsertDataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Dataset upserted
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: |
+        Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
