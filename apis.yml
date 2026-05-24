@@ -34,6 +34,8 @@ common:
     url: https://docs.soda.io
   - type: Integrations
     url: https://soda.io/integrations
+  - type: LLMsTxt
+    url: https://docs.soda.io/llms.txt
 integrations:
   - name: AICPA SOC
   - name: Giga OM
