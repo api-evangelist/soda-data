@@ -3,7 +3,7 @@ name: Soda
 description: >-
   Soda is a data quality platform that enables data testing, monitoring, and anomaly detection across data pipelines.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - AIOps
   - Data Quality
