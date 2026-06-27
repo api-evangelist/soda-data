@@ -34,7 +34,7 @@ common:
     url: https://docs.soda.io
   - type: Integrations
     url: https://soda.io/integrations
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://docs.soda.io/llms.txt
 integrations:
   - name: AICPA SOC
