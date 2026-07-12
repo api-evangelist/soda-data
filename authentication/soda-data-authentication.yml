@@ -1,0 +1,13 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/soda-data-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
+  sources:
+  - openapi/soda-data-openapi.yml

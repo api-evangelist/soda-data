@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://trust.soda.io/
+url: https://trust.soda.io/
+certifications:
+- SOC 2
+- GDPR
+evidence:
+- source: https://trust.soda.io/
+  keywords:
+  - soc 2
+  - trust center
+  - gdpr

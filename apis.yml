@@ -24,6 +24,12 @@ apis:
       - type: Documentation
         url: https://docs.soda.io
 common:
+  - type: TrustCenter
+    url: security/soda-data-trust-center.yml
+  - type: DomainSecurity
+    url: security/soda-data-domain-security.yml
+  - type: Authentication
+    url: authentication/soda-data-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/sodadata
   - type: LinkedIn
@@ -36,6 +42,8 @@ common:
     url: https://soda.io/integrations
   - type: LlmsText
     url: https://docs.soda.io/llms.txt
+  - url: https://www.soda.io/blog
+    type: Blog
 integrations:
   - name: AICPA SOC
   - name: Giga OM
