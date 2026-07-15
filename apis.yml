@@ -24,6 +24,8 @@ apis:
       - type: Documentation
         url: https://docs.soda.io
 common:
+  - type: AgenticAccess
+    url: agentic-access/soda-data-agentic-access.yml
   - type: TrustCenter
     url: security/soda-data-trust-center.yml
   - type: DomainSecurity
