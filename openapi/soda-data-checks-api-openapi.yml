@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: Soda Cloud REST Attributes Checks API
+  description: 'The Soda Cloud REST API enables programmatic access to Soda''s data quality
+
+    platform, including data contracts, checks, attributes, and dataset ingestion.
+
+    Endpoints and authentication are derived from the public Soda documentation
+
+    at https://docs.soda.io/reference/rest-api.md.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Soda
+    url: https://www.soda.io
+  license:
+    name: Proprietary
+servers:
+- url: https://cloud.soda.io
+  description: EU region
+- url: https://cloud.us.soda.io
+  description: US region
+security:
+- basicAuth: []
+tags:
+- name: Checks
+paths:
+  /api/v1/checks:
+    get:
+      tags:
+      - Checks
+      summary: Retrieve all checks
+      operationId: listChecks
+      parameters:
+      - in: query
+        name: checkIds
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: Optional list of check IDs to filter by
+      responses:
+        '200':
+          description: A list of checks
+  /api/v1/checks/{checkId}:
+    parameters:
+    - in: path
+      name: checkId
+      required: true
+      schema:
+        type: string
+    delete:
+      tags:
+      - Checks
+      summary: Remove a check
+      operationId: deleteCheck
+      responses:
+        '204':
+          description: Check removed
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
+
+        '

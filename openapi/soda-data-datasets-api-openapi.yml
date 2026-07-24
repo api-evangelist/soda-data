@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Soda Cloud REST Attributes Datasets API
+  description: 'The Soda Cloud REST API enables programmatic access to Soda''s data quality
+
+    platform, including data contracts, checks, attributes, and dataset ingestion.
+
+    Endpoints and authentication are derived from the public Soda documentation
+
+    at https://docs.soda.io/reference/rest-api.md.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Soda
+    url: https://www.soda.io
+  license:
+    name: Proprietary
+servers:
+- url: https://cloud.soda.io
+  description: EU region
+- url: https://cloud.us.soda.io
+  description: US region
+security:
+- basicAuth: []
+tags:
+- name: Datasets
+paths:
+  /api/v1/datasets/{datasetId}:
+    parameters:
+    - in: path
+      name: datasetId
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Datasets
+      summary: Create or update data for a dataset
+      operationId: upsertDataset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Dataset upserted
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
+
+        '

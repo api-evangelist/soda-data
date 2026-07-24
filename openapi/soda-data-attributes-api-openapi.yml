@@ -1,0 +1,88 @@
+openapi: 3.1.0
+info:
+  title: Soda Cloud REST Attributes API
+  description: 'The Soda Cloud REST API enables programmatic access to Soda''s data quality
+
+    platform, including data contracts, checks, attributes, and dataset ingestion.
+
+    Endpoints and authentication are derived from the public Soda documentation
+
+    at https://docs.soda.io/reference/rest-api.md.
+
+    '
+  version: 1.0.0
+  contact:
+    name: Soda
+    url: https://www.soda.io
+  license:
+    name: Proprietary
+servers:
+- url: https://cloud.soda.io
+  description: EU region
+- url: https://cloud.us.soda.io
+  description: US region
+security:
+- basicAuth: []
+tags:
+- name: Attributes
+paths:
+  /api/v1/attributes:
+    get:
+      tags:
+      - Attributes
+      summary: Retrieve all attributes
+      operationId: listAttributes
+      responses:
+        '200':
+          description: A list of attributes
+    post:
+      tags:
+      - Attributes
+      summary: Create a new attribute
+      operationId: createAttribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Attribute created
+  /api/v1/attributes/{attributeId}:
+    parameters:
+    - in: path
+      name: attributeId
+      required: true
+      schema:
+        type: string
+    post:
+      tags:
+      - Attributes
+      summary: Update an existing attribute
+      operationId: updateAttribute
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Attribute updated
+    delete:
+      tags:
+      - Attributes
+      summary: Remove an attribute
+      operationId: deleteAttribute
+      responses:
+        '204':
+          description: Attribute removed
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
+
+        '
