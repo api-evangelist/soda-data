@@ -3,7 +3,20 @@ name: Soda
 description: >-
   Soda is a data quality platform that enables data testing, monitoring, and anomaly detection across data pipelines.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/soda-data.png
 tags:
   - AIOps
   - Data Quality
@@ -13,16 +26,62 @@ created: '2026-03-27'
 modified: '2026-03-27'
 specificationVersion: '0.19'
 apis:
-  - aid: soda-data:soda-data
-    name: Soda
-    description: >-
-      Soda is a data quality platform that enables data testing, monitoring, and anomaly detection across data pipelines.
-    humanURL: https://www.soda.io
-    tags:
-      - AIOps
-    properties:
-      - type: Documentation
-        url: https://docs.soda.io
+- aid: soda-data:soda-data
+  name: Soda
+  description: >-
+    Soda is a data quality platform that enables data testing, monitoring, and anomaly detection across
+    data pipelines.
+  humanURL: https://www.soda.io
+  tags:
+  - AIOps
+  properties:
+  - type: Documentation
+    url: https://docs.soda.io
+- aid: soda-data:soda-data-attributes-api
+  name: Soda Attributes API
+  description: The Attributes API from Soda — 2 operation(s) for attributes.
+  humanURL: https://www.soda.io
+  tags:
+  - Attributes
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-attributes-api-openapi.yml
+- aid: soda-data:soda-data-authentication-api
+  name: Soda Authentication API
+  description: The Authentication API from Soda — 1 operation(s) for authentication.
+  humanURL: https://www.soda.io
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-authentication-api-openapi.yml
+- aid: soda-data:soda-data-checks-api
+  name: Soda Checks API
+  description: The Checks API from Soda — 2 operation(s) for checks.
+  humanURL: https://www.soda.io
+  tags:
+  - Checks
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-checks-api-openapi.yml
+- aid: soda-data:soda-data-contracts-api
+  name: Soda Contracts API
+  description: The Contracts API from Soda — 8 operation(s) for contracts.
+  humanURL: https://www.soda.io
+  tags:
+  - Contracts
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-contracts-api-openapi.yml
+- aid: soda-data:soda-data-datasets-api
+  name: Soda Datasets API
+  description: The Datasets API from Soda — 1 operation(s) for datasets.
+  humanURL: https://www.soda.io
+  tags:
+  - Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-datasets-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/soda-data-agentic-access.yml
