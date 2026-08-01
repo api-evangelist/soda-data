@@ -1,0 +1,22 @@
+{
+  "provider": "soda-data",
+  "sources": [
+    "soda-data-attributes-api-openapi.yml",
+    "soda-data-authentication-api-openapi.yml",
+    "soda-data-checks-api-openapi.yml",
+    "soda-data-contracts-api-openapi.yml",
+    "soda-data-datasets-api-openapi.yml"
+  ],
+  "outputs": [
+    "soda-data-attributes-api-openapi.yml",
+    "soda-data-authentication-api-openapi.yml",
+    "soda-data-checks-api-openapi.yml",
+    "soda-data-contracts-api-openapi.yml",
+    "soda-data-datasets-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
