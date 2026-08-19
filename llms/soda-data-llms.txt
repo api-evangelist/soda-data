@@ -1,0 +1,344 @@
+# Documentation
+
+## Soda Documentation
+
+- [What is Soda?](https://docs.soda.io/readme.md)
+- [Quickstart](https://docs.soda.io/quickstart.md): Learn how to get started with Soda.
+- [Soda AI](https://docs.soda.io/soda-ai.md): Discover how Soda AI can help you improve and automate your data quality seamlessly
+- [Contract Autopilot](https://docs.soda.io/soda-ai/contract-autopilot.md): Learn more about Contract Autopilot, a Soda AI-powered feature to create data contracts tailored to your data.
+- [Contract Copilot](https://docs.soda.io/soda-ai/contract-copilot.md): Learn more about Contract Copilot, a Soda AI-powered feature to edit data contracts.
+- [Bring your own key (BYOK)](https://docs.soda.io/soda-ai/bring-your-own-key-byok.md): Learn how to bring your own OpenAI key to use the Soda AI features
+- [Soda MCP](https://docs.soda.io/soda-ai/soda-mcp.md): Use Soda from your preferred AI agent.
+- [MCP tools](https://docs.soda.io/soda-ai/soda-mcp/mcp-tools.md)
+- [Data Observability](https://docs.soda.io/data-observability.md): An overview of Soda's key observability features and how they help catch data issues early.
+- [Metric Monitoring dashboard](https://docs.soda.io/data-observability/metric-monitoring-dashboard.md)
+- [Dataset monitors](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors.md): Learn more about Metric Monitors that run scans at a dataset level.
+- [Based on metadata](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/metadata-based.md): Learn more about metadata-based dataset monitors.
+- [Last modification time](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/metadata-based/last-modification-time.md)
+- [Schema changes](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/metadata-based/schema-changes.md)
+- [Total row count](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/metadata-based/total-row-count.md)
+- [Total row count change](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/metadata-based/total-row-count-change.md)
+- [Based on data](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/query-based.md): Learn more about data-based dataset monitors.
+- [Most recent timestamp (dataset)](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/query-based/most-recent-timestamp-dataset.md)
+- [Partition row count](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors/query-based/partition-row-count.md)
+- [Column monitors](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors.md): Learn more about Metric Monitors that run scans at a column level.
+- [All data types](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types.md)
+- [Count](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types/count.md)
+- [Duplicate percentage](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types/duplicate-percentage.md)
+- [Maximum value](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types/maximum-value.md)
+- [Minimum value](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types/minimum-value.md)
+- [Missing values percentage](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types/missing-values-percentage.md)
+- [Unique count](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/all-data-types/unique-count.md)
+- [Timestamp](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/timestamp.md)
+- [Most recent timestamp (column)](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/timestamp/most-recent-timestamp-column.md)
+- [Numeric](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric.md)
+- [Average](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/average.md)
+- [Standard deviation](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/standard-deviation.md)
+- [Sum](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/sum.md)
+- [Variance](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/variance.md)
+- [Q1](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/q1.md)
+- [Median](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/median.md)
+- [Q3](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/numeric/q3.md)
+- [Text](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/text.md)
+- [Average length](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/text/average-length.md)
+- [Maximum length](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/text/maximum-length.md)
+- [Minimum length](https://docs.soda.io/data-observability/metric-monitoring-dashboard/column-monitors/text/minimum-length.md)
+- [Group By monitors](https://docs.soda.io/data-observability/metric-monitoring-dashboard/group-by-monitors.md)
+- [Custom monitors](https://docs.soda.io/data-observability/metric-monitoring-dashboard/custom-monitors.md): Learn more about how to use your own SQL queries to build custom SQL Metric Monitors.
+- [Metric monitor page](https://docs.soda.io/data-observability/metric-monitor-page.md)
+- [Profiling](https://docs.soda.io/data-observability/profiling.md): Profiling provides a quick and comprehensive overview of a dataset’s structure and key statistics.
+- [Record-level Anomaly Detection (RAD)](https://docs.soda.io/data-observability/mad-multivariate-anomaly-detection.md): This page explains Record-level Anomaly Detection (RAD) and Soda's anomaly detection capabilities through RAD.
+- [Scan time strategy](https://docs.soda.io/data-observability/scan-time-and-scan-time-strategy.md)
+- [Metadata data sources](https://docs.soda.io/data-observability/metadata-data-sources.md)
+- [Data Testing](https://docs.soda.io/data-testing.md)
+- [Git-managed Data Contracts](https://docs.soda.io/data-testing/git-managed-data-contracts.md)
+- [Configure your environment](https://docs.soda.io/data-testing/git-managed-data-contracts/install-and-configure.md)
+- [Create and edit contracts](https://docs.soda.io/data-testing/git-managed-data-contracts/create-and-edit-contracts.md)
+- [Verify a contract](https://docs.soda.io/data-testing/git-managed-data-contracts/verify-a-contract.md)
+- [Cloud-managed Data Contracts](https://docs.soda.io/data-testing/cloud-managed-data-contracts.md)
+- [Author a contract in Soda Cloud](https://docs.soda.io/data-testing/cloud-managed-data-contracts/author-a-contract-in-soda-cloud.md)
+- [Verify a contract](https://docs.soda.io/data-testing/cloud-managed-data-contracts/verify-a-contract.md)
+- [Review checks](https://docs.soda.io/data-testing/cloud-managed-data-contracts/review-checks.md): This page describes the Soda Cloud check page navigation.
+- [Contract collaboration](https://docs.soda.io/data-testing/contract-collaboration.md)
+- [Data Standards](https://docs.soda.io/data-testing/data-standards.md): Write data quality checks once and deploy them across many datasets at scale with Data Standards.
+- [Author a Data Standard](https://docs.soda.io/data-testing/data-standards/author-a-data-standard.md): Define the checks that make up a Data Standard.
+- [Deploy at scale](https://docs.soda.io/data-testing/data-standards/deploy-at-scale.md): Set up a Data Standard with a scope to enforce it across many datasets at once.
+- [Verify a Data Standard](https://docs.soda.io/data-testing/data-standards/verify-a-data-standard.md): Run a dataset's Data Standard checks on demand with the Soda CLI.
+- [Review results](https://docs.soda.io/data-testing/data-standards/review-results.md): Review Data Standard check results across every dataset they apply to.
+- [Data reconciliation](https://docs.soda.io/data-testing/data-reconciliation.md): This page describes how Soda handles data reconciliation through different types of reconciliation checks.
+- [Failed Rows check](https://docs.soda.io/data-testing/failed-rows-check.md)
+- [Diagnostics Warehouse](https://docs.soda.io/diagnostics-warehouse.md): Diagnostics Warehouse provides a clear, detailed view of the state of data checks while allowing access to failed rows in order to take a closer look and resolve data quality issues.
+- [Onboard data sources & datasets](https://docs.soda.io/onboard-data-sources-and-datasets.md)
+- [Via Soda Cloud](https://docs.soda.io/onboard-data-sources-and-datasets/onboard-datasets-on-soda-cloud.md): Connect a data source to Soda Cloud and onboard its datasets, step by step, from the connection form to monitoring and profiling.
+- [Additional settings](https://docs.soda.io/onboard-data-sources-and-datasets/onboard-datasets-on-soda-cloud/additional-settings.md)
+- [Via Soda Core](https://docs.soda.io/onboard-data-sources-and-datasets/via-soda-core.md)
+- [Manage data quality issues](https://docs.soda.io/manage-issues.md): Learn about the key features and workflows in Soda for managing data quality issues and reporting.
+- [Organization dashboard](https://docs.soda.io/manage-issues/organization-dashboard.md)
+- [Browse datasets](https://docs.soda.io/manage-issues/browse-datasets.md)
+- [Dataset dashboard](https://docs.soda.io/manage-issues/dataset-dashboard.md)
+- [Browse checks](https://docs.soda.io/manage-issues/browse-checks.md)
+- [Check and dataset attributes](https://docs.soda.io/manage-issues/check-and-dataset-attributes.md)
+- [Analyze monitor and check results](https://docs.soda.io/manage-issues/analyze-monitor-and-check-results.md)
+- [Failed row samples](https://docs.soda.io/manage-issues/failed-row-samples.md): Learn how to view and configure failed row samples for failed checks in Soda Cloud.
+- [Notifications](https://docs.soda.io/manage-issues/notifications.md)
+- [Incidents](https://docs.soda.io/manage-issues/incidents.md)
+- [Dataset Attributes & Responsibilities](https://docs.soda.io/dataset-attributes-and-responsibilities.md)
+- [Column Attributes](https://docs.soda.io/column-attributes.md)
+- [Deployment options](https://docs.soda.io/deployment-options.md)
+- [Soda Runner](https://docs.soda.io/deployment-options/soda-runner.md): This page describes a Soda Runner and its characteristics.
+- [Soda Python Libraries](https://docs.soda.io/deployment-options/soda-python-libraries.md): This page describes how to install the Soda Python packages, which are required for running Soda scans via the CLI or Python API.
+- [Organization and Admin settings](https://docs.soda.io/organization-and-admin-settings.md): Configure Soda Cloud to match how your organization governs access, identity, and automation, with enterprise-grade controls and network security.
+- [General settings](https://docs.soda.io/organization-and-admin-settings/general-settings.md)
+- [User management](https://docs.soda.io/organization-and-admin-settings/user-management.md)
+- [User and user group management with SSO](https://docs.soda.io/organization-and-admin-settings/user-and-user-group-management-with-sso.md)
+- [Global and Dataset Roles](https://docs.soda.io/organization-and-admin-settings/global-and-dataset-roles.md)
+- [Service accounts](https://docs.soda.io/organization-and-admin-settings/service-accounts.md): Learn how to create and manage service accounts in Soda Cloud to authenticate automated pipelines and API integrations without tying credentials to individual users.
+- [Bind a runner to a service account](https://docs.soda.io/organization-and-admin-settings/service-accounts/bind-a-runner-to-a-service-account.md): Restrict a Soda Runner to a single service account so it can only access the data sources and datasets that account is explicitly permitted to use.
+- [User provisioning with SCIM](https://docs.soda.io/organization-and-admin-settings/user-provisioning-with-scim.md): Automatically provision and deprovision Soda Cloud users and user groups from Microsoft Entra ID with SCIM
+- [Integrations](https://docs.soda.io/integrations.md)
+- [Alation](https://docs.soda.io/integrations/alation.md): Learn how to integrate Atlan with Soda.
+- [Atlan](https://docs.soda.io/integrations/atlan.md): Learn how to integrate Atlan with Soda.
+- [Collibra](https://docs.soda.io/integrations/collibra.md): This page describes the bi-directional integration between Soda and Collibra.
+- [Setup & configuration](https://docs.soda.io/integrations/collibra/setup-and-configuration.md): This page provides detailed information about how to configure the Soda↔Collibra integration.
+- [Operations & advanced usage](https://docs.soda.io/integrations/collibra/operations-and-advanced-usage.md): This page provides detailed information about everything that happens while running and after running the Soda↔Collibra integration.
+- [Deploy on Kubernetes](https://docs.soda.io/integrations/collibra/deploy-on-kubernetes.md): Deployment instructions for the optimized Soda↔Collibra integration on Kubernetes, featuring 3-5x performance improvements, robust error handling, and advanced monitoring.
+- [data.world](https://docs.soda.io/integrations/data.world.md): Learn how to integrate data.world with Soda.
+- [GitHub](https://docs.soda.io/integrations/github.md): Learn how to integrate GitHub with Soda.
+- [Jira](https://docs.soda.io/integrations/jira.md)
+- [Purview](https://docs.soda.io/integrations/purview.md)
+- [ServiceNow](https://docs.soda.io/integrations/servicenow.md)
+- [Sigma](https://docs.soda.io/integrations/sigma.md): Learn how to integrate Sigma with Soda.
+- [Slack](https://docs.soda.io/integrations/slack.md)
+- [MS Teams](https://docs.soda.io/integrations/ms-teams.md)
+- [Webhook](https://docs.soda.io/integrations/webhook.md)
+- [Reference](https://docs.soda.io/reference.md)
+- [Data source reference for Soda Core](https://docs.soda.io/reference/data-source-reference-for-soda-core.md): This page lists the supported data source types and their required connection parameters for use with Soda Core.
+- [Athena](https://docs.soda.io/reference/data-source-reference-for-soda-core/amazon-athena.md): Access configuration details to connect Soda to an Amazon Athena data source.
+- [BigQuery](https://docs.soda.io/reference/data-source-reference-for-soda-core/bigquery.md): Access configuration details to connect Soda to a Google Cloud BigQuery data source.
+- [Databricks SQL](https://docs.soda.io/reference/data-source-reference-for-soda-core/databricks.md): Access configuration details to connect Soda to a Databricks SQL data source.
+- [Dremio](https://docs.soda.io/reference/data-source-reference-for-soda-core/dremio.md): Access configuration details to connect Soda to a Dremio data source.
+- [DuckDB](https://docs.soda.io/reference/data-source-reference-for-soda-core/duckdb.md): Access configuration details to connect Soda to a DuckDB data source.
+- [DuckDB advanced usage](https://docs.soda.io/reference/data-source-reference-for-soda-core/duckdb/duckdb-advanced-usage.md)
+- [Fabric](https://docs.soda.io/reference/data-source-reference-for-soda-core/microsoft-fabric.md): Access configuration details to connect Soda to a Microsoft Fabric data source.
+- [Oracle](https://docs.soda.io/reference/data-source-reference-for-soda-core/oracle.md): Access configuration details to connect Soda to an Oracle data source.
+- [Pandas](https://docs.soda.io/reference/data-source-reference-for-soda-core/pandas.md): Access configuration details to connect Soda to a Pandas data source.
+- [Polars](https://docs.soda.io/reference/data-source-reference-for-soda-core/polars.md): Access configuration details to connect Soda to a Polars data source.
+- [PostgreSQL](https://docs.soda.io/reference/data-source-reference-for-soda-core/postgresql.md): Access configuration details to connect Soda to a PostgreSQL data source.
+- [Redshift](https://docs.soda.io/reference/data-source-reference-for-soda-core/amazon-redshift.md): Access configuration details to connect Soda to an Amazon Redshift data source.
+- [Spark Dataframe](https://docs.soda.io/reference/data-source-reference-for-soda-core/spark-dataframe.md): Access configuration details to connect Soda to a Spark Dataframe data source.
+- [Snowflake](https://docs.soda.io/reference/data-source-reference-for-soda-core/snowflake.md): Access configuration details to connect Soda to a Snowflake data source.
+- [SQL Server](https://docs.soda.io/reference/data-source-reference-for-soda-core/sql-server.md): Access configuration details to connect Soda to a Microsoft SQL Server data source.
+- [Synapse](https://docs.soda.io/reference/data-source-reference-for-soda-core/synapse.md): Access configuration details to connect Soda to an Azure Synapse Analytics data source.
+- [Trino](https://docs.soda.io/reference/data-source-reference-for-soda-core/trino.md): Access configuration details to connect Soda to a Trino data source.
+- [Soda CLI reference](https://docs.soda.io/reference/soda-cli-reference.md): Manage your entire data quality lifecycle from the terminal or your pipeline.
+- [Core CLI reference](https://docs.soda.io/reference/cli-reference.md)
+- [Contract Language reference](https://docs.soda.io/reference/contract-language-reference.md)
+- [Reconciliation checks](https://docs.soda.io/reference/contract-language-reference/reconciliation-checks.md): This page documents the contract language syntax for reconciliation.
+- [Soda APIs](https://docs.soda.io/reference/soda-apis.md)
+- [Generate API keys](https://docs.soda.io/reference/soda-apis/generate-api-keys.md)
+- [Python API](https://docs.soda.io/reference/soda-apis/python-api.md): This reference explains how to use the Soda Core Python API to generate, test, publish, and verify data contracts using local execution (Soda Core) or remote execution (Soda Runner).
+- [REST API](https://docs.soda.io/reference/soda-apis/rest-api.md): The Soda Cloud API enables you to trigger actions and query data in your Soda Cloud account.
+- [Attributes](https://docs.soda.io/reference/soda-apis/rest-api/attributes.md)
+- [Checks](https://docs.soda.io/reference/soda-apis/rest-api/checks.md)
+- [Contracts](https://docs.soda.io/reference/soda-apis/rest-api/contracts.md)
+- [Data Standards](https://docs.soda.io/reference/soda-apis/rest-api/data-standards.md)
+- [Datasets](https://docs.soda.io/reference/soda-apis/rest-api/datasets.md)
+- [Datasources](https://docs.soda.io/reference/soda-apis/rest-api/datasources.md)
+- [Discovered Datasets](https://docs.soda.io/reference/soda-apis/rest-api/discovered-datasets.md)
+- [Incidents](https://docs.soda.io/reference/soda-apis/rest-api/incidents.md)
+- [Notification Rules](https://docs.soda.io/reference/soda-apis/rest-api/notification-rules.md)
+- [Runners](https://docs.soda.io/reference/soda-apis/rest-api/runners.md)
+- [Scans](https://docs.soda.io/reference/soda-apis/rest-api/scans.md)
+- [Secrets](https://docs.soda.io/reference/soda-apis/rest-api/secrets.md)
+- [Users](https://docs.soda.io/reference/soda-apis/rest-api/users.md)
+- [Utility](https://docs.soda.io/reference/soda-apis/rest-api/utility.md)
+- [Models](https://docs.soda.io/reference/soda-apis/rest-api/models.md)
+- [Webhook API](https://docs.soda.io/reference/soda-apis/webhook-api.md): Webhook integrations allow your system to receive real-time notifications from Soda Cloud when certain events occur, such as check evaluations, incident changes, or contract updates.
+- [Soda Runner basic concepts](https://docs.soda.io/reference/soda-runner-basic-concepts.md): Establish a baseline understanding of the concepts involved in deploying a Soda Runner.
+- [Data flows between Soda & user](https://docs.soda.io/reference/data-flows-between-soda-and-user.md): A description of the data flows that take place when the user interacts with Soda in an enterprise deployment with a self-hosted runner.
+- [Migrate from v3 to v4](https://docs.soda.io/reference/migrate-from-v3-to-v4.md)
+- [Documentation access & licensing](https://docs.soda.io/reference/documentation-access-and-licensing.md): Learn how Soda features are documented and how to gain full access to the documentation.
+
+* [Soda v3 documentation](https://docs.soda.io/soda-documentation/soda-v3/readme.md): Soda is a data quality platform that provides tools to monitor, test, and improve data quality across all stacks.
+* [Get started](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip.md): Follow this tutorial to set up and run a simple Soda scan for data quality using example data.
+* [Get started roadmap](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/get-started-roadmap.md): Get started with Soda! Use this curated set of instructions to quickly get data quality tests up and running.
+* [Choose a flavor of Soda](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/setup-guide.md): Use this guide to help you decide which Soda deployment model best fits your data quality testing needs.
+* [Install Soda Library](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/install.md): From your command-line interface, execute a pip install command to install Soda Library in your environment.
+* [Set up a Soda-hosted agent](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/managed-agent.md): Use an out-of-the-box Soda-hosted agent to connect to your data sources and begin testing data quality.
+* [Deploy a Soda Agent](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/deploy.md): Learn how to deploy a Soda Agent in a Kubernetes cluster.
+* [Deploy a self-hosted Soda Agent from Soda's private container registry](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/deploy-a-self-hosted-soda-agent-from-sodas-private-container-registry.md)
+* [Soda Agent extras](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/extras.md): Learn how to adjust the Soda Agent to fit your security standards by leveraging secrets managers, environment variables, and other controls.
+* [Invoke Soda Library](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/programmatic.md): Use Soda Library to programmatically execute scans and automate the checks for bad-quality data.
+* [Upgrade, redeploy, or uninstall Soda](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip/upgrade.md): Learn how to upgrade or uninstall Soda Library, or redploy a Soda Runner.
+* [Use case guides](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides.md): Access examples of Soda implementations according to use case and data quality testing needs.
+* [Test data quality in an Airflow data pipeline](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-prod.md): Follow this guide to set up and run scheduled Soda scans for data quality in your Airflow data pipeline.
+* [Test data quality in an Azure Data Factory pipeline](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-adf.md): Use this guide to invoke Soda data quality tests in an Azure Data Factory pipeline.
+* [Test data quality in a Dagster pipeline](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-dagster.md): Use this guide as an example of how to invoke Soda data quality tests in a Dagster pipeline.
+* [Test data quality in a Databricks pipeline](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-databricks-pipeline.md): Use this guide as an example of how to invoke Soda data quality tests in a Databricks pipeline.
+* [Test data quality before migration](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-migration.md): Use this guide to set up Soda to check data quality before and after migrating data between data sources.
+* [Test data quality during CI/CD development](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-dev.md): Follow this guide to set up and run automated Soda scans for data quality during CI/CD development using GitHub Actions.
+* [Self-serve Soda](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-end-user.md): Follow this guide to enable Soda Cloud end users to create no-code checks for data quality for the data that matters to them the most.
+* [Automate anomaly detection](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-automate.md): Use this guide to set up Soda and start automatically monitoring your data for quality.
+* [Build a Sigma dashboard](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/reporting-api-to-overview-dashboards.md): This example helps you build a customized data quality reporting dashboard in Sigma using the Soda Cloud API.
+* [Build a Grafana dashboard](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/public-api-to-grafana.md): This example helps you build a customized data quality reporting dashboard in Grafana using the Soda Cloud API.
+* [Add Soda to a Databricks notebook](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-databricks.md): Use this guide to invoke Soda data quality tests from inside a Databricks notebook.
+* [Integrate an External Secrets Manager with a Soda Runner](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/quick-start-secrets.md): Follow this guide to set up an integration with an External Secrets Manager for a Soda Runner to use to securely retrieve frequently-rotated passwords.
+* [Generate API keys](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/api-keys.md): Generate API keys to securely connect Soda Library or a Soda Runner to Soda Cloud, or to access Soda Cloud via API.
+* [Manage sensitive data](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/sensitive-data.md): Learn how to mitigate the exposure of sensitive information in Soda Cloud.
+* [Reroute failed row samples](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/route-failed-rows.md): Learn how to programmatically use Soda Library with an example script to reroute failed row samples to the CLI output instead of Soda Cloud.
+* [Double-onboard a data source](https://docs.soda.io/soda-documentation/soda-v3/use-case-guides/double-onboard-datasource.md): Learn how to double-onboard a data source to leverage all the features supported by Soda Runners.
+* [Write SodaCL checks](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview.md): Soda Checks Language is a human-readable, domain-specific language for data reliability. You use SodaCL to define Soda Checks in a checks YAML file.
+* [SodaCL tutorial](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/quick-start-sodacl.md): Follow the quick start tutorial to get started with SodaCL, a human-readable, domain-specific language for data reliability.
+* [Write checks with Ask AI](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/ask-ai.md): Use Soda's Ask AI assistant to turn natural language into production-ready data quality checks in SodaCL.
+* [Add automated monitoring checks](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/automated-monitoring.md): Use a SodaCL automated monitoring check to automatically check for row count anomalies and schema changes.
+* [Profile data with Soda](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/profile.md): Configure Soda Cloud to profile datasets and their columns so you can leverage the information to write SodaCL checks for data quality.
+* [Sample data with Soda](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/sample-datasets.md): Configure Soda Cloud to retrieve sample data from your datasets so you can leverage the information to write SodaCL checks for data quality.
+* [Compare data using SodaCL](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/compare.md): Learn how to use the Soda Checks Language to compare data across datasets in the same, or different, data sources.
+* [Custom check examples](https://docs.soda.io/soda-documentation/soda-v3/soda-cl-overview/custom-check-examples.md): If the built-in metrics that SodaCL offers do not quite cover your more specific or complex needs, you can define your own metrics. See examples to copy+paste.
+* [Run a scan and view results](https://docs.soda.io/soda-documentation/soda-v3/run-a-scan.md): Soda uses the input in the checks and data source connection configurations to prepare a scan that it runs against the data in a dataset.
+* [Manage failed row samples](https://docs.soda.io/soda-documentation/soda-v3/run-a-scan/failed-row-samples.md)
+* [Manage scheduled scans](https://docs.soda.io/soda-documentation/soda-v3/run-a-scan/scan-mgmt.md)
+* [Configure orchestrated scans](https://docs.soda.io/soda-documentation/soda-v3/run-a-scan/orchestrate-scans.md): Integrate Soda Library with a data orchestration tool to automate and schedule your search for "bad" data.
+* [Soda Library Python API reference](https://docs.soda.io/soda-documentation/soda-v3/run-a-scan/python_api.md): Access Python reference content for the Soda Scan class and its methods.
+* [Organize results, set alerts, investigate issues](https://docs.soda.io/soda-documentation/soda-v3/collaborate.md): Data quality is a team sport! Integrate with Slack so Soda Cloud can send alerts to your team. Invite your team to join your Soda Cloud account.
+* [Activate anomaly dashboards](https://docs.soda.io/soda-documentation/soda-v3/collaborate/anomaly-dashboard.md): Use Soda's anomaly dashboard to get automated observability insights into your data quality.
+* [Add check attributes](https://docs.soda.io/soda-documentation/soda-v3/collaborate/check-attributes.md): Define and apply check attributes to categorize and organize SodaCL checks in Soda Cloud.
+* [Set notification rules](https://docs.soda.io/soda-documentation/soda-v3/collaborate/notif-rules.md): Use Soda Cloud to set alert notification rules for multiple checks across datasets in your account.
+* [Organize datasets](https://docs.soda.io/soda-documentation/soda-v3/collaborate/organize-datasets.md): Use attributes, tags, and filters to facilitate your search for the specific data quality status of your datasets.
+* [Create and track incidents](https://docs.soda.io/soda-documentation/soda-v3/collaborate/incidents.md): If you have integrated Soda Cloud with Slack, you can use an Incident’s built-in ability to create a channel that your team can use to investigate an issue.
+* [Manage global roles, user groups, and settings](https://docs.soda.io/soda-documentation/soda-v3/collaborate/roles-global.md): To manage the actions of users that belong to a single organization, Soda Cloud uses roles and access permissions. Admins can access an Audit Trail of user actions.
+* [Manage dataset roles](https://docs.soda.io/soda-documentation/soda-v3/collaborate/roles-dataset.md): Learn how to manage user access to datasets in an organization's Soda Cloud account.
+* [Integrate Soda](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda.md)
+* [Integrate Soda with Alation](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-alation.md): Integrate Soda with Alation to access details about the quality of your data from right within your data catalog.
+* [Integrate Soda with Atlan](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-atlan.md): Integrate Soda with Atlan to access details about the quality of your data from right within your data catalog.
+* [Integrate Soda with dbt](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-dbt.md): Integrate Soda with dbt-core or dbt Cloud to access dbt test results from within your Soda Cloud account and leverage all its features.
+* [Integrate Soda with a GitHub Workflow](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-github.md): Use the GitHub Action for Soda to automatically scan for data quality during development.
+* [Integrate Soda with Jira](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-jira.md): Configure a webhook to connect Soda to your Jira workspace.
+* [Integrate Soda with Metaphor](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-metaphor.md): Integrate Soda with Metaphor to access details about the quality of your data from right within the data catalog.
+* [Integrate Soda with Microsoft Teams](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-msteams.md): Integrate MS Teams in your Soda Cloud account so that Soda sends alert notifications and incident events to your MS Teams conversation.
+* [Integrate Soda with Purview](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-purview.md): Integrate Soda with Microsoft Purview to access details about the quality of your data from right within your data catalog.
+* [Integrate Soda with ServiceNow](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-servicenow.md): Configure a webhook to connect Soda to your ServiceNow account.
+* [Integrate Soda with Slack](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-slack.md): Integrate your Slack workspace in your Soda Cloud account so that Soda Cloud can send Slack notifications to your team when a data issue triggers an alert.
+* [Integrate Soda with SSO](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/sso.md): Organizations that use a Security Assertion Markup Language (SAML) 2.0 single sign-on (SSO) identity provider can add Soda Cloud as a service provider.
+* [Integrate Soda with webhooks](https://docs.soda.io/soda-documentation/soda-v3/integrate-soda/integrate-webhooks.md): Configure webhooks to connect Soda to any number of third-party service providers.
+* [SodaCL reference](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference.md)
+* [SodaCL metrics and checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/metrics-and-checks.md): SodaCL uses metrics in checks for data quality in one or more datasets.
+* [SodaCL optional check configurations](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/optional-config.md): Add optional configurations to your SodaCL checks to optimize and clarify.
+* [Anomaly detection checks (deprecated)](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/anomaly-detection.md): Anomaly detection checks use a machine learning algorithm to automatically detect anomalies in your time-series data.
+* [Anomaly score checks (deprecated)](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/anomaly-score.md): Anomaly score checks use a machine learning algorithm to automatically detect anomalies in your time-series data.
+* [Check template](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/check-template.md): Use a check template to write one SQL query that you can reuse in multiple Soda checks for data quality.
+* [Cross checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/cross-row-checks.md): Use a SodaCL cross check to compare row counts across datasets in the same, or different, data sources.
+* [Distribution checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/distribution.md): Use a SodaCL distribution check to monitor the consistency of a column over time.
+* [Failed rows checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/failed-rows-checks.md): Use a SodaCL failed rows check to explicitly send sample failed rows to Soda Cloud.
+* [Filters and variables](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/filters.md): Instead of checking whole sets of data, use filters to specify a portion of data against which to execute a check. Use variables to specify values at scan time.
+* [For each](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/for-each.md): Use a SodaCL for each check to specify a list of checks you wish to execute on a multiple datasets.
+* [Freshness checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/freshness.md): Use a SodaCL freshness check to infer data freshness according to the age of the most recently added row in a table.
+* [Group by](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/group-by.md): Use a SodaCL group by configuration to customize the group of data quality check results by category.
+* [Group evolution checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/group-evolution.md): Use a SodaCL group evolution data quality check to validate changes to the categorical groups you defined.
+* [Missing metrics](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/missing-metrics.md): Use missing metrics in SodaCL checks to detect missing values in a dataset.
+* [Numeric metrics](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/numeric-metrics.md): Use numeric metrics in SodaCL checks for data quality.
+* [Reconciliation checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/recon.md): Use SodaCL reconciliation checks to validate target and source data before conducting a data migration in production.
+* [Reference checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/reference.md): Use a SodaCL reference check to validate that the values in a column in a table are present in a column in a different table.
+* [Schema checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/schema.md): Use a SodaCL schema check to validate column presence, absence, or position in a table, or the type of data column contains.
+* [User-defined checks](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/user-defined.md): Use a SodaCL user-defined check to define elements of a check using SQL expressions or queries.
+* [Validity metrics](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/validity-metrics.md): Use validity metrics in SodaCL checks to detect invalid values in a dataset.
+* [Troubleshoot SodaCL](https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/troubleshoot.md): Access guidance for resolving issues with Soda Checks Language checks and metrics.
+* [Data source reference](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference.md)
+* [Connect Soda to Amazon Athena](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-athena.md): Access configuration details to connect Soda to an Athena data source.
+* [Connect Soda to GCP BigQuery](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-bigquery.md): Access configuration details to connect Soda to a BigQuery data source.
+* [Connect Soda to ClickHouse](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-clickhouse.md): Access configuration details to connect Soda to a ClickHouse data source.
+* [Connect Soda to Dask and Pandas](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-dask.md): Access configuration details to connect Soda to Dask and Pandas.
+* [Connect Soda to Databricks](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-databricks.md): Access configuration details to connect Soda to Databricks using a Spark data source.
+* [Connect Soda to Denodo](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-denodo.md): Access configuration details to connect Soda to a Denodo data source.
+* [Connect Soda to Dremio](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-dremio.md): Access configuration details to connect Soda to a Dremio data source.
+* [Connect Soda to DuckDB](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-duckdb.md): Access configuration details to connect Soda to a DuckDB data source.
+* [Connect Soda to Google CloudSQL](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-cloudsql.md): Access configuration details to connect Soda to a Google CloudSQL data source.
+* [Connect Soda to IBM DB2](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-db2.md): Access configuration details to connect Soda to an IBM DB2 data source.
+* [Connect Soda to a local file using Dask](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-file.md): Set up Soda to programmatically scan the contents of a local file using Dask.
+* [Connect Soda to MotherDuck](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-motherduck.md): Access reference configuration to connect Soda to a MotherDuck data source.
+* [Connect Soda to MS SQL Server](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-mssql.md): Access configuration details to connect Soda to an MS SQL Server data source.
+* [Connect Soda to Microsoft Fabric](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-fabric.md): Access configuration details to connect Soda to a Microsoft Fabric data source.
+* [Connect Soda to MySQL](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-mysql.md): Access configuration details to connect Soda to a MySQL data source.
+* [Connect Soda to OracleDB](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-oracle.md): Access configuration details to connect Soda to an OracleDB data source.
+* [Connect Soda to PostgreSQL](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-postgres.md): Access configuration details to connect Soda to a PostgreSQL data source.
+* [Connect Soda to Presto](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-presto.md): Access configuration details to connect Soda to a Presto data source.
+* [Connect Soda to Amazon Redshift](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-redshift.md): Access configuration details to connect Soda to a Redshift data source.
+* [Connect Soda to Snowflake](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-snowflake.md): Access configuration details to connect Soda to a Snowflake data source.
+* [Connect Soda to Apache Spark](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-spark.md): Access configuration details to connect Soda to a Spark data source.
+* [Connect Soda to Azure Synapse](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-synapse.md): Access configuration details to connect Soda to a Microsoft Azure Synapse data source.
+* [Connect Soda to Trino](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-trino.md): Access configuration details to connect Soda to a Trino data source.
+* [Connect Soda to Vertica](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-vertica.md): Access configuration details to connect Soda to a Vertica data source.
+* [Troubleshoot data source connections](https://docs.soda.io/soda-documentation/soda-v3/data-source-reference/connect-troubleshoot.md)
+* [Soda Cloud API v1](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1.md): The Soda Cloud API enables you to trigger actions and query data in your Soda Cloud account.
+* [Checks](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/checks.md)
+* [Datasets](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/datasets.md)
+* [Datasources](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/datasources.md)
+* [Discovered Datasets](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/discovered-datasets.md)
+* [Incidents](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/incidents.md)
+* [Notification Rules](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/notification-rules.md)
+* [Runners](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/runners.md)
+* [Scans](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/scans.md)
+* [Users](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/users.md)
+* [Utility](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/utility.md)
+* [Models](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/models.md)
+* [GET checks into CSV files](https://docs.soda.io/soda-documentation/soda-v3/soda-cloud-api-v1/api2csv-example.md): Use a Python and the Soda Cloud API to retrieve check and dataset info from a Soda Cloud account and populate CSV files.
+* [Soda Cloud Reporting API v1](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1.md): This API enables you to query data from your Soda Cloud account. Use the data to build dashboards that communicate how your teammates are using Soda Cloud.
+* [Authentication](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/authentication.md)
+* [Examples](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/examples.md)
+* [Status](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/status.md)
+* [Authentication](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/authentication-1.md)
+* [Auditing](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/auditing.md)
+* [Coverage](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/coverage.md)
+* [Quality](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/quality.md)
+* [Platform Impact](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/platform-impact.md)
+* [Models](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/models.md)
+* [Reporting API migration guide](https://docs.soda.io/soda-documentation/soda-v3/reporting-api-v1/reporting-api-v1-migration-guide.md): Review the changes for the latest version of Soda Cloud's Reporting API and learn how to migrate existing calls.
+* [Set up data contracts](https://docs.soda.io/soda-documentation/soda-v3/data-contracts.md): Use Soda to write data contracts that set data quality standards for data products.
+* [Write a data contract](https://docs.soda.io/soda-documentation/soda-v3/data-contracts/data-contracts-write.md): Write a contract for data quality that stipulates the standards to which all data moving through a pipeline or workflow must adhere.
+* [Verify a data contract](https://docs.soda.io/soda-documentation/soda-v3/data-contracts/data-contracts-verify.md): Use a Python API to verify data contract checks programmatically with Soda.
+* [Data contract check reference](https://docs.soda.io/soda-documentation/soda-v3/data-contracts/data-contracts-checks.md): Reference details of the Soda data contracts language.
+* [Learning resources](https://docs.soda.io/soda-documentation/soda-v3/learning-resources.md)
+* [Glossary](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/glossary.md): Access a glossary of Soda terminology.
+* [Soda overview](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/product-overview.md): Soda utilizes user-defined input to prepare SQL queries to find bad data, visualize results, set up alerts, and track dataset health over time.
+* [How Soda works](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/how-library-works.md): Learn Soda Library Basics, Soda Library Operation, Soda Library Automation and Soda Cloud.
+* [Soda Runner basic concepts](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/basics.md): Establish a baseline understanding of the concepts involved in deploying a Soda Runner.
+* [Soda architecture](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/soda-cloud-architecture.md): Review the architecture and resources of Soda which connects to data sources to perform scans of datasets
+* [Active checks and datasets](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/active-check.md): Learn more about active checks and datasets as they are defined in Soda's licensing model.
+* [Data security and privacy](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/data-privacy.md): Soda works in several ways to ensure your data and systems remain private. We offer secure connections, SSO, and observe compliance and reporting regulations.
+* [Soda Library usage statistics](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/usage-stats.md): To understand how users are using Soda Library, the Soda dev team added telemetry event tracking to Soda Library. See instructions to opt-out.
+* [What's new in Soda docs?](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/new-documentation.md): Review a changelog of additions and revisions to Soda documentation.
+* [Support](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/support.md): For the open source developer tools and free trial version of our software, Soda offers free support to the Soda community of users in Slack.
+* [Soda community code of conduct](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/community-coc.md): Reference the Soda Community Code of Conduct for guidelines for behaviors. Be safe, be respectful, be yourself.
+* [Soda SQL and Soda Spark are now Soda Core](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/deprecated.md): Soda SQL and Soda Spark have been deprecated and replaced by Soda Core.
+* [Soda documentation guidelines](https://docs.soda.io/soda-documentation/soda-v3/learning-resources/learning-resources.md)
+* [Soda Core (v3)](https://docs.soda.io/soda-documentation/soda-v3/overview-main.md): Soda Core is an open-source library and CLI tool that enables you to use the Soda Checks Language to turn user-defined input into SQL queries.
+* [Release notes](https://docs.soda.io/soda-documentation/soda-v3/release-notes.md)
+* [Soda product release states](https://docs.soda.io/soda-documentation/soda-v3/release-notes/states.md): Access details about the state of new product features or functionality upon release.
+* [Release notes for Soda products](https://docs.soda.io/soda-documentation/soda-v3/release-notes/all.md): Review release notes for all Soda data observability products.
+* [Release notes for Soda Library](https://docs.soda.io/soda-documentation/soda-v3/release-notes/soda-library.md): Review release notes for Soda Library, a Python library and CLI for testing data quality.
+* [Release notes for Soda Runner](https://docs.soda.io/soda-documentation/soda-v3/release-notes/soda-agent.md): Review release notes for Soda Runner, a Helm chart for deployment on EKS clusters.
+* [Release notes for Soda Cloud](https://docs.soda.io/soda-documentation/soda-v3/release-notes/soda-cloud.md): Review release notes for Soda Cloud, a web app that enables you visualize data quality test results and set alerts and notifications.
+* [Release notes for Soda Cloud API](https://docs.soda.io/soda-documentation/soda-v3/release-notes/reporting-api.md): Review release notes for the Soda Cloud API.
+* [Release notes for Soda Cloud Reporting API](https://docs.soda.io/soda-documentation/soda-v3/release-notes/soda-cloud-api.md): Review release notes for the Soda Cloud Reporting API.
+* [Release notes for Soda Core](https://docs.soda.io/soda-documentation/soda-v3/release-notes/soda-core.md): Review release notes for Soda Core, an open-source tool for testing and monitoring data quality.
+
+## Release notes
+
+- [Release notes](https://docs.soda.io/release-notes/readme.md): Access details about the state of new product features or functionalities upon release.
+- [Soda Core](https://docs.soda.io/release-notes/soda-core.md): Review release notes for Soda Core, an open-source tool for testing and monitoring data quality.
+
+
+---
+
+# Agent Instructions
+This documentation is published with GitBook. GitBook is the documentation platform designed so that both humans and AI agents can read, navigate, and reason over technical content effectively. Learn more at gitbook.com.
+
+## Querying This Documentation
+If you need additional information, you can query the documentation dynamically by asking a question.
+Perform an HTTP GET request on a page URL with the `ask` query parameter:
+```
+GET https://docs.soda.io/readme.md?ask=<question>
+```
+The question should be specific, self-contained, and written in natural language.
+The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.
+Use this mechanism when the answer is not explicitly present in the current page, you need clarification or additional context, or you want to retrieve related documentation sections.

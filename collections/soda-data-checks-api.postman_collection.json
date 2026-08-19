@@ -1,0 +1,223 @@
+{
+  "item": [
+    {
+      "id": "85495039-e6ef-4232-8250-d210bfea5bb0",
+      "name": "Checks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "72c1db0d-6d72-4073-9db8-a9e4808dc838",
+          "name": "Retrieve all checks",
+          "request": {
+            "name": "Retrieve all checks",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "checks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "checkIds",
+                  "value": "<string>",
+                  "description": "Optional list of check IDs to filter by"
+                },
+                {
+                  "disabled": false,
+                  "key": "checkIds",
+                  "value": "<string>",
+                  "description": "Optional list of check IDs to filter by"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "25bf33d0-3b6c-4087-93eb-4b2eb0b62e2f",
+              "name": "A list of checks",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "checks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "checkIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "checkIds",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0b10517a-48fa-4285-a8f5-5ce8681074ac",
+          "name": "Remove a check",
+          "request": {
+            "name": "Remove a check",
+            "description": {},
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "checks",
+                ":checkId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "checkId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "909d5522-4bac-43f7-a94a-ba4bfef7e90a",
+              "name": "Check removed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "checks",
+                    ":checkId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "checkId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://cloud.soda.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8b6553b7-58cb-49bc-b5e9-c3158ca1d100",
+    "name": "Soda Cloud REST Attributes Checks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Soda Cloud REST API enables programmatic access to Soda's data quality\nplatform, including data contracts, checks, attributes, and dataset ingestion.\nEndpoints and authentication are derived from the public Soda documentation\nat https://docs.soda.io/reference/rest-api.md.\n\n\nContact Support:\n Name: Soda",
+      "type": "text/plain"
+    }
+  }
+}

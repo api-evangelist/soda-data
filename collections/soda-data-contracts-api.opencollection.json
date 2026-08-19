@@ -1,0 +1,193 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Soda Cloud REST Attributes Contracts API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contracts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all contracts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/contracts"
+          },
+          "docs": "List all contracts"
+        },
+        {
+          "info": {
+            "name": "Create a new contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/contracts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new contract"
+        },
+        {
+          "info": {
+            "name": "Initiate contract skeleton generation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/contracts/actions/createSkeleton",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiate contract skeleton generation"
+        },
+        {
+          "info": {
+            "name": "Retrieve skeleton generation status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/contracts/actions/createSkeleton/:operationId",
+            "params": [
+              {
+                "name": "operationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve skeleton generation status"
+        },
+        {
+          "info": {
+            "name": "Start contract generation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/contracts/actions/generate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start contract generation"
+        },
+        {
+          "info": {
+            "name": "Check contract generation progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/contracts/actions/generate/:operationId",
+            "params": [
+              {
+                "name": "operationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check contract generation progress"
+        },
+        {
+          "info": {
+            "name": "Fetch a specific contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/contracts/:contractId",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetch a specific contract"
+        },
+        {
+          "info": {
+            "name": "Update a contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/contracts/:contractId",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a contract"
+        },
+        {
+          "info": {
+            "name": "Validate a contract",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/contracts/:contractId/verify",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Validate a contract"
+        },
+        {
+          "info": {
+            "name": "Retrieve contract version history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/contracts/:contractId/versions",
+            "params": [
+              {
+                "name": "contractId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve contract version history"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

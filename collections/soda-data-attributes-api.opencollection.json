@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Soda Cloud REST Attributes API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Attributes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/attributes"
+          },
+          "docs": "Retrieve all attributes"
+        },
+        {
+          "info": {
+            "name": "Create a new attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/attributes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new attribute"
+        },
+        {
+          "info": {
+            "name": "Update an existing attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://cloud.soda.io/api/v1/attributes/:attributeId",
+            "params": [
+              {
+                "name": "attributeId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing attribute"
+        },
+        {
+          "info": {
+            "name": "Remove an attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cloud.soda.io/api/v1/attributes/:attributeId",
+            "params": [
+              {
+                "name": "attributeId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove an attribute"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

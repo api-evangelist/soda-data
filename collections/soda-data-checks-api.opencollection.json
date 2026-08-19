@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Soda Cloud REST Attributes Checks API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Checks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all checks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://cloud.soda.io/api/v1/checks",
+            "params": [
+              {
+                "name": "checkIds",
+                "value": "",
+                "type": "query",
+                "description": "Optional list of check IDs to filter by"
+              }
+            ]
+          },
+          "docs": "Retrieve all checks"
+        },
+        {
+          "info": {
+            "name": "Remove a check",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://cloud.soda.io/api/v1/checks/:checkId",
+            "params": [
+              {
+                "name": "checkId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a check"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
