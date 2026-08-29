@@ -1,0 +1,198 @@
+generated: '2026-08-29'
+method: derived
+source: openapi/_original/soda-data-cloud-api-v4-openapi.yml + https://docs.soda.io/soda-ai/soda-mcp/mcp-tools.md
+  (resource definitions)
+provider: Soda
+providerId: soda-data
+description: 'Entity-relationship graph of the Soda Cloud v4 API, derived from the 305 component schemas
+  and the path hierarchy of the 103 harvested operations. Soda''s domain is a governance graph, not a
+  flat resource list: a Datasource owns Datasets, a Dataset carries one Contract (which defines its Checks)
+  plus Monitors, Columns, Attributes and Responsibilities, and running either a Contract or a Data Standard
+  produces a Scan whose failures raise Incidents.'
+identifiers:
+  style: opaque string ids
+  natural_key:
+    name: Dataset Qualified Name (DQN)
+    format: '[datasource_name]/[database_name]/[schema_name]/[dataset_name]'
+    lookup: GET/api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName}
+    note: The only human/agent-composable key in the API — everything else must be discovered by listing.
+  id_prefixes: none published
+schema_count: 305
+entities:
+- name: Dataset
+  collection: /api/v1/datasets
+  path_param: datasetId
+- name: Datasource
+  collection: /api/v1/datasources
+  path_param: datasourceId
+- name: Contract
+  collection: /api/v1/contracts
+  path_param: contractId
+- name: Check
+  collection: /api/v1/checks
+  path_param: checkId
+- name: DataStandard
+  collection: /api/v1/dataStandards
+  path_param: dataStandardId
+- name: Incident
+  collection: /api/v1/incidents
+  path_param: incidentId
+- name: Scan
+  collection: /api/v1/scans
+  path_param: scanId
+- name: Runner
+  collection: /api/v1/runners
+  path_param: runnerId
+- name: Secret
+  collection: /api/v1/secrets
+  path_param: secretId
+- name: Attribute
+  collection: /api/v1/attributes
+  path_param: attributeId
+- name: NotificationRule
+  collection: /api/v1/notificationRules
+  path_param: notificationRuleId
+- name: User
+  collection: /api/v1/users
+  path_param: userId
+- name: UserGroup
+  collection: /api/v1/userGroups
+  path_param: userGroupId
+- name: DiscoveredDataset
+  collection: /api/v1/discoveredDatasets
+  path_param: null
+- name: Monitor
+  collection: /api/v1/datasets/{datasetId}/columnMetricMonitors
+  path_param: monitorId
+- name: DatasetRole
+  collection: /api/v1/datasets/roles
+  path_param: roleId
+- name: DatasourceRole
+  collection: /api/v1/datasources/roles
+  path_param: roleId
+relationships:
+- from: Datasource
+  to: Dataset
+  type: has_many
+  via: datasource ownership
+  evidence: DatasetsContentDTO.datasource; DELETE /api/v1/datasources/{datasourceId} cascades to datasets,
+    checks, scans and incidents
+- from: Datasource
+  to: DiscoveredDataset
+  type: has_many
+  via: discovery scan
+  evidence: POST/api/v1/datasources/{datasourceId}/discover then POST/api/v1/datasources/{datasourceId}/onboardDatasets
+- from: Datasource
+  to: Runner
+  type: belongs_to
+  via: runner
+  evidence: datasource configuration names the runner that executes its scans
+- from: Datasource
+  to: DatasourceRole
+  type: has_many
+  via: responsibilities
+  evidence: GET/api/v1/datasources/{datasourceId}/responsibilities
+- from: Dataset
+  to: Contract
+  type: has_one
+  via: contract
+  evidence: POST/api/v1/contracts creates a contract on a dataset
+- from: Dataset
+  to: Column
+  type: has_many
+  via: columns
+  evidence: GET/api/v1/datasets/{datasetId}/columns
+- from: Dataset
+  to: Monitor
+  type: has_many
+  via: columnMetricMonitors / customSqlMonitors
+  evidence: GET/api/v1/datasets/{datasetId}/metricMonitoring
+- from: Dataset
+  to: Attribute
+  type: has_many
+  via: attributes
+  evidence: DatasetsContentDTO.attributes; POST/api/v1/datasets/{datasetId}/columnAttributes
+- from: Dataset
+  to: Incident
+  type: has_many
+  via: incidents
+  evidence: DatasetsContentDTO.incidents
+- from: Dataset
+  to: DatasetRole
+  type: has_many
+  via: responsibilities
+  evidence: GET/api/v1/datasets/{datasetId}/responsibilities
+- from: Contract
+  to: Check
+  type: has_many
+  via: contract YAML
+  evidence: Checks are defined inside contracts, not created via the Checks API — the Checks surface is
+    list+delete only
+- from: Contract
+  to: ContractVersion
+  type: has_many
+  via: versions
+  evidence: GET/api/v1/contracts/{contractId}/versions — each publish creates a version
+- from: Contract
+  to: Scan
+  type: has_many
+  via: verify
+  evidence: POST/api/v1/contracts/{contractId}/verify
+- from: DataStandard
+  to: Dataset
+  type: has_many
+  via: scope match
+  evidence: GET/api/v1/dataStandards/{dataStandardId}/datasets
+- from: DataStandard
+  to: Check
+  type: has_many
+  via: generated checks
+  evidence: GET/api/v1/dataStandards/{dataStandardId}/checks
+- from: DataStandard
+  to: Scan
+  type: has_many
+  via: execute
+  evidence: POST/api/v1/dataStandards/actions/execute
+- from: Scan
+  to: CheckResult
+  type: has_many
+  via: scan results
+  evidence: GET/api/v1/scans/{scanId}, GET/api/v1/scans/{scanId}/logs
+- from: Incident
+  to: Check
+  type: has_many
+  via: linked checks
+  evidence: list_checks returns 'associated datasets, agreements, and linked incidents'
+- from: Incident
+  to: RcaReport
+  type: has_one
+  via: rcaReport
+  evidence: GET/POST /api/v1/incidents/{incidentId}/rcaReport
+- from: Secret
+  to: Datasource
+  type: referenced_by
+  via: ${secret.NAME} in datasource YAML
+  evidence: https://docs.soda.io/reference/soda-apis/rest-api/secrets.md
+- from: NotificationRule
+  to: Check
+  type: references
+  via: alert conditions
+  evidence: Alert Notification webhooks require an active notification rule
+- from: UserGroup
+  to: User
+  type: has_many
+  via: membership
+  evidence: GET/api/v1/userGroups/{userGroupId}
+- from: User
+  to: DatasetRole
+  type: has_many
+  via: responsibilities
+  evidence: POST/api/v1/datasets/{datasetId}/responsibilities
+derived_ref_edges: 351
+notes:
+- 'Checks are read-only-plus-delete over the API: they are authored declaratively inside contract YAML,
+  so an agent that wants to add a check edits and republishes a contract.'
+- A Data Standard is the one-to-many sibling of a Contract — one YAML policy fanned out across every dataset
+  matching a scope.
+- Three async operation ids (skeleton, generate, testConnection, onboardDatasets) are their own short-lived
+  handles, distinct from a Scan id.

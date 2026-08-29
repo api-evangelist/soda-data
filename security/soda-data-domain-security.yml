@@ -1,4 +1,4 @@
-generated: '2026-07-11'
+generated: '2026-08-29'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -11,17 +11,17 @@ hosts:
 - host: cloud.soda.io
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 10 23:59:59 2026 GMT
+  cert_expires: Jan 26 23:59:59 2027 GMT
   hsts: null
 - host: cloud.us.soda.io
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep 28 23:59:59 2026 GMT
+  cert_expires: Feb 28 23:59:59 2027 GMT
   hsts: null
 domains:
 - domain: soda.io
   dnssec: false
   caa: []
-  spf: false
+  spf: true
   dmarc: true
-  dmarc_policy: quarantine
+  dmarc_policy: none

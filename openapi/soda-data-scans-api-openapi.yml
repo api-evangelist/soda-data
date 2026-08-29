@@ -1,0 +1,610 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
+openapi: 3.1.0
+info:
+  title: Soda Cloud API v4 — Scans
+  version: v1
+  description: The Scans surface of the Soda Cloud v4 public REST API — 3 operation(s). Harvested verbatim
+    from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  contact:
+    name: Soda
+    url: https://www.soda.io
+servers:
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
+security:
+- basicAuthApiKey: []
+- cookieToken: []
+tags:
+- name: Scans
+  description: Soda Cloud API Scan Endpoints
+paths:
+  /api/v1/scans/{scanId}:
+    get:
+      description: 'This endpoint enables you to check on the state of a scan that you executed using
+        the **Trigger a scan** endpoint. Call this endpoint to monitor the status of a scan during its
+        execution.
+
+
+        If you wish to access the logs of a completed scan, use the **Get scan logs** endpoint.
+
+
+        This POST uses the following parameter to provide specific details:
+
+
+        - `scanId`: Use the value of `X-Soda-Scan-Id` returned as part of the `201` response when you
+        called the **Trigger a scan** endpoint.
+
+
+        As a scan executes, you can call this endpoint to progressively collect values based on the state
+        of the scan. Refer to the list below for the states that calls to this endpoint return.
+
+
+        - `queuing`: The scan is in the queue for execution, awaiting a pick-up from a Soda Runner.
+
+
+        - `executing`: A Soda Runner has picked up the scan and is executing.
+
+
+        - `cancelationRequested`: An entity requested cancelation of this scan and the request is awaiting
+        pick-up from the Soda Runner responsible for the scan.
+
+
+        - `timeOutRequested`: A time out has been detected, and an automatic request to stop the scan
+        execution is awaiting pick-up from the Soda Runner responsible for the scan.
+
+
+        - `canceled`: A Soda Runner confirmed that the scan has been cancelled. This is the final state
+        of the scan.
+
+
+        - `timedOut`: A Soda Runner confirmed that the scan has timed-out. This is the final state of
+        the scan.
+
+
+        - `failed`: The scan did not start, or it did not successfully complete because of an unexpected
+        cause. This is the final state of the scan.
+
+
+        - `completedWithErrors`: The scan completed successfully, but there were errors involving some
+        of the checks in the scan. This is the final state of the scan.
+
+
+        - `completedWithFailures`: The scan completed successfully and reveals failed results for some
+        checks. This is the final state of the scan.
+
+
+        - `completedWithWarnings`: The scan completed successfully and reveals warning results for some
+        checks. This is the final state of the scan.
+
+
+        - `completed`: The scan completed successfully and reveals passing results for all checks. This
+        is a final state of a scan
+
+
+        To get the logs of the completed scan, please use API `/api/v1/scans/{scanId}/logs`.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Scans`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/scans/{scanId}
+      parameters:
+      - in: path
+        name: scanId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiScanStatusResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get scan status
+      tags:
+      - Scans
+    delete:
+      description: 'This endpoint enables you to cancel a scan.
+
+
+        Depending on the state of the scan when you call this endpoint, the response returns one of the
+        following:
+
+
+        - Where the state is `pending`, Soda immediately changes the state to `canceled`.
+
+
+        - Where the state is `submitted`, Soda immediately changes the state to `cancelationRequested`.
+        - Where the scan is in any other state, the endpoint returns a `400` (Bad request) response.
+
+
+        This DELETE uses the following parameters to provide specific details:
+
+
+        - `scanId`: Use the value of `X-Soda-Scan-Id` returned as part of the `201` response when you
+        called the **Trigger a scan** endpoint.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Scans`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: DELETE/api/v1/scans/{scanId}
+      parameters:
+      - in: path
+        name: scanId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Cancel a scan
+      tags:
+      - Scans
+  /api/v1/scans/{scanId}/logs:
+    get:
+      description: 'This endpoint enables you to gather log details about the final state of a scan you
+        executed using the **Trigger a scan** endpoint. Use this endpoint to study scan logs to investigate
+        issues with its execution.
+
+
+        If you wish to access the state of a scan in progress, use the **Get scan status** endpoint.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `scanId`: Use the value of `X-Soda-Scan-Id` returned as part of the `201` response when you
+        called the **Trigger a scan** endpoint.
+
+
+        - `size`: Supply an integer value between 100 and 1000, inclusive. The default value is 1000.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        The response sorts the the log information by creation timestamp in ascending order.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Scans`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/scans/{scanId}/logs
+      parameters:
+      - in: path
+        name: scanId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiScanLogsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get scan logs
+      tags:
+      - Scans
+components:
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    EvaluationStatusDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+      - notEvaluated
+      - excluded
+    LogLevelDTO:
+      type: string
+      enum:
+      - debug
+      - info
+      - warning
+      - error
+    LogsContentDTO:
+      type: object
+      properties:
+        index:
+          type: integer
+          format: int32
+        level:
+          type: object
+          $ref: '#/components/schemas/LogLevelDTO'
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - index
+      - level
+      - message
+      - timestamp
+    PublicApiCheckSlimDTO:
+      type: object
+      properties:
+        evaluationStatus:
+          type: object
+          $ref: '#/components/schemas/EvaluationStatusDTO'
+        id:
+          type: string
+    PublicApiPostProcessingStageDTO:
+      type: object
+      properties:
+        ended:
+          type: string
+          format: date-time
+        name:
+          type: object
+          $ref: '#/components/schemas/PublicApiPostProcessingStageTypeDTO'
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/PublicApiPostProcessingStageStateDTO'
+      required:
+      - name
+    PublicApiPostProcessingStageStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+    PublicApiPostProcessingStageTypeDTO:
+      type: string
+      enum:
+      - diagnosticWarehouse
+    PublicApiScanDefinitionSlim:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - name
+    PublicApiScanLogsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/LogsContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiScanStatusResponse:
+      type: object
+      properties:
+        agentId:
+          type: string
+          deprecated: true
+        checks:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiCheckSlimDTO'
+        cloudUrl:
+          type: string
+        contractDatasetCloudUrl:
+          type: string
+        created:
+          type: string
+          format: date-time
+        ended:
+          type: string
+          format: date-time
+        errors:
+          type: integer
+          format: int32
+        failures:
+          type: integer
+          format: int32
+        id:
+          type: string
+        postProcessingStages:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiPostProcessingStageDTO'
+        runnerId:
+          type: string
+        scanDefinition:
+          type: object
+          $ref: '#/components/schemas/PublicApiScanDefinitionSlim'
+        scanTime:
+          type: string
+          format: date-time
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/ScanStateDTO'
+        submitted:
+          type: string
+          format: date-time
+        warnings:
+          type: integer
+          format: int32
+      required:
+      - cloudUrl
+      - created
+      - id
+      - state
+    ScanStateDTO:
+      type: string
+      enum:
+      - queuing
+      - executing
+      - started
+      - cancelationRequested
+      - timeOutRequested
+      - canceled
+      - timedOut
+      - failed
+      - completedWithErrors
+      - completedWithFailures
+      - completedWithWarnings
+      - completed

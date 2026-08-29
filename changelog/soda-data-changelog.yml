@@ -1,0 +1,161 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.soda.io/release-notes/soda-core.md
+provider: Soda
+providerId: soda-data
+description: 'Soda publishes a dated changelog, but only for ONE product: Soda Core, the open-source engine.
+  The v3-era docs carried separate release-note streams for Soda Cloud, Soda Runner, the Soda Cloud API
+  and the Reporting API; in the current v4 docs the Release notes index links Soda Core alone. There is
+  no dated changelog for the Soda Cloud v4 REST API itself, so an integrator has no record of when an
+  operation appeared, changed or was withdrawn.'
+scheme: semver (soda-core), per-release dated entries
+cadence: roughly weekly to fortnightly through 2026
+current_version: 4.22.0
+current_version_published: '2026-08-25'
+entry_count: 14
+url: https://docs.soda.io/release-notes
+covered_products:
+- Soda Core
+uncovered_products:
+- Soda Cloud v4 REST API
+- Soda Cloud web app
+- Soda Runner
+- soda-mcp
+- Soda CLI (sodacli)
+notes:
+- The pricing-page footer link https://docs.soda.io/release-notes/all is a soft 404 — it returns HTTP
+  200 with a 'Page Not Found' body. The working index is https://docs.soda.io/release-notes.
+- The 2026-08-26 entry is headed `soda-core 4.21.1` but links the v4.22.0 GitHub release; PyPI confirms
+  4.22.0 published 2026-08-25. Recorded as published, not corrected.
+entries:
+- date: '2026-08-26'
+  version: 4.21.1
+  product: soda-core
+  highlights:
+  - 'Fix: Error that could occur while logging exception'
+  - 'Fix: Retry deadlock victims with jittered exponential backoff in SqlServer'
+  - 'Feat: Add agent source to scan token usage'
+  - 'Fix: Escape regex patterns as string literals'
+  - 'Feat: Pin the RAD fail lower bound at 0'
+  - 'Feat: Enable specifying both warn and fail thresholds per check for data contracts & data standards'
+  - 'Fix: Key the aggregate metric on its function to prevent incorrect results'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.22.0
+  breaking: false
+- date: '2026-08-19'
+  version: 4.21.1
+  product: soda-core
+  highlights:
+  - 'Fix: CLI - `--check-filter` help now lists every supported field'
+  - 'Fix: Spark DataFrame - Table discovery now respects the configured catalog'
+  - 'Fix: Databricks contract verifications with a missing or empty access token now fail fast instead
+    of hanging in interactive OAuth'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.21.1
+  breaking: false
+- date: '2026-08-17'
+  version: 4.21.0
+  product: soda-core
+  highlights:
+  - 'Fix: Reporting warnings to Soda Cloud'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.21.0
+  breaking: false
+- date: '2026-08-07'
+  version: 4.20.0
+  product: soda-core
+  highlights:
+  - Various improvements and updates
+  - Removed PyAthena `<3.0` ceiling
+  - '\[PREVIEW]: discovery now part of soda-core'
+  github_release: https://github.com/sodadata/soda-extensions/releases/tag/v4.20.0
+  breaking: true
+- date: '2026-07-29'
+  version: 4.19.0
+  product: soda-core
+  highlights:
+  - 'feat(sql-ast): window functions and UNION-in-CTE'
+  - 'fix (bigquery): qualify CREATE SCHEMA with the project&#x20;'
+  github_release: https://github.com/sodadata/soda-extensions/releases/tag/v4.19.0
+  breaking: false
+- date: '2026-07-21'
+  version: 4.18.0
+  product: soda-core
+  highlights:
+  - 'Feat: Discover tables and columns with the new soda data-source discover command.'
+  - 'Fix: Dates with years below 1000 no longer fail in SQL checks.'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.18.0
+  breaking: false
+- date: '2026-07-16'
+  version: 4.17.1
+  product: soda-core
+  highlights:
+  - 'Fix: Docs - Replace stale v3 doc links with v4 equivalents'
+  - 'Fix: Qualify wire check paths so check filtering works'
+  - 'Fix: Bigquery - Escape all single quotes in literal\_string'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.17.1
+  breaking: false
+- date: '2026-07-10'
+  version: 4.17.0
+  product: soda-core
+  highlights:
+  - 'Feat: OAuth (M2M + Azure service principal) auth'
+  - 'Fix: Report runner scan FAILED with logs on abort re-raise'
+  - 'Feat: Global impl extensions — reconciliation in all check-collection kinds'
+  - 'CVE-2026-30922 (HIGH): pyasn1 0.6.3'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.17.0
+  breaking: false
+- date: '2026-06-30'
+  version: 4.16.0
+  product: soda-core
+  highlights:
+  - 'Fix: memory management follow-up: honest fetch naming & encapsulated driver settings&#x20;'
+  - 'feat: dispatch HANA test helper for soda-tests'
+  - 'feat: add failed\_rows keys\_query check form&#x20;'
+  - 'fix(freshness): send freshness diagnostics in milliseconds with measure=time&#x20;'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.16.0
+  breaking: false
+- date: '2026-06-22'
+  version: 4.15.0
+  product: soda-core
+  highlights:
+  - 'Feat: Add soda-failed-rows-query package for per-check extraction queries'
+  - 'Feat: Runner-chart - Pin images by sha256&#x20;'
+  - 'Fix: Apply check-level filter to failed\_rows expression checks'
+  - 'Fix: Only register signal handlers in main thread for remote scans'
+  - 'Fix: Honor configured catalog over Cloud-sent prefix for SparkDF DWH'
+  - 'Feat: Athena - make static AWS credentials optional for WIF support&#x20;'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.15.0
+  breaking: false
+- date: '2026-06-16'
+  version: 4.14.0
+  product: soda-core
+  highlights:
+  - 'Feat: Session-level post-processing hook for combined check collections'
+  - 'Fix: Per-collection log isolation via a single contextvar-routed capturer'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.14.0
+  breaking: false
+- date: '2026-06-08'
+  version: 4.13.0
+  product: soda-core
+  highlights:
+  - 'Fix: Recover column from definition when V3 sends `column: null`&#x20;'
+  - 'Fix (BigQuery): warn when account\_info\_json is provided alongside `use_context_auth`'
+  - 'Fix: Support WIF/IRSA auth by making static credentials optional'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.13.0
+  breaking: false
+- date: '2026-06-01'
+  version: 4.12.0
+  product: soda-core
+  highlights:
+  - Fix security vulnerability from urllib3
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.12.0
+  breaking: false
+- date: '2026-05-26'
+  version: 4.11.0
+  product: soda-core
+  highlights:
+  - 'Feat: Dedup byte-identical aggregation metrics'
+  - 'Feat: Lightweight CheckCollection abstraction'
+  - 'Chore: Declarative check dependencies with framework-level NOT\_EVALUATED gating'
+  - 'Chore: Rename Soda Agent to Soda Runner (backwards-compatible)'
+  - 'Feat: bundle DWH file paths via DiagnosticsWarehouseFiles\\'
+  github_release: https://github.com/sodadata/soda-core/releases/tag/v4.11.0
+  breaking: false

@@ -1,0 +1,1933 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
+openapi: 3.1.0
+info:
+  title: Soda Cloud API v4 — Data Standards
+  version: v1
+  description: The Data Standards surface of the Soda Cloud v4 public REST API — 13 operation(s). Harvested
+    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  contact:
+    name: Soda
+    url: https://www.soda.io
+servers:
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
+security:
+- basicAuthApiKey: []
+- cookieToken: []
+tags:
+- name: Data Standards
+  description: Soda Cloud API Data Standard Endpoints
+paths:
+  /api/v1/dataStandards:
+    get:
+      description: 'This endpoint allows you to list the data standards in your organization.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `search`: Optionally, use this parameter to perform a fuzzy search on the data standard name
+        and label.
+
+
+        - `status`: Optionally, use this parameter to list only data standards with a given status (`draft`,
+        `active`, `paused`, or `invalid`).
+
+
+        - `sort`: Optionally, sort the results by `name` (default) or `label`.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/dataStandards
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: sort
+        schema:
+          type: object
+          $ref: '#/components/schemas/DataStandardSortFieldDTO'
+      - in: query
+        name: status
+        schema:
+          type: object
+          $ref: '#/components/schemas/DataStandardStatusDTO'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListDataStandardsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List data standards
+      tags:
+      - Data Standards
+    post:
+      description: 'This endpoint allows you to create a new data standard from YAML contents, a structured
+        scope, status, owners and an optional schedule.
+
+
+        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request
+        is rejected with a 400 error.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can create data standards.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiDataStandardRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateDataStandardResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a data standard
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/actions/execute:
+    post:
+      description: 'This endpoint triggers a scan that runs the active data standards linked to the specified
+        dataset.
+
+
+        The response, when successful, is `201` and contains the header `X-Soda-Scan-Id` and a `Location`
+        header which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter
+        of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can execute data standards.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards/actions/execute
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiExecuteDataStandardsRequestDTO'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiExecuteDataStandardsResponse'
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Execute data standards for a dataset
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/actions/previewScope:
+    post:
+      description: 'This endpoint evaluates a candidate scope and returns the datasets that would match
+        it, without creating or modifying any data standard.
+
+
+        The `scope` uses the same structured rule grammar as the create-data-standard endpoint. An omitted
+        or empty scope matches **all** datasets, mirroring how a data standard without a scope applies
+        to every dataset. Results are paged with `page` (0-based, default 0) and `size` (between 1 and
+        1000, default 10).
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can preview a data standard scope.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards/actions/previewScope
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiPreviewDataStandardScopeRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiPreviewDataStandardScopeResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Preview the datasets matching a data standard scope
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/actions/test:
+    post:
+      description: 'This endpoint runs the checks of an unsaved data standard against one dataset''s live
+        data, without creating or modifying any data standard. The tested standard does not appear in
+        your data standards and no checks or check results are persisted; the outcome is only visible
+        on the triggered scan.
+
+
+        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request
+        is rejected with a 400 error.
+
+
+        The response, when successful, is `201` and contains the header `X-Soda-Scan-Id` and a `Location`
+        header which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter
+        of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission who can view the dataset''s datasource can
+        test a data standard.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards/actions/test
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiTestDataStandardRequestDTO'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiTestDataStandardResponse'
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Test a data standard against a dataset
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/activity:
+    get:
+      description: 'This endpoint returns an organization-wide rollup of data standards activity, including
+        counts of active and total standards, matched datasets, and check results.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/dataStandards/activity
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDataStandardsActivityResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Data standards activity
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/{dataStandardId}:
+    get:
+      description: 'This endpoint allows you to retrieve a specific data standard, including its YAML
+        contents and scope.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/dataStandards/{dataStandardId}
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiGetDataStandardResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get a data standard
+      tags:
+      - Data Standards
+    post:
+      description: 'This endpoint allows you to replace an existing data standard''s YAML contents, scope,
+        status, owners and schedule.
+
+
+        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request
+        is rejected with a 400 error.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can update data standards.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards/{dataStandardId}
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiDataStandardRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateDataStandardResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a data standard
+      tags:
+      - Data Standards
+    delete:
+      description: 'Schedules a data standard for deletion. Deletion is processed asynchronously: the
+        standard and its dataset associations, owners and YAML file are removed in the background.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can delete data standards.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: DELETE/api/v1/dataStandards/{dataStandardId}
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteDataStandardResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a data standard
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/{dataStandardId}/actions/evaluateScope:
+    post:
+      description: 'This endpoint re-evaluates a data standard''s scope and returns the ids of the datasets
+        that currently match it.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can evaluate a data standard''s scope.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards/{dataStandardId}/actions/evaluateScope
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiEvaluateDataStandardScopeResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Evaluate a data standard's scope
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/{dataStandardId}/actions/status:
+    post:
+      description: 'This endpoint transitions a data standard to a new status without modifying its contents,
+        scope, owners or schedule.
+
+
+        Allowed transitions are validated; an invalid transition is rejected with a 400 error.
+
+
+        ## Authorization
+
+
+        Only users with **Manage data standards** permission can update a data standard''s status.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATA_STANDARDS to execute this call.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/dataStandards/{dataStandardId}/actions/status
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateDataStandardStatusRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateDataStandardStatusResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a data standard's status
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/{dataStandardId}/checks:
+    get:
+      description: 'This endpoint allows you to list the aggregated checks of a specific data standard.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/dataStandards/{dataStandardId}/checks
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListDataStandardChecksResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List data standard checks
+      tags:
+      - Data Standards
+  /api/v1/dataStandards/{dataStandardId}/datasets:
+    get:
+      description: 'This endpoint allows you to list the datasets matched by a specific data standard.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Data Standards`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/dataStandards/{dataStandardId}/datasets
+      parameters:
+      - in: path
+        name: dataStandardId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListDataStandardDatasetsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List data standard datasets
+      tags:
+      - Data Standards
+components:
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    CheckResultLevelDTO:
+      type: string
+      enum:
+      - info
+      - warning
+      - critical
+      - not_evaluated
+      - excluded
+    CheckTypeDTO:
+      type: string
+      enum:
+      - missing
+      - invalid
+      - row_count
+      - aggregate
+      - schema
+      - duplicate
+      - freshness
+      - failed_rows
+      - metric
+      - group_by
+      - row_count_diff
+      - aggregate_diff
+      - freshness_diff
+      - metric_diff
+      - rows_diff
+      - duplicate_diff
+      - llm
+      - hierarchy
+      - fuzzy_duplicate
+      - reference_diff
+    DataStandardActivityContentDTO:
+      type: object
+      properties:
+        activeCount:
+          type: integer
+          format: int32
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        datasetCount:
+          type: integer
+          format: int32
+        totalCount:
+          type: integer
+          format: int32
+      required:
+      - activeCount
+      - checkResults
+      - datasetCount
+      - totalCount
+    DataStandardCheckContentDTO:
+      type: object
+      properties:
+        checkType:
+          type: object
+          $ref: '#/components/schemas/CheckTypeDTO'
+        compliance:
+          type: number
+        datasetCount:
+          type: integer
+          format: int32
+        failingCount:
+          type: integer
+          format: int32
+        lastScanTime:
+          type: string
+          format: date-time
+        name:
+          type: string
+        notEvaluatedCount:
+          type: integer
+          format: int32
+        passingCount:
+          type: integer
+          format: int32
+        warningCount:
+          type: integer
+          format: int32
+        worstLevel:
+          type: object
+          $ref: '#/components/schemas/CheckResultLevelDTO'
+    DataStandardCheckResultsDTO:
+      type: object
+      properties:
+        failingCount:
+          type: integer
+          format: int32
+        notEvaluatedCount:
+          type: integer
+          format: int32
+        passingCount:
+          type: integer
+          format: int32
+        warningCount:
+          type: integer
+          format: int32
+    DataStandardContentDTO:
+      type: object
+      properties:
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringTo_object'
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        cloudUrl:
+          type: string
+        compliance:
+          type: integer
+          format: int64
+        contents:
+          type: string
+        created:
+          type: string
+          format: date-time
+        datasetCount:
+          type: integer
+          format: int32
+        description:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        lastScanTime:
+          type: string
+          format: date-time
+        lastUpdated:
+          type: string
+          format: date-time
+        name:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetOwnerDTO'
+        schedule:
+          type: object
+          $ref: '#/components/schemas/DataStandardScheduleDTO'
+        scope:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/DataStandardStatusDTO'
+      required:
+      - id
+    DataStandardDatasetContentDTO:
+      type: object
+      properties:
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        lastScanId:
+          type: string
+        lastScanTime:
+          type: string
+          format: date-time
+        name:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetOwnerDTO'
+        qualifiedName:
+          type: string
+      required:
+      - id
+      - name
+    DataStandardOwnerRequestDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - type
+    DataStandardScheduleDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    DataStandardScopeAttributeFilterDTO:
+      type: object
+      properties:
+        attributeName:
+          type: string
+        booleanValue:
+          type: boolean
+        date:
+          type: string
+          format: date-time
+        filters:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeAttributeFilterTypeDTO'
+        value:
+          type: string
+      required:
+      - type
+    DataStandardScopeAttributeFilterTypeDTO:
+      type: string
+      enum:
+      - equals
+      - contains
+      - and
+      - or
+    DataStandardScopeDTO:
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeRuleDTO'
+    DataStandardScopeMatchingDatasetContentDTO:
+      type: object
+      properties:
+        datasourceId:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+        qualifiedName:
+          type: string
+      required:
+      - datasourceId
+      - id
+      - name
+    DataStandardScopeRuleDTO:
+      type: object
+      properties:
+        attributesFilter:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
+        datasourceId:
+          type: string
+        name:
+          type: string
+        schema:
+          type: string
+    DataStandardSortFieldDTO:
+      type: string
+      enum:
+      - name
+      - label
+    DataStandardStatusDTO:
+      type: string
+      enum:
+      - draft
+      - active
+      - paused
+      - invalid
+    DatasetOwnerDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        user:
+          type: object
+          $ref: '#/components/schemas/UserContentDTO'
+        userGroup:
+          type: object
+          $ref: '#/components/schemas/UserGroupContentBasicDTO'
+      required:
+      - type
+    DatasetOwnerTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    MapOfStringTo_object:
+      type: object
+      additionalProperties: true
+    PublicApiCreateDataStandardResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    PublicApiDataStandardRequestDTO:
+      type: object
+      properties:
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringTo_object'
+        contents:
+          type: string
+        description:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardOwnerRequestDTO'
+        schedule:
+          type: object
+          $ref: '#/components/schemas/DataStandardScheduleDTO'
+        scope:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/DataStandardStatusDTO'
+      required:
+      - contents
+      - name
+      - owners
+      - status
+    PublicApiDataStandardsActivityResponse:
+      type: object
+      properties:
+        activity:
+          type: object
+          $ref: '#/components/schemas/DataStandardActivityContentDTO'
+    PublicApiDeleteDataStandardResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiEvaluateDataStandardScopeResponse:
+      type: object
+      properties:
+        dataStandardId:
+          type: string
+        datasetIds:
+          type: array
+          items:
+            type: string
+    PublicApiExecuteDataStandardsRequestDTO:
+      type: object
+      properties:
+        datasetId:
+          type: string
+      required:
+      - datasetId
+    PublicApiExecuteDataStandardsResponse:
+      type: object
+      properties:
+        dataStandardIds:
+          type: array
+          items:
+            type: string
+        scanId:
+          type: string
+    PublicApiGetDataStandardResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    PublicApiListDataStandardChecksResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardCheckContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiListDataStandardDatasetsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardDatasetContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiListDataStandardsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiPreviewDataStandardScopeRequestDTO:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        scope:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeDTO'
+        size:
+          type: integer
+          format: int32
+    PublicApiPreviewDataStandardScopeResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeMatchingDatasetContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiTestDataStandardRequestDTO:
+      type: object
+      properties:
+        contents:
+          type: string
+        datasetId:
+          type: string
+      required:
+      - contents
+      - datasetId
+    PublicApiTestDataStandardResponse:
+      type: object
+      properties:
+        scanId:
+          type: string
+    PublicApiUpdateDataStandardResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    PublicApiUpdateDataStandardStatusRequestDTO:
+      type: object
+      properties:
+        status:
+          type: object
+          $ref: '#/components/schemas/DataStandardStatusDTO'
+      required:
+      - status
+    PublicApiUpdateDataStandardStatusResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
+    UserGroupContentBasicDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userGroupId:
+          type: string
+      required:
+      - name
+      - userGroupId

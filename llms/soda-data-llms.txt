@@ -10,6 +10,8 @@
 - [Bring your own key (BYOK)](https://docs.soda.io/soda-ai/bring-your-own-key-byok.md): Learn how to bring your own OpenAI key to use the Soda AI features
 - [Soda MCP](https://docs.soda.io/soda-ai/soda-mcp.md): Use Soda from your preferred AI agent.
 - [MCP tools](https://docs.soda.io/soda-ai/soda-mcp/mcp-tools.md)
+- [Soda Cloud dashboards](https://docs.soda.io/soda-cloud-dashboards.md): Open Soda Cloud and see what matters to you.
+- [Customize a dashboard](https://docs.soda.io/soda-cloud-dashboards/customize-a-dashboard.md): Duplicate a default view or start from a blank board, then build tiles that group your data quality results the way your organization is actually structured.
 - [Data Observability](https://docs.soda.io/data-observability.md): An overview of Soda's key observability features and how they help catch data issues early.
 - [Metric Monitoring dashboard](https://docs.soda.io/data-observability/metric-monitoring-dashboard.md)
 - [Dataset monitors](https://docs.soda.io/data-observability/metric-monitoring-dashboard/dataset-monitors.md): Learn more about Metric Monitors that run scans at a dataset level.
@@ -96,7 +98,7 @@
 - [Bind a runner to a service account](https://docs.soda.io/organization-and-admin-settings/service-accounts/bind-a-runner-to-a-service-account.md): Restrict a Soda Runner to a single service account so it can only access the data sources and datasets that account is explicitly permitted to use.
 - [User provisioning with SCIM](https://docs.soda.io/organization-and-admin-settings/user-provisioning-with-scim.md): Automatically provision and deprovision Soda Cloud users and user groups from Microsoft Entra ID with SCIM
 - [Integrations](https://docs.soda.io/integrations.md)
-- [Alation](https://docs.soda.io/integrations/alation.md): Learn how to integrate Atlan with Soda.
+- [Alation](https://docs.soda.io/integrations/alation.md): Learn how to integrate Alation with Soda.
 - [Atlan](https://docs.soda.io/integrations/atlan.md): Learn how to integrate Atlan with Soda.
 - [Collibra](https://docs.soda.io/integrations/collibra.md): This page describes the bi-directional integration between Soda and Collibra.
 - [Setup & configuration](https://docs.soda.io/integrations/collibra/setup-and-configuration.md): This page provides detailed information about how to configure the Soda↔Collibra integration.
@@ -146,6 +148,7 @@
 - [Datasources](https://docs.soda.io/reference/soda-apis/rest-api/datasources.md)
 - [Discovered Datasets](https://docs.soda.io/reference/soda-apis/rest-api/discovered-datasets.md)
 - [Incidents](https://docs.soda.io/reference/soda-apis/rest-api/incidents.md)
+- [Licensing](https://docs.soda.io/reference/soda-apis/rest-api/licensing.md)
 - [Notification Rules](https://docs.soda.io/reference/soda-apis/rest-api/notification-rules.md)
 - [Runners](https://docs.soda.io/reference/soda-apis/rest-api/runners.md)
 - [Scans](https://docs.soda.io/reference/soda-apis/rest-api/scans.md)
@@ -157,7 +160,8 @@
 - [Soda Runner basic concepts](https://docs.soda.io/reference/soda-runner-basic-concepts.md): Establish a baseline understanding of the concepts involved in deploying a Soda Runner.
 - [Data flows between Soda & user](https://docs.soda.io/reference/data-flows-between-soda-and-user.md): A description of the data flows that take place when the user interacts with Soda in an enterprise deployment with a self-hosted runner.
 - [Migrate from v3 to v4](https://docs.soda.io/reference/migrate-from-v3-to-v4.md)
-- [Documentation access & licensing](https://docs.soda.io/reference/documentation-access-and-licensing.md): Learn how Soda features are documented and how to gain full access to the documentation.
+- [Licensing & documentation access](https://docs.soda.io/reference/documentation-access-and-licensing.md): Learn how Soda features are documented and how to gain full access to the documentation.
+- [Release stages](https://docs.soda.io/reference/documentation-access-and-licensing/release-stages.md): What do "private preview", "public beta", and "general availability" mean for a Soda feature? Learn what to expect at each stage.
 
 * [Soda v3 documentation](https://docs.soda.io/soda-documentation/soda-v3/readme.md): Soda is a data quality platform that provides tools to monitor, test, and improve data quality across all stacks.
 * [Get started](https://docs.soda.io/soda-documentation/soda-v3/quick-start-sip.md): Follow this tutorial to set up and run a simple Soda scan for data quality using example data.

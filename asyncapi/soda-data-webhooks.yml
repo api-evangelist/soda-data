@@ -1,0 +1,131 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.soda.io/reference/soda-apis/webhook-api.md
+provider: Soda
+providerId: soda-data
+description: >-
+  Soda Cloud publishes a Webhook API — an outbound event surface configured per organization — but no
+  AsyncAPI document, no event-schema files and no subscription REST operations. This artifact captures
+  the documented event catalogue. It is a Webhooks surface, not an AsyncAPI one; nothing here was
+  authored on Soda's behalf.
+asyncapi: false
+asyncapi_probe:
+  note: No AsyncAPI document is published or referenced anywhere in the docs, the llms.txt index, or the sodadata GitHub org.
+availability:
+  gated: true
+  detail: 'Webhook integrations are available to organizations with a Soda licence — the docs say "Contact us to learn more" (support@soda.io).'
+configuration:
+  surface: Soda Cloud UI — Organization Settings > Integrations > Add Integration > Webhook
+  api_managed: false
+  note: >-
+    GAP for automation — webhooks are configured only in the web UI. There is no
+    /api/v1/webhooks resource in the 103-operation v4 REST surface and no MCP tool for it, so an agent
+    can receive Soda events but cannot subscribe itself to them.
+  permission_required: Organization Settings
+  fields:
+  - name: Name
+    required: true
+  - name: Webhook URL
+    required: true
+    description: The endpoint Soda POSTs events to.
+  - name: Secret
+    required: false
+    description: Used to sign the payload.
+  signing:
+    supported: true
+    algorithm: not published
+    header: not published
+    note: A signing secret is offered but the signature algorithm and header name are not documented, so a receiver cannot implement verification from the public docs alone.
+  testing:
+    supported: true
+    detail: After creation, Soda can simulate payloads for each event type with random values, for development and testing.
+scopes:
+- id: alert_notification
+  name: Alert Notifications
+  description: Triggered when a check result causes an alert, based on notification rules.
+  requires: an active notification rule naming the webhook as a recipient
+- id: incidents
+  name: Incidents
+  description: Triggered when incidents are created or updated in Soda Cloud.
+- id: contracts
+  name: Contracts
+  description: Triggered when a data contract is published (created or updated).
+events:
+- event: checkEvaluation
+  scope: alert_notification
+  description: Sent when a check evaluation triggers an alert; carries the check outcome and a link back to the result in Soda Cloud.
+  payload_root: '{ event: "checkEvaluation", checkResults: [CheckResult, ...] }'
+  objects:
+  - CheckResult
+  - Datasets
+  - Owner
+  - Datasource
+  - Attributes
+- event: incidentCreated
+  scope: incidents
+  description: Sent when an incident is created in Soda Cloud.
+  payload_root: '{ event: "incidentCreated", ... }'
+  objects:
+  - Incident
+- event: incidentUpdated
+  scope: incidents
+  description: Sent when an incident is updated in Soda Cloud.
+  payload_root: '{ event: "incidentUpdated", ... }'
+  objects:
+  - Incident
+- event: contractPublished
+  scope: contracts
+  description: Sent when a data contract is published (created or updated).
+  payload_root: '{ event: "contractPublished", ... }'
+payload_fields:
+  CheckResult:
+  - name: id
+    type: string
+  - name: sodaCloudUrl
+    type: string
+  - name: definition
+    type: string
+    description: YAML check definition
+  - name: datasets
+    type: array
+  - name: column
+    type: string
+  - name: attributes
+    type: array
+  - name: value
+    type: numeric
+    description: The actual value calculated for the check.
+  - name: evaluationStatus
+    type: string
+    enum:
+    - pass
+    - fail
+    - notEvaluated
+    - excluded
+  - name: outcome
+    type: string
+    deprecated: true
+    replaced_by: evaluationStatus
+  - name: dataTimestamp
+    type: string
+    description: ISO 8601 timestamp of data
+  - name: diagnostics
+    type: object
+    deprecated: true
+    replaced_by: value
+  - name: agreement
+    type: object
+    deprecated: true
+    description: v3 concept
+  - name: name
+    type: string
+summary:
+  event_count: 4
+  scope_count: 3
+  asyncapi_documents: 0
+  deprecated_fields: 3
+delivery:
+  retries: not published
+  ordering: not published
+  timeouts: not published
+  ip_allowlist: not published

@@ -1,0 +1,47 @@
+# generated: '2026-08-29'
+# method: generated
+# source: openapi/soda-data-checks-api-openapi.yml
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Soda Cloud API v4 (Checks)
+  version: 1.0.0
+extends: ../openapi/soda-data-checks-api-openapi.yml
+actions:
+- target: $.info
+  description: Record the harvest provenance of this contract.
+  update:
+    x-apievangelist-source: https://docs.soda.io/reference/soda-apis/rest-api/
+    x-apievangelist-harvested: '2026-08-29'
+    x-apievangelist-method: searched
+- target: $.info
+  description: Flag the runtime semantics an agent needs and the spec does not carry.
+  update:
+    x-idempotency:
+      supported: false
+      note: No Idempotency-Key; POST creates are not safe to blind-retry. See conventions/soda-data-conventions.yml.
+    x-error-format:
+      rfc9457: false
+      schema: ErrorResponse {code,message}
+    x-rate-limit-headers:
+      published: false
+      note: Per-operation limits are documented in prose; no RateLimit-*/Retry-After header is returned.
+        See rate-limits/soda-data-rate-limits.yml.
+    x-reversibility:
+      grade: documented
+      note: Contract republish-a-version is the only real reversal path; DELETE operations are permanent.
+        See conventions/soda-data-conventions.yml.
+- target: $.info
+  description: Point at the agent surfaces bound to this contract.
+  update:
+    x-mcp:
+      server: soda-mcp
+      mode: local-stdio
+      crosswalk: mcp/soda-data-tool-crosswalk.yml
+    x-agentic-access: agentic-access/soda-data-agentic-access.yml
+- target: $.servers
+  description: Note that the two servers are independent regional tenancies, not failover peers.
+  update:
+  - url: https://cloud.soda.io
+    description: EU region — independent tenancy; keys are not portable across regions.
+  - url: https://cloud.us.soda.io
+    description: US region — independent tenancy; keys are not portable across regions.

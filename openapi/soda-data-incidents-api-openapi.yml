@@ -1,0 +1,1057 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
+openapi: 3.1.0
+info:
+  title: Soda Cloud API v4 — Incidents
+  version: v1
+  description: The Incidents surface of the Soda Cloud v4 public REST API — 5 operation(s). Harvested
+    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  contact:
+    name: Soda
+    url: https://www.soda.io
+servers:
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
+security:
+- basicAuthApiKey: []
+- cookieToken: []
+tags:
+- name: Incidents
+  description: Soda Cloud API Incidents Endpoints
+paths:
+  /api/v1/incidents:
+    get:
+      description: 'This endpoint enables you to gather information about the incidents that exist in
+        your organization''s Soda Cloud account.
+
+
+        Each incident carries a `hasRcaReport` flag indicating whether a structured root cause analysis
+        report has been published for it; retrieve the report itself from `GET /api/v1/incidents/{incidentId}/rcaReport`.
+        **`hasRcaReport` is in private preview**: it is `true` or `false` only when the root cause analysis
+        report preview is enabled for your organization, and `null` otherwise.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `status`: Optionally, use this parameter to collect only the incidents with a specific status.
+        One of `reported`, `investigating`, `fixing`, `resolved`.
+
+
+        - `severity`: Optionally, use this parameter to collect only the incidents with a specific severity.
+        One of `minor`, `major`, `critical`.
+
+
+        - `datasetId`: Optionally, use this parameter to collect only the incidents associated with a
+        specific dataset. Find the `datasetId` in the URL of the dataset page in Soda Cloud.
+
+
+        - `incidentIds`: Optionally, use this parameter to collect only a specific batch of incidents.
+        Provide multiple values as a comma-separated list of incident IDs, which you can find on the individual
+        incident pages in Soda Cloud. This query parameter is limited to 1000 incident IDs and can be
+        combined with the other query parameters (`status`, `severity`, `datasetId`, `page`, `size`),
+        which are all applied together.
+
+
+        - `leadId`: Optionally, use this parameter to collect only the incidents assigned to a specific
+        lead user. Provide the user id of the incident lead.
+
+
+        - `from`: Optionally, use this parameter to collect only the incidents created on or after this
+        moment, compared against each incident''s created timestamp. Supply an ISO8601 timestamp value.
+        Example: `2026-08-01T00:00:00+01:00`
+
+
+        - `to`: Optionally, use this parameter to collect only the incidents created on or before this
+        moment, compared against each incident''s created timestamp. Supply an ISO8601 timestamp value.
+        Example: `2026-08-01T23:59:59+01:00`
+
+
+        The `leadId`, `from`, and `to` parameters can be combined with the other query parameters, which
+        are all applied together (AND).
+
+
+        If not specified, the query gathers information for all incidents in the account and sorts the
+        results by incident number in ascending order.
+
+
+        ## Authorization
+
+
+        Soda only returns the incidents linked to datasets to which the user has **View dataset** permissions.
+        Soda Cloud Admins have access to all incidents.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Incidents`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/incidents
+      parameters:
+      - in: query
+        name: datasetId
+        schema:
+          type: string
+      - in: query
+        name: from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: incidentIds
+        schema:
+          type: string
+      - in: query
+        name: leadId
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: severity
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: status
+        schema:
+          type: string
+      - in: query
+        name: to
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiIncidentsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List incidents
+      tags:
+      - Incidents
+    post:
+      description: 'This endpoint enables you to create a new incident linked to one or more monitor results
+        in your organization''s Soda Cloud account. The authenticated user becomes the incident reporter.
+
+
+        ## Authorization
+
+
+        Only users with **Manage incident** permission can create incidents. Soda Cloud Admins have permission
+        to create incidents on all datasets.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Incidents`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/incidents
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiCreateIncidentDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/IncidentContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create incident
+      tags:
+      - Incidents
+  /api/v1/incidents/{incidentId}:
+    post:
+      description: 'This endpoint enables you to update an existing incident title, severity, status,
+        or description in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage incident** permission can update incidents. Soda Cloud Admins have permission
+        to update all incidents.**See [Manage dataset roles](https://go.soda.io/roles-dataset) for more
+        information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Incidents`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/incidents/{incidentId}
+      parameters:
+      - in: path
+        name: incidentId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateIncidentDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/IncidentContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update incident
+      tags:
+      - Incidents
+  /api/v1/incidents/{incidentId}/rcaReport:
+    get:
+      description: 'This endpoint returns the structured root cause analysis and impact assessment published
+        on an incident in your organization''s Soda Cloud account.
+
+
+        Returns 404 if the incident does not exist or has no RCA report published yet.
+
+
+        ## Authorization
+
+
+        Unlike the incident list, this endpoint requires **View dataset** permission on every dataset
+        the incident touches. Soda Cloud Admins have access to all incidents. **See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Incidents`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/incidents/{incidentId}/rcaReport
+      parameters:
+      - in: path
+        name: incidentId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiRcaReportContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get incident RCA report
+      tags:
+      - Incidents
+    post:
+      description: 'This endpoint publishes a structured root cause analysis and impact assessment onto
+        an existing incident in your organization''s Soda Cloud account. The report is additive and does
+        not mutate the incident''s own fields (title, severity, status, description).
+
+
+        There is one report per incident: publishing replaces any previous report. Publishing to a resolved
+        incident is rejected.
+
+
+        ## Authorization
+
+
+        Only users with **Manage incident** permission can publish incident RCA reports. Soda Cloud Admins
+        have permission to publish reports on all incidents.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Incidents`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/incidents/{incidentId}/rcaReport
+      parameters:
+      - in: path
+        name: incidentId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiRcaReportDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiRcaReportContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Publish incident RCA report
+      tags:
+      - Incidents
+components:
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    IncidentContentDTO:
+      type: object
+      properties:
+        description:
+          type: string
+        resolutionNotes:
+          type: string
+        severity:
+          type: object
+          $ref: '#/components/schemas/IncidentSeverityDTO'
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        number:
+          type: integer
+          format: int32
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+      required:
+      - cloudUrl
+      - description
+      - id
+      - name
+      - number
+      - severity
+      - status
+    IncidentSeverityDTO:
+      type: string
+      enum:
+      - minor
+      - major
+      - critical
+    IncidentStatusDTO:
+      type: string
+      enum:
+      - reported
+      - investigating
+      - fixing
+      - resolved
+    PublicApiBlastRadiusDTO:
+      type: object
+      properties:
+        assetType:
+          type: object
+          $ref: '#/components/schemas/RcaAssetTypeDTO'
+        count:
+          type: integer
+          format: int32
+    PublicApiCreateIncidentDTO:
+      type: object
+      properties:
+        description:
+          type: string
+        leadId:
+          type: string
+        monitorResultIds:
+          type: array
+          items:
+            type: string
+        resolutionNotes:
+          type: string
+        severity:
+          type: object
+          $ref: '#/components/schemas/IncidentSeverityDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+        title:
+          type: string
+      required:
+      - description
+      - monitorResultIds
+      - severity
+      - title
+    PublicApiImpactAssessmentDTO:
+      type: object
+      properties:
+        affectedResources:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaAffectedResourceDTO'
+        blastRadius:
+          type: object
+          $ref: '#/components/schemas/PublicApiBlastRadiusDTO'
+        summary:
+          type: string
+    PublicApiIncidentWithRcaReportDTO:
+      type: object
+      properties:
+        hasRcaReport:
+          type: boolean
+        description:
+          type: string
+        resolutionNotes:
+          type: string
+        severity:
+          type: object
+          $ref: '#/components/schemas/IncidentSeverityDTO'
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        number:
+          type: integer
+          format: int32
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+      required:
+      - cloudUrl
+      - description
+      - id
+      - name
+      - number
+      - severity
+      - status
+    PublicApiIncidentsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiIncidentWithRcaReportDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiRcaAffectedResourceDTO:
+      type: object
+      properties:
+        description:
+          type: string
+        metrics:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaMetricDTO'
+        resource:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
+      required:
+      - description
+      - resource
+    PublicApiRcaAgentDTO:
+      type: object
+      properties:
+        model:
+          type: string
+        name:
+          type: string
+        sessionId:
+          type: string
+        version:
+          type: string
+      required:
+      - name
+    PublicApiRcaEvidenceDTO:
+      type: object
+      properties:
+        kind:
+          type: string
+        resource:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
+        text:
+          type: string
+    PublicApiRcaInvestigationStepDTO:
+      type: object
+      properties:
+        detail:
+          type: string
+        evidence:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaEvidenceDTO'
+        order:
+          type: integer
+          format: int32
+        title:
+          type: string
+      required:
+      - title
+    PublicApiRcaLineageDTO:
+      type: object
+      properties:
+        edges:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaLineageEdgeDTO'
+        nodes:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaLineageNodeDTO'
+    PublicApiRcaLineageEdgeDTO:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+      required:
+      - from
+      - to
+    PublicApiRcaLineageNodeDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        incidentAsset:
+          type: boolean
+        name:
+          type: string
+        namespace:
+          type: string
+        platform:
+          type: string
+        sodaResource:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/RcaNodeStatusDTO'
+      required:
+      - id
+      - name
+    PublicApiRcaMetricDTO:
+      type: object
+      properties:
+        label:
+          type: string
+        value:
+          type: string
+      required:
+      - label
+      - value
+    PublicApiRcaRemediationItemDTO:
+      type: object
+      properties:
+        action:
+          type: string
+        priority:
+          type: object
+          $ref: '#/components/schemas/RcaPriorityDTO'
+      required:
+      - action
+    PublicApiRcaReportContentDTO:
+      type: object
+      properties:
+        agentName:
+          type: string
+        blastRadiusAssetType:
+          type: object
+          $ref: '#/components/schemas/RcaAssetTypeDTO'
+        blastRadiusCount:
+          type: integer
+          format: int32
+        confidence:
+          type: object
+          $ref: '#/components/schemas/RcaConfidenceDTO'
+        durationSeconds:
+          type: integer
+          format: int32
+        generatedAt:
+          type: string
+          format: date-time
+        id:
+          type: string
+        impactSummary:
+          type: string
+        incidentId:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+        rootCauseSummary:
+          type: string
+        status:
+          type: object
+          $ref: '#/components/schemas/RcaReportStatusDTO'
+    PublicApiRcaReportDTO:
+      type: object
+      properties:
+        agent:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaAgentDTO'
+        impactAssessment:
+          type: object
+          $ref: '#/components/schemas/PublicApiImpactAssessmentDTO'
+        rootCauseAnalysis:
+          type: object
+          $ref: '#/components/schemas/PublicApiRootCauseAnalysisDTO'
+      required:
+      - agent
+      - rootCauseAnalysis
+    PublicApiRcaResourceRefDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/RcaResourceTypeDTO'
+        url:
+          type: string
+      required:
+      - id
+      - type
+    PublicApiRootCauseAnalysisDTO:
+      type: object
+      properties:
+        confidence:
+          type: object
+          $ref: '#/components/schemas/RcaConfidenceDTO'
+        durationSeconds:
+          type: integer
+          format: int32
+        generatedAt:
+          type: string
+          format: date-time
+        investigation:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaInvestigationStepDTO'
+        lineage:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaLineageDTO'
+        remediation:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaRemediationItemDTO'
+        rootCauseResource:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/RcaReportStatusDTO'
+        summary:
+          type: string
+      required:
+      - confidence
+      - generatedAt
+      - status
+      - summary
+    PublicApiUpdateIncidentDTO:
+      type: object
+      properties:
+        description:
+          type: string
+        resolutionNotes:
+          type: string
+        severity:
+          type: object
+          $ref: '#/components/schemas/IncidentSeverityDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+        title:
+          type: string
+    RcaAssetTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - datasource
+    RcaConfidenceDTO:
+      type: string
+      enum:
+      - high
+      - medium
+      - low
+    RcaNodeStatusDTO:
+      type: string
+      enum:
+      - rootCause
+      - affected
+      - healthy
+    RcaPriorityDTO:
+      type: string
+      enum:
+      - low
+      - medium
+      - high
+      - urgent
+    RcaReportStatusDTO:
+      type: string
+      enum:
+      - completed
+      - partial
+      - inconclusive
+      - failed
+    RcaResourceTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - datasource
+      - check
+      - checkResult

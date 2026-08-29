@@ -1,0 +1,2328 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
+openapi: 3.1.0
+info:
+  title: Soda Cloud API v4 — Datasources
+  version: v1
+  description: The Datasources surface of the Soda Cloud v4 public REST API — 18 operation(s). Harvested
+    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  contact:
+    name: Soda
+    url: https://www.soda.io
+servers:
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
+security:
+- basicAuthApiKey: []
+- cookieToken: []
+tags:
+- name: Datasources
+  description: Soda Cloud API Datasource Endpoints
+paths:
+  /api/v1/datasources:
+    get:
+      description: 'This endpoint allows you to list datasources in your organization.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `search`: Supply a string value to filter datasources by name (case-insensitive partial match).
+
+
+        ## Authorization
+
+
+        Soda only returns datasources for which the user has the **View** permission. Soda Cloud Admins
+        have access to all datasources.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/datasources
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListDatasourcesResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List datasources
+      tags:
+      - Datasources
+    post:
+      description: 'Creates a new V4 datasource with the provided configuration.
+
+
+        The datasource type is extracted from the YAML configuration file contents.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATASOURCES_AND_AGENTS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/datasources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiCreateDatasourceRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateDatasourceResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a datasource
+      tags:
+      - Datasources
+  /api/v1/datasources/actions/testConnection:
+    post:
+      description: 'This endpoint triggers an asynchronous connection test for a datasource configuration.
+
+
+        The response includes an operation ID that you can use to poll the status of the connection test.
+
+
+        ## Authorization
+
+
+        Any authenticated Soda Cloud user in your organization may test a datasource connection. The test
+        runs against a configuration provided in the request, not against an existing datasource.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/datasources/actions/testConnection
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiTestConnectionRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Test datasource connection
+      tags:
+      - Datasources
+  /api/v1/datasources/actions/testConnection/{operationId}:
+    get:
+      description: 'This endpoint allows you to check the status of an asynchronous connection test operation.
+
+
+        Use the operation ID returned by the test connection endpoint to poll for its current state.
+
+
+        ## Authorization
+
+
+        Any authenticated Soda Cloud user in your organization may poll the status of a connection test
+        operation.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/datasources/actions/testConnection/{operationId}
+      parameters:
+      - in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiTestConnectionStatusResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get status for async connection test
+      tags:
+      - Datasources
+  /api/v1/datasources/roles:
+    get:
+      description: 'This endpoint enables you to gather information about the datasource roles available
+        in your organization''s Soda Cloud account. Use the datasource roles to manage access to individual
+        datasources.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 100, inclusive. The default value is 100.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/datasources/roles
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasourceRolesResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List datasource roles
+      tags:
+      - Datasources
+    post:
+      description: 'This endpoint allows you to create a new custom datasource role in your organization''s
+        Soda Cloud account. Datasource roles define a named set of permissions that control what actions
+        users can perform on individual datasources, such as creating datasets, managing datasource settings,
+        managing permissions, or deleting the datasource.
+
+
+        Once created, the role can be assigned to users or user groups via the datasource responsibilities
+        endpoints.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/datasources/roles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiDatasourceRoleRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateDatasourceRoleResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a datasource role
+      tags:
+      - Datasources
+  /api/v1/datasources/roles/{roleId}:
+    post:
+      description: 'This endpoint allows you to update the name or permissions of an existing custom datasource
+        role. Datasource roles define a named set of permissions that control what actions users can perform
+        on individual datasources, such as creating datasets, managing datasource settings, managing permissions,
+        or deleting the datasource.
+
+
+        Changes apply immediately to all users and user groups assigned this role.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/datasources/roles/{roleId}
+      parameters:
+      - in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiDatasourceRoleRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateDatasourceRoleResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a datasource role
+      tags:
+      - Datasources
+    delete:
+      description: 'This endpoint allows you to delete a custom datasource role from your organization''s
+        Soda Cloud account. Datasource roles define a named set of permissions that control what actions
+        users can perform on individual datasources, such as creating datasets, managing datasource settings,
+        managing permissions, or deleting the datasource.
+
+
+        Deletion is performed asynchronously and may take some time to complete.
+
+
+        Deletion will fail if the role is still assigned to any datasource permissions or used in responsibility
+        settings.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: DELETE/api/v1/datasources/roles/{roleId}
+      parameters:
+      - in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteDatasourceRoleResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a datasource role
+      tags:
+      - Datasources
+  /api/v1/datasources/{datasourceId}:
+    get:
+      description: 'This endpoint allows you to retrieve a specific datasource by its ID.
+
+
+        ## Authorization
+
+
+        Users with the **View** permission on the datasource can retrieve its details.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasources/{datasourceId}
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiGetDatasourceResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get a datasource
+      tags:
+      - Datasources
+    post:
+      description: 'Updates the configuration of an existing contract (V4) datasource.
+
+
+        Only the fields provided in the request body will be updated.
+
+
+        ## Authorization
+
+
+        Users with the **Manage datasource settings** permission on the datasource, or the organization-level
+        **Manage datasources and runners** permission, can update its configuration.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasources/{datasourceId}
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateDatasourceRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateDatasourceResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a datasource
+      tags:
+      - Datasources
+    delete:
+      description: 'Deletes an existing datasource and all its associated resources.
+
+
+        The deletion is performed asynchronously.
+
+
+        ## Authorization
+
+
+        Users with the **Delete** permission on the datasource, or the organization-level **Manage datasources
+        and runners** permission, can delete it.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: DELETE/api/v1/datasources/{datasourceId}
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteDatasourceResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a datasource
+      tags:
+      - Datasources
+  /api/v1/datasources/{datasourceId}/diagnosticsWarehouse:
+    get:
+      description: 'This endpoint allows you to retrieve the diagnostics warehouse configuration for a
+        specific datasource in your organization''s Soda Cloud account. The diagnostics warehouse collects
+        scan-related data and securely forwards it to the customer''s warehouse for storage and analysis.
+
+
+        ## Authorization
+
+
+        Users with the **View** permission on the datasource can retrieve its diagnostics warehouse configuration.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasources/{datasourceId}/diagnosticsWarehouse
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get datasource diagnostics warehouse configuration
+      tags:
+      - Datasources
+    post:
+      description: 'This endpoint allows you to update the diagnostics warehouse configuration for a specific
+        datasource in your organization''s Soda Cloud account. The diagnostics warehouse collects scan-related
+        data and securely stores it in your warehouse for storage and analysis.
+
+
+        ## Table name template
+
+
+        The `tableNameTemplate` field controls how diagnostic tables are named in the warehouse. Use the
+        `{dataset_name}` placeholder to include the source dataset name. For example, `dwh_{dataset_name}_failed`
+        produces table names like `dwh_orders_failed`.
+
+
+        ## Authorization
+
+
+        Users with the **Manage datasource settings** permission on the datasource, or the organization-level
+        **Manage datasources and runners** permission, can update its diagnostics warehouse configuration.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasources/{datasourceId}/diagnosticsWarehouse
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update datasource diagnostics warehouse configuration
+      tags:
+      - Datasources
+  /api/v1/datasources/{datasourceId}/discover:
+    post:
+      description: 'This endpoint triggers a discovery scan on the specified datasource.
+
+
+        Discovery scans detect new tables and schemas in the datasource. Use this to run discovery on-demand
+        instead of waiting for the scheduled cron.
+
+
+        The response includes a `Location` header and `X-Soda-Scan-Id` header identifying the triggered
+        scan. Use the scan ID with the **Get scan status** endpoint to poll for completion.
+
+
+        ## Authorization
+
+
+        Users with the **Manage datasource settings** permission on the datasource, or the organization-level
+        **Manage datasources and runners** permission, can trigger discovery on the datasource.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/datasources/{datasourceId}/discover
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Soda-Scan-Id:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Trigger datasource discovery
+      tags:
+      - Datasources
+  /api/v1/datasources/{datasourceId}/onboardDatasets:
+    post:
+      description: 'This endpoint triggers the asynchronous onboarding of discovered datasets for a datasource.
+
+
+        Supply a list of discovered dataset IDs in the request body to onboard them as datasets.
+
+
+        The response includes an onboarding ID that you can use to poll the status of the onboarding process.
+
+
+        ## Authorization
+
+
+        Users with the **Create datasets** permission on the datasource, or the organization-level **Create
+        new datasources and datasets** permission, can onboard discovered datasets.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/datasources/{datasourceId}/onboardDatasets
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiOnboardDatasetsRequestDTO'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Onboard discovered datasets
+      tags:
+      - Datasources
+  /api/v1/datasources/{datasourceId}/onboardDatasets/{operationId}:
+    get:
+      description: 'This endpoint allows you to check the status of an asynchronous dataset onboarding
+        operation.
+
+
+        Use the operation ID returned by the onboard datasets endpoint to poll for its current state.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/datasources/{datasourceId}/onboardDatasets/{operationId}
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiOnboardDatasetsStatusResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get status for async dataset onboarding process
+      tags:
+      - Datasources
+  /api/v1/datasources/{datasourceId}/responsibilities:
+    get:
+      description: 'This endpoint enables you to gather information about the user and user groups permissions
+        assigned to a datasource, and their associated roles in your organization''s Soda Cloud account.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 100, inclusive. The default value is 100.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        ## Authorization
+
+
+        Soda only returns the datasource responsibilities to which the user has **View datasource** permissions.
+        Soda Cloud Admins have access to all datasource responsibilities.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: GET/api/v1/datasources/{datasourceId}/responsibilities
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasourceResponsibilitiesResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List datasource responsibilities
+      tags:
+      - Datasources
+    post:
+      description: 'This endpoint enables you to update the user and user groups permissions and their
+        associated roles for a datasource in your organization''s Soda Cloud account.
+
+
+        **Note**: This API fully replaces the existing responsibilities. The entire list of responsibilities
+        must be provided in the request, including both new and existing entries, as any omissions will
+        result in their removal.
+
+
+        ## Authorization
+
+
+        Only users with **Manage datasource responsibilities** permission can update datasource responsibilities.
+        Soda Cloud Admins have permission to update all datasources responsibilities.The Response of this
+        call, when successful, is `201` and contains header `Location` which identify the URL where the
+        responsibilities will eventually become available.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasources`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasources/{datasourceId}/responsibilities
+      parameters:
+      - in: path
+        name: datasourceId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateDatasourceResponsibilitiesRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update datasource responsibilities
+      tags:
+      - Datasources
+components:
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    DatasourceResponsibilityContentDTO:
+      type: object
+      properties:
+        managed:
+          type: boolean
+        role:
+          type: object
+          $ref: '#/components/schemas/DatasourceRoleContentDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - managed
+      - role
+      - type
+    DatasourceResponsibilityContentRequestDTO:
+      type: object
+      properties:
+        roleId:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - roleId
+      - type
+    DatasourceRoleContentDTO:
+      type: object
+      properties:
+        createDatasets:
+          type: boolean
+        deleteDatasource:
+          type: boolean
+        id:
+          type: string
+        manageDatasourceSettings:
+          type: boolean
+        managePermissions:
+          type: boolean
+        name:
+          type: string
+        viewDatasource:
+          type: boolean
+      required:
+      - id
+      - name
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    FailedRowSamplesDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        sampleSize:
+          type: integer
+          format: int32
+    FailedRowsCollectionStrategyDTO:
+      type: object
+      properties:
+        maxRowCountOverride:
+          type: integer
+          format: int32
+        threshold:
+          type: number
+        thresholdCondition:
+          type: object
+          $ref: '#/components/schemas/ThresholdConditionDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyTypeDTO'
+      required:
+      - threshold
+      - thresholdCondition
+    FailedRowsCollectionStrategyTypeDTO:
+      type: string
+      enum:
+      - useDefaultMaxRowCount
+      - absolute
+      - percentage
+    PublicApiCreateDatasourceRequestDTO:
+      type: object
+      properties:
+        configurationFileContents:
+          type: string
+        label:
+          type: string
+        runnerId:
+          type: string
+      required:
+      - configurationFileContents
+    PublicApiCreateDatasourceResponse:
+      type: object
+      properties:
+        datasource:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDTO'
+        discoveryScanId:
+          type: string
+    PublicApiCreateDatasourceRoleResponse:
+      type: object
+      properties:
+        datasourceRole:
+          type: object
+          $ref: '#/components/schemas/DatasourceRoleContentDTO'
+      required:
+      - datasourceRole
+    PublicApiDatasourceDTO:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+        id:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceTypeDTO'
+        updatedAt:
+          type: string
+          format: date-time
+    PublicApiDatasourceDiagnosticsWarehouseResponse:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        failedRowsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse_FailedRowsConfigurationDTO'
+        reuseDatasource:
+          type: boolean
+        scanAndResultsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse_ScanAndResultsConfigurationDTO'
+        tableNameTemplate:
+          type: string
+    PublicApiDatasourceDiagnosticsWarehouseResponse_ActionButtonDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        title:
+          type: string
+        url:
+          type: string
+    PublicApiDatasourceDiagnosticsWarehouseResponse_FailedRowsConfigurationDTO:
+      type: object
+      properties:
+        actionButton:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse_ActionButtonDTO'
+        enabled:
+          type: boolean
+        exposeQueries:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        locationMessage:
+          type: string
+        maxRowCount:
+          type: integer
+          format: int32
+    PublicApiDatasourceDiagnosticsWarehouseResponse_ScanAndResultsConfigurationDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    PublicApiDatasourceResponsibilitiesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasourceResponsibilityContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiDatasourceRoleRequestDTO:
+      type: object
+      properties:
+        createDatasets:
+          type: boolean
+        deleteDatasource:
+          type: boolean
+        manageDatasourceSettings:
+          type: boolean
+        managePermissions:
+          type: boolean
+        name:
+          type: string
+        viewDatasource:
+          type: boolean
+      required:
+      - name
+    PublicApiDatasourceRolesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasourceRoleContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiDatasourceTypeDTO:
+      type: string
+      enum:
+      - bigquery
+      - mysql
+      - postgres
+      - snowflake
+      - dask
+      - spark
+      - sparkdf
+      - redshift
+      - duckdb
+      - presto
+      - oracle
+      - athena
+      - trino
+      - dremio
+      - vertica
+      - denodo
+      - db2
+      - db2z
+      - sqlserver
+      - databricks
+      - synapse
+      - fabric
+      - salesforce
+    PublicApiDeleteDatasourceResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    PublicApiDeleteDatasourceRoleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiGetDatasourceResponse:
+      type: object
+      properties:
+        datasource:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDTO'
+    PublicApiListDatasourcesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiDatasourceDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiOnboardDatasetsRequestDTO:
+      type: object
+      properties:
+        discoveredDatasetIds:
+          type: array
+          items:
+            type: string
+      required:
+      - discoveredDatasetIds
+    PublicApiOnboardDatasetsStatusResponse:
+      type: object
+      properties:
+        ended:
+          type: string
+          format: date-time
+        id:
+          type: string
+        message:
+          type: string
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/PublicApiOnboardingStateDTO'
+      required:
+      - id
+      - state
+    PublicApiOnboardingStateDTO:
+      type: string
+      enum:
+      - queued
+      - processing
+      - completed
+      - failed
+      - cancelled
+    PublicApiTestConnectionRequestDTO:
+      type: object
+      properties:
+        configurationFileContents:
+          type: string
+        runnerId:
+          type: string
+      required:
+      - configurationFileContents
+      - runnerId
+    PublicApiTestConnectionStateDTO:
+      type: string
+      enum:
+      - queued
+      - processing
+      - completed
+      - failed
+      - cancelled
+    PublicApiTestConnectionStatusResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        message:
+          type: string
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/PublicApiTestConnectionStateDTO'
+      required:
+      - id
+      - state
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO:
+      type: object
+      properties:
+        configurationFileContents:
+          type: string
+        enabled:
+          type: boolean
+        failedRowsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_FailedRowsConfigurationRequestDTO'
+        reuseDatasource:
+          type: boolean
+        scanAndResultsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ScanAndResultsConfigurationRequestDTO'
+        tableNameTemplate:
+          type: string
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ActionButtonRequestDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        title:
+          type: string
+        url:
+          type: string
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_FailedRowsConfigurationRequestDTO:
+      type: object
+      properties:
+        actionButton:
+          type: object
+          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ActionButtonRequestDTO'
+        enabled:
+          type: boolean
+        exposeQueries:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        locationMessage:
+          type: string
+        maxRowCount:
+          type: integer
+          format: int32
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ScanAndResultsConfigurationRequestDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    PublicApiUpdateDatasourceRequestDTO:
+      type: object
+      properties:
+        configurationFileContents:
+          type: string
+        label:
+          type: string
+        runnerId:
+          type: string
+    PublicApiUpdateDatasourceResponse:
+      type: object
+      properties:
+        datasource:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDTO'
+    PublicApiUpdateDatasourceResponsibilitiesRequestDTO:
+      type: object
+      properties:
+        responsibilities:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasourceResponsibilityContentRequestDTO'
+      required:
+      - responsibilities
+    PublicApiUpdateDatasourceRoleResponse:
+      type: object
+      properties:
+        datasourceRole:
+          type: object
+          $ref: '#/components/schemas/DatasourceRoleContentDTO'
+      required:
+      - datasourceRole
+    ResponsibilityTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    ThresholdConditionDTO:
+      type: string
+      enum:
+      - greaterThan
+      - lessThan

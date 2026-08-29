@@ -1,0 +1,960 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
+openapi: 3.1.0
+info:
+  title: Soda Cloud API v4 — Users
+  version: v1
+  description: The Users surface of the Soda Cloud v4 public REST API — 8 operation(s). Harvested verbatim
+    from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  contact:
+    name: Soda
+    url: https://www.soda.io
+servers:
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
+security:
+- basicAuthApiKey: []
+- cookieToken: []
+tags:
+- name: Users
+  description: Soda Cloud API Users Endpoints
+paths:
+  /api/v1/userGroups:
+    get:
+      description: "This endpoint enables you to gather information about the user groups in your organization's\
+        \ Soda Cloud account, including lists of members.\n\nThis GET is a paginated API that uses the\
+        \ following parameters to request specific details:\n\n- `size`: Supply an integer value between\
+        \ 10 and 1000, inclusive. The default value is 1000.\n\n- `page`: Supply an integer value. The\
+        \ default value is 0.\n\n- `search`: Optionally, use this parameter to perform a fuzzy search\
+        \ on the user group name. \n\nIf not specified, the query gathers information for all user groups\
+        \ in the account and sorts the results by user group name in ascending order.\n\n## Authentication\n\
+        \nUser authentication required: `true`\n\nThis endpoint accepts authentication via API keys in\
+        \ the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie\
+        \ sessions extend automatically on each request.\n\n## Authorization\n\nAny Soda Cloud user in\
+        \ your organization may execute this query.\n\n## Tags\n\n`Users`\n\n## Rate limiting\n\n60 requests/60\
+        \ seconds"
+      operationId: GET/api/v1/userGroups
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUserGroupsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get user groups
+      tags:
+      - Users
+    post:
+      description: 'This endpoint enables you to create a new user group in your organization''s Soda
+        Cloud account.
+
+
+        The Response of this call, when successful, is `201` and contains headers `Location` which is
+        a reference to the newly created User Group.
+
+
+        ## Authorization
+
+
+        Only users with **Manage organization settings** permission can update user groups.**See [Manage
+        global roles](https://go.soda.io/roles-global) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/userGroups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiCreateUserGroupRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create user group
+      tags:
+      - Users
+  /api/v1/userGroups/{userGroupId}:
+    get:
+      description: 'This endpoint enables you to gather information about a single user group in your
+        organization''s Soda Cloud account, including lists of members.
+
+
+        This GET is a non-paginated API that returns a single organization based on its ID.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/userGroups/{userGroupId}
+      parameters:
+      - in: path
+        name: userGroupId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/UserGroupContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get user group
+      tags:
+      - Users
+    post:
+      description: 'This endpoint enables you to update an existing user group in your organization''s
+        Soda Cloud account.
+
+
+        The Response of this call, when successful, is `200` and contains updated User Group details.
+
+
+        ## Authorization
+
+
+        Only users with **Manage organization settings** permission can update user groups.**See [Manage
+        global roles](https://go.soda.io/roles-global) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/userGroups/{userGroupId}
+      parameters:
+      - in: path
+        name: userGroupId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateUserGroupRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/UserGroupContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update user group
+      tags:
+      - Users
+    delete:
+      description: 'This endpoint enables you to delete an existing user group from your organization''s
+        Soda Cloud account.
+
+
+        In case of success, the response returns a `200` (OK) response.
+
+
+        In case user group is not found, the response returns a `404` (Not found) response.
+
+
+        ## Authorization
+
+
+        Only users with **Manage organization settings** permission can update user groups.**See [Manage
+        global roles](https://go.soda.io/roles-global) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: DELETE/api/v1/userGroups/{userGroupId}
+      parameters:
+      - in: path
+        name: userGroupId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteUserGroupResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete user group
+      tags:
+      - Users
+  /api/v1/users:
+    get:
+      description: "This endpoint enables you to gather information about the users in your organization's\
+        \ Soda Cloud account.\n\nThis GET is a paginated API that uses the following parameters to request\
+        \ specific details:\n\n- `size`: Supply an integer value between 1 and 1000, inclusive. The default\
+        \ value is 1000.\n\n- `page`: Supply an integer value. The default value is 0.\n\n- `search`:\
+        \ Optionally, use this parameter to perform a fuzzy search on the user first name, last name,\
+        \ or email address. \n\nIf not specified, the query gathers information for all users in the account\
+        \ and sorts the results by user name in ascending order.\n\n## Authentication\n\nUser authentication\
+        \ required: `true`\n\nThis endpoint accepts authentication via API keys in the `Basic` authentication\
+        \ header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically\
+        \ on each request.\n\n## Authorization\n\nAny Soda Cloud user in your organization may execute\
+        \ this query.\n\n## Tags\n\n`Users`\n\n## Rate limiting\n\n60 requests/60 seconds"
+      operationId: GET/api/v1/users
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUsersResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get users
+      tags:
+      - Users
+    post:
+      description: 'This endpoint enables you to invite users to your organization''s Soda Cloud account.
+
+
+        Invited users will receive an email with a link to set their password and join your organization
+        in Soda Cloud. Once they complete the setup, they will have access to Soda Cloud based on the
+        roles and permissions you assign.
+
+
+        If your organization is using SSO, invited users will receive an invitation email with a link
+        to Soda Cloud. When they log in using SSO, they are immediately added to the Soda Cloud organization.
+
+
+        You can invite up to 10 users per request. The response contains lists of successful and failed
+        invitations.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiInviteUserRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiInviteUserResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Invite users
+      tags:
+      - Users
+  /api/v1/users/{userId}/disable:
+    post:
+      description: 'This endpoint disables a user in your organization''s Soda Cloud account.
+
+
+        Disabling a user deactivates their membership in the organization. The user is not deleted and
+        can be reactivated later.
+
+
+        Users in SSO-enabled organizations cannot be disabled via this endpoint, as they are managed by
+        the identity provider.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/users/{userId}/disable
+      parameters:
+      - in: path
+        name: userId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDisableUserResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Disable user
+      tags:
+      - Users
+components:
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    FailedInvitationDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        error:
+          type: string
+    PublicApiCreateUserGroupRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userIds:
+          type: array
+          items:
+            type: string
+      required:
+      - name
+    PublicApiDeleteUserGroupResponse:
+      type: object
+    PublicApiDisableUserResponse:
+      type: object
+    PublicApiInviteUserRequestDTO:
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+      required:
+      - emails
+    PublicApiInviteUserResponse:
+      type: object
+      properties:
+        failedInvitations:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/FailedInvitationDTO'
+        validInvitations:
+          type: array
+          items:
+            type: string
+    PublicApiUpdateUserGroupRequestDTO:
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+    PublicApiUserGroupsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/UserGroupContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiUsersResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/UserContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
+    UserGroupContentDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userGroupId:
+          type: string
+        users:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/UserContentDTO'
+      required:
+      - name
+      - userGroupId
+      - users

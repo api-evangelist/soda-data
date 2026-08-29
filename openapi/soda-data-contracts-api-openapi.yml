@@ -1,178 +1,1297 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
 openapi: 3.1.0
 info:
-  title: Soda Cloud REST Attributes Contracts API
-  description: 'The Soda Cloud REST API enables programmatic access to Soda''s data quality
-
-    platform, including data contracts, checks, attributes, and dataset ingestion.
-
-    Endpoints and authentication are derived from the public Soda documentation
-
-    at https://docs.soda.io/reference/rest-api.md.
-
-    '
-  version: 1.0.0
+  title: Soda Cloud API v4 — Contracts
+  version: v1
+  description: The Contracts surface of the Soda Cloud v4 public REST API — 10 operation(s). Harvested
+    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
-  license:
-    name: Proprietary
 servers:
-- url: https://cloud.soda.io
-  description: EU region
-- url: https://cloud.us.soda.io
-  description: US region
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
 security:
-- basicAuth: []
+- basicAuthApiKey: []
+- cookieToken: []
 tags:
 - name: Contracts
+  description: Soda Cloud API Contract Endpoints
 paths:
   /api/v1/contracts:
     get:
-      tags:
-      - Contracts
-      summary: List all contracts
-      operationId: listContracts
+      description: 'This endpoint allows you to list contracts in your organization.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `datasetId`: Optionally, use this parameter to list only the contracts for a specific dataset.
+
+
+        - `datasetQualifiedName`: Optionally, use this parameter instead of `datasetId` to identify the
+        dataset by its qualified name. Do not supply both `datasetId` and `datasetQualifiedName`.
+
+
+        ## Authorization
+
+
+        When filtering by dataset, only users with **View dataset** permission on the specified dataset
+        can list its contracts. When no dataset filter is supplied, all contracts in the organization
+        are returned.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/contracts
+      parameters:
+      - in: query
+        name: datasetId
+        schema:
+          type: string
+      - in: query
+        name: datasetQualifiedName
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
-          description: A list of contracts
-    post:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListContractsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List contracts
       tags:
       - Contracts
-      summary: Create a new contract
-      operationId: createContract
+    post:
+      description: 'This endpoint allows you to create a new contract on a dataset. The contract is initialized
+        with a template containing the dataset identifier and an empty columns list. Use the publish endpoint
+        to replace this with your full contract YAML.
+
+
+        Provide either `datasetId` or `datasetQualifiedName` in the request body to identify the target
+        dataset. Exactly one must be supplied. If both are supplied, the request is rejected with a 400
+        error.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can create contracts.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/contracts
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               type: object
+              $ref: '#/components/schemas/PublicApiCreateContractRequestDTO'
+        required: true
       responses:
         '200':
-          description: Contract created
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateContractResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a contract
+      tags:
+      - Contracts
   /api/v1/contracts/actions/createSkeleton:
     post:
-      tags:
-      - Contracts
-      summary: Initiate contract skeleton generation
-      operationId: createContractSkeleton
+      description: 'Triggers skeleton contract generation for a single dataset based on its schema.
+
+
+        The dataset must be connected to a Soda Runner and must not already have a published contract.
+
+
+        Provide either `datasetId` (UUID) or `datasetQualifiedName` (e.g. `my_datasource/my_schema/my_table`).
+        Exactly one must be supplied.
+
+
+        Returns `202 Accepted` with a `Location` header pointing to the status endpoint. Use the status
+        endpoint to monitor the progress of the skeleton generation.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/contracts/actions/createSkeleton
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               type: object
+              $ref: '#/components/schemas/PublicApiCreateSkeletonContractRequestDTO'
+        required: true
       responses:
         '202':
-          description: Skeleton generation initiated
-  /api/v1/contracts/actions/createSkeleton/{operationId}:
-    parameters:
-    - in: path
-      name: operationId
-      required: true
-      schema:
-        type: string
-    get:
+          description: Accepted
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Generate skeleton contract
       tags:
       - Contracts
-      summary: Retrieve skeleton generation status
-      operationId: getContractSkeletonStatus
+  /api/v1/contracts/actions/createSkeleton/{operationId}:
+    get:
+      description: 'Returns the status of a skeleton contract generation operation that was triggered
+        via the **Generate skeleton contract** endpoint.
+
+
+        The `operationId` is the last path segment of the `Location` header returned by the **Generate
+        skeleton contract** response.
+
+
+        The response includes the operation state, dataset information, and creation timestamp.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/contracts/actions/createSkeleton/{operationId}
+      parameters:
+      - in: path
+        name: operationId
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Skeleton generation status
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateSkeletonContractStatusResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get skeleton contract generation status
+      tags:
+      - Contracts
   /api/v1/contracts/actions/generate:
     post:
-      tags:
-      - Contracts
-      summary: Start contract generation
-      operationId: generateContract
+      description: 'Triggers AI-powered contract generation for one or more datasets. The contract generation
+        runs asynchronously.
+
+
+        Each dataset must be connected to a Soda Runner and must not already have a contract. If any dataset
+        is not eligible, the request is rejected with a `400` response listing the ineligible datasets
+        and reasons.
+
+
+        Provide `datasetIds` (list of UUIDs) and/or `datasetQualifiedNames` (list of qualified names,
+        e.g. `my_datasource/my_schema/my_table`). Both lists are additive. At least one must be non-empty.
+
+
+        Returns `202 Accepted` with a `Location` header pointing to the status endpoint. Use the status
+        endpoint to monitor the progress of the contract generation.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/contracts/actions/generate
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               type: object
+              $ref: '#/components/schemas/PublicApiGenerateContractRequestDTO'
+        required: true
       responses:
         '202':
-          description: Contract generation started
+          description: Accepted
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Generate contracts
+      tags:
+      - Contracts
   /api/v1/contracts/actions/generate/{operationId}:
-    parameters:
-    - in: path
-      name: operationId
-      required: true
-      schema:
-        type: string
     get:
-      tags:
-      - Contracts
-      summary: Check contract generation progress
-      operationId: getContractGenerateStatus
-      responses:
-        '200':
-          description: Contract generation progress
-  /api/v1/contracts/{contractId}:
-    parameters:
-    - in: path
-      name: contractId
-      required: true
-      schema:
-        type: string
-    get:
-      tags:
-      - Contracts
-      summary: Fetch a specific contract
-      operationId: getContract
-      responses:
-        '200':
-          description: A contract
-    post:
-      tags:
-      - Contracts
-      summary: Update a contract
-      operationId: updateContract
-      requestBody:
+      description: 'Returns the status of a contract generation operation that was triggered via the **Generate
+        contracts** endpoint.
+
+
+        The `operationId` is the last path segment of the `Location` header returned by the **Generate
+        contracts** response.
+
+
+        While the operation is ongoing, only the operation state is returned (`datasets` will be `null`).
+        Once the operation reaches a terminal state (completed, failed, or canceled), the full per-dataset
+        scan details are included.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/contracts/actions/generate/{operationId}
+      parameters:
+      - in: path
+        name: operationId
         required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiGenerateContractStatusResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get contract generation status
+      tags:
+      - Contracts
+  /api/v1/contracts/{contractId}:
+    get:
+      description: 'This endpoint allows you to retrieve a specific contract, including its YAML content.
+
+
+        ## Authorization
+
+
+        Only users with **View dataset** permission can view contracts.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/contracts/{contractId}
+      parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiGetContractResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get a contract
+      tags:
+      - Contracts
+    post:
+      description: 'This endpoint allows you to publish new YAML content for an existing contract.
+
+
+        The `contents` field must contain valid Soda contract YAML. If the YAML is malformed or does not
+        conform to the contract schema, the request is rejected with a 400 error.
+
+
+        The `dataset` in the YAML must name the dataset that `contractId` belongs to. Contents naming
+        a different dataset are rejected with a 400 error.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can publish contracts.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/contracts/{contractId}
+      parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+      requestBody:
         content:
           application/json:
             schema:
               type: object
+              $ref: '#/components/schemas/PublicApiPublishContractRequestDTO'
+        required: true
       responses:
         '200':
-          description: Contract updated
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiPublishContractResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Publish a contract
+      tags:
+      - Contracts
   /api/v1/contracts/{contractId}/verify:
-    parameters:
-    - in: path
-      name: contractId
-      required: true
-      schema:
-        type: string
     post:
+      description: 'This endpoint triggers a contract verification scan for the specified contract.
+
+
+        The response, when successful, is `201` and contains headers `Location` and `X-Soda-Scan-Id` which
+        identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter of the
+        **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
+
+
+        Optionally, you can provide `checkPaths` to limit verification to specific checks within the contract.
+        Note: `checkPaths` may not be available for all organizations.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can verify contracts.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/contracts/{contractId}/verify
+      parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiVerifyContractRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Soda-Scan-Id:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Verify a contract
       tags:
       - Contracts
-      summary: Validate a contract
-      operationId: verifyContract
-      responses:
-        '200':
-          description: Contract validation result
   /api/v1/contracts/{contractId}/versions:
-    parameters:
-    - in: path
-      name: contractId
-      required: true
-      schema:
-        type: string
     get:
-      tags:
-      - Contracts
-      summary: Retrieve contract version history
-      operationId: getContractVersions
+      description: 'This endpoint allows you to list versions of a specific contract.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `createdBefore`: Optionally, supply a UTC datetime value (ISO 8601, e.g. `2024-01-15T10:30:00`)
+        to only return versions created strictly before this timestamp. Use this for consistent pagination.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Contracts`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/contracts/{contractId}/versions
+      parameters:
+      - in: path
+        name: contractId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: createdBefore
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
-          description: A list of contract versions
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListContractVersionsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List contract versions
+      tags:
+      - Contracts
 components:
   securitySchemes:
-    basicAuth:
-      type: http
+    basicAuthApiKey:
       scheme: basic
-      description: 'Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
-
-        '
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    ContractContentDTO:
+      type: object
+      properties:
+        contents:
+          type: string
+        created:
+          type: string
+          format: date-time
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+        id:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+    ContractVersionDTO:
+      type: object
+      properties:
+        checksum:
+          type: string
+        contents:
+          type: string
+        contractId:
+          type: string
+        created:
+          type: string
+          format: date-time
+        creatorId:
+          type: string
+        id:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    GenerateContractOperationStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+      - canceled
+    PublicApiCreateContractRequestDTO:
+      type: object
+      properties:
+        contents:
+          type: string
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+      required:
+      - contents
+    PublicApiCreateContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+    PublicApiCreateSkeletonContractRequestDTO:
+      type: object
+      properties:
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+    PublicApiCreateSkeletonContractStatusResponse:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+        operationId:
+          type: string
+        state:
+          type: object
+          $ref: '#/components/schemas/SkeletonContractOperationStateDTO'
+    PublicApiGenerateContractRequestDTO:
+      type: object
+      properties:
+        datasetIds:
+          type: array
+          items:
+            type: string
+        datasetQualifiedNames:
+          type: array
+          items:
+            type: string
+    PublicApiGenerateContractStatusResponse:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        datasets:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiGenerateContractStatusResponse_DatasetGenerationStatus'
+        operationId:
+          type: string
+        state:
+          type: object
+          $ref: '#/components/schemas/GenerateContractOperationStateDTO'
+    PublicApiGenerateContractStatusResponse_DatasetGenerationStatus:
+      type: object
+      properties:
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+        scanCloudUrl:
+          type: string
+        scanId:
+          type: string
+        scanState:
+          type: object
+          $ref: '#/components/schemas/ScanStateDTO'
+    PublicApiGetContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+    PublicApiListContractVersionsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ContractVersionDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiListContractsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ContractContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiPublishContractRequestDTO:
+      type: object
+      properties:
+        contents:
+          type: string
+      required:
+      - contents
+    PublicApiPublishContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+    PublicApiVerifyContractRequestDTO:
+      type: object
+      properties:
+        checkPaths:
+          type: array
+          items:
+            type: string
+    ScanStateDTO:
+      type: string
+      enum:
+      - queuing
+      - executing
+      - started
+      - cancelationRequested
+      - timeOutRequested
+      - canceled
+      - timedOut
+      - failed
+      - completedWithErrors
+      - completedWithFailures
+      - completedWithWarnings
+      - completed
+    SkeletonContractOperationStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+      - canceled

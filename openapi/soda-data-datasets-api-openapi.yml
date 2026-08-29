@@ -1,57 +1,3695 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
 openapi: 3.1.0
 info:
-  title: Soda Cloud REST Attributes Datasets API
-  description: 'The Soda Cloud REST API enables programmatic access to Soda''s data quality
-
-    platform, including data contracts, checks, attributes, and dataset ingestion.
-
-    Endpoints and authentication are derived from the public Soda documentation
-
-    at https://docs.soda.io/reference/rest-api.md.
-
-    '
-  version: 1.0.0
+  title: Soda Cloud API v4 — Datasets
+  version: v1
+  description: The Datasets surface of the Soda Cloud v4 public REST API — 24 operation(s). Harvested
+    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
-  license:
-    name: Proprietary
 servers:
-- url: https://cloud.soda.io
-  description: EU region
-- url: https://cloud.us.soda.io
-  description: US region
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
 security:
-- basicAuth: []
+- basicAuthApiKey: []
+- cookieToken: []
 tags:
 - name: Datasets
+  description: Soda Cloud API Dataset Endpoints
 paths:
-  /api/v1/datasets/{datasetId}:
-    parameters:
-    - in: path
-      name: datasetId
-      required: true
-      schema:
-        type: string
-    post:
+  /api/v1/datasets:
+    get:
+      description: 'This endpoint enables you to gather information about the datasets that in exist in
+        your organization''s Soda Cloud account, including information about the Soda Cloud resources
+        with which it is associated, such as data source, incidents, attributes and health status.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `from`: Optionally, use this parameter to collect only the information for datasets that have
+        been updated after a particular point in time.  Supply an ISO8601 timestamp value. Example: `2023-12-31T10:15:30+01:00`
+
+
+        - `datasourceName`:  Optionally, use this parameter to collect only the information for datasets
+        associated with a specific datasource.
+
+
+        - `search`: Optionally, use this parameter to perform a fuzzy search on the dataset name.
+
+
+        If not specified, the query gathers information for all datasets in the account and sorts the
+        results first by dataset name and then by datasource name in ascending order.
+
+
+        ## Authorization
+
+
+        Soda only returns the datasets to which the user has **View dataset** permissions. Soda Cloud
+        Admins have access to all datasets.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        30 requests/60 seconds'
+      operationId: GET/api/v1/datasets
+      parameters:
+      - in: query
+        name: datasourceName
+        schema:
+          type: string
+      - in: query
+        name: from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: search
+        schema:
+          type: string
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasetsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Dataset information
       tags:
       - Datasets
-      summary: Create or update data for a dataset
-      operationId: upsertDataset
-      requestBody:
+  /api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName}:
+    get:
+      description: 'This endpoint enables you to retrieve a single dataset by its qualified name (contractIdentifier)
+        from your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **View dataset** permission can view a dataset. Soda Cloud Admins have permission
+        to view any dataset. **See [Manage dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName}
+      parameters:
+      - in: path
+        name: datasetQualifiedName
         required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DatasetsContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get dataset by qualified name
+      tags:
+      - Datasets
+  /api/v1/datasets/roles:
+    get:
+      description: 'This endpoint enables you to gather information about the dataset roles available
+        in your organization''s Soda Cloud account. Use the dataset roles to manage access to individual
+        datasets.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 100, inclusive. The default value is 100.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/datasets/roles
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasetRolesResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List dataset roles
+      tags:
+      - Datasets
+    post:
+      description: 'This endpoint allows you to create a new custom dataset role in your organization''s
+        Soda Cloud account. Dataset roles define a named set of permissions that control what actions
+        users can perform on individual datasets, such as managing checks, viewing profiling data, configuring
+        the dataset, or managing incidents.
+
+
+        Once created, the role can be assigned to users or user groups via the dataset responsibilities
+        endpoints.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/datasets/roles
+      requestBody:
         content:
           application/json:
             schema:
               type: object
+              $ref: '#/components/schemas/PublicApiDatasetRoleRequestDTO'
+        required: true
       responses:
         '200':
-          description: Dataset upserted
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateDatasetRoleResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a dataset role
+      tags:
+      - Datasets
+  /api/v1/datasets/roles/{roleId}:
+    post:
+      description: 'This endpoint allows you to update the name or permissions of an existing custom dataset
+        role. Dataset roles define a named set of permissions that control what actions users can perform
+        on individual datasets, such as managing checks, viewing profiling data, configuring the dataset,
+        or managing incidents.
+
+
+        Changes apply immediately to all users and user groups assigned this role.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/datasets/roles/{roleId}
+      parameters:
+      - in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiDatasetRoleRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateDatasetRoleResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a dataset role
+      tags:
+      - Datasets
+    delete:
+      description: 'This endpoint allows you to delete a custom dataset role from your organization''s
+        Soda Cloud account. Dataset roles define a named set of permissions that control what actions
+        users can perform on individual datasets, such as managing checks, viewing profiling data, configuring
+        the dataset, or managing incidents.
+
+
+        Deletion is performed asynchronously and may take some time to complete.
+
+
+        Deletion will fail if the role is still assigned to any dataset permissions or used in responsibility
+        settings.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_ORGANISATION_SETTINGS to execute this call.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: DELETE/api/v1/datasets/roles/{roleId}
+      parameters:
+      - in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteDatasetRoleResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a dataset role
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}:
+    get:
+      description: 'This endpoint enables you to retrieve a single dataset by its ID from your organization''s
+        Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **View dataset** permission can view a dataset. Soda Cloud Admins have permission
+        to view any dataset. **See [Manage dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DatasetsContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get dataset
+      tags:
+      - Datasets
+    post:
+      description: 'This endpoint enables you to update an existing dataset properties in your organization''s
+        Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Configure dataset** permission can update dataset properties. Soda Cloud Admins
+        have permission to update all datasets.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateDatasetDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DatasetsContentDTO'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update dataset
+      tags:
+      - Datasets
+    delete:
+      description: "This endpoint enables you to delete an existing dataset in your organization's Soda\
+        \ Cloud account. \n\nDeletion is not immediate and can take some time to complete, depending on\
+        \ the size of your dataset. You can check the status of the deletion by calling the **Get dataset**\
+        \ endpoint.\n\n## Authorization\n\nOnly users with **Delete dataset** permission can delete a\
+        \ dataset. Soda Cloud Admins have permission to delete any dataset.**See [Manage dataset roles](https://go.soda.io/roles-dataset)\
+        \ for more information.**\n\n## Authentication\n\nUser authentication required: `true`\n\nThis\
+        \ endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated\
+        \ token in HTTP cookie `token`. Cookie sessions extend automatically on each request.\n\n## Tags\n\
+        \n`Datasets`\n\n## Rate limiting\n\n10 requests/60 seconds"
+      operationId: DELETE/api/v1/datasets/{datasetId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteDatasetResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete dataset
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/columnAttributes:
+    post:
+      description: 'Upsert attribute values on the columns of a dataset.
+
+
+        The request body maps a column name to a map of attribute-name to value. Setting one attribute
+        on a column does not affect other attribute values on the same column. If any column or attribute
+        name is unknown, or any value has the wrong type, the entire request is rejected and no changes
+        are persisted.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have dataset role permission CONFIGURE_DATASET to execute this call.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/columnAttributes
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiSetColumnAttributesRequestDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Set column attribute values in bulk
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/columnMetricMonitors:
+    post:
+      description: 'This endpoint allows you to create a new column metric monitor for a specific dataset
+        in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage checks** permission (V3 datasets) or **Manage contracts** permission
+        (V4 datasets) can create column metric monitors. Soda Cloud Admins can create column metric monitors
+        for all datasets.**See [Manage dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/columnMetricMonitors
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiCreateColumnMetricMonitorRequestDTO'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateColumnMetricMonitorResponse'
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a column metric monitor
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}:
+    post:
+      description: 'This endpoint allows you to update an existing column metric monitor for a specific
+        dataset in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage checks** permission (V3 datasets) or **Manage contracts** permission
+        (V4 datasets) can update column metric monitors. Soda Cloud Admins can update column metric monitors
+        for all datasets. **See [Manage dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: monitorId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateColumnMetricMonitorRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateColumnMetricMonitorResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a column metric monitor
+      tags:
+      - Datasets
+    delete:
+      description: 'This endpoint allows you to delete a column metric monitor for a specific dataset
+        in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage checks** permission (V3 datasets) or **Manage contracts** permission
+        (V4 datasets) can delete column metric monitors. Soda Cloud Admins can delete column metric monitors
+        for all datasets. **See [Manage dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: DELETE/api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: monitorId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteColumnMetricMonitorResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a column metric monitor
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/columns:
+    get:
+      description: 'Returns the active columns of a dataset, each with the attribute values currently
+        assigned to it.
+
+
+        Columns are ordered by name ascending. Columns with no assigned attribute values are returned
+        with an empty `attributes` map.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 1000.
+
+
+        - `page`: Supply a non-negative integer. The default value is 0.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have dataset role permission VIEW to execute this call.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}/columns
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiListDatasetColumnsResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List the active columns of a dataset with their attribute values
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/computeWarehouse:
+    get:
+      description: 'This endpoint retrieves the compute warehouse configuration for a specific dataset
+        in your organization''s Soda Cloud account. When the compute warehouse configuration is enabled,
+        the warehouse in the configuration will be used for compute-heavy tasks like data contract execution,
+        metric monitoring, and profiling.
+
+
+        ## Authorization
+
+
+        Only users with **View dataset** permission can retrieve dataset compute warehouse configuration.
+        Soda Cloud Admins have permission to view all datasets.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}/computeWarehouse
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO'
+          description: Successful response
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get dataset compute warehouse configuration
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/customSqlMonitors:
+    post:
+      description: 'This endpoint allows you to create a new custom SQL monitor for a specific dataset
+        in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can create custom SQL monitors. Soda Cloud Admins
+        can create custom SQL monitors for all datasets.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/customSqlMonitors
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiCreateCustomSqlMonitorRequestDTO'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiCreateCustomSqlMonitorResponse'
+          description: Created
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Create a custom SQL monitor
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}:
+    post:
+      description: 'This endpoint allows you to update an existing custom SQL monitor for a specific dataset
+        in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can update custom SQL monitors. Soda Cloud Admins
+        can update custom SQL monitors for all datasets. **See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: monitorId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateCustomSqlMonitorRequestDTO'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiUpdateCustomSqlMonitorResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update a custom SQL monitor
+      tags:
+      - Datasets
+    delete:
+      description: 'This endpoint allows you to delete a custom SQL monitor for a specific dataset in
+        your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can delete custom SQL monitors. Soda Cloud Admins
+        can delete custom SQL monitors for all datasets. **See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: DELETE/api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: monitorId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDeleteCustomSqlMonitorResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a custom SQL monitor
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/diagnosticsWarehouse:
+    get:
+      description: 'This endpoint allows you to retrieve detailed diagnostics warehouse information for
+        a specific dataset in your organization''s Soda Cloud account. The diagnostics warehouse collects
+        scan-related data and securely forwards it to the customer''s warehouse for storage and analysis.
+
+
+        ## Authorization
+
+
+        Only users with **View dataset** permission can view dataset diagnostics warehouse. Soda Cloud
+        Admins have access to diagnostics warehouse information for all datasets.**See [Manage dataset
+        roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}/diagnosticsWarehouse
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get dataset diagnostics warehouse information
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/metricMonitoring:
+    get:
+      description: 'This endpoint allows you to retrieve detailed metric monitoring configuration information
+        for a specific dataset in your organization''s Soda Cloud account.
+
+
+        ## Authorization
+
+
+        Only users with **View dataset** permission can view dataset metric monitoring configuration.
+        Soda Cloud Admins have access to metric monitoring configuration information for all datasets.**See
+        [Manage dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}/metricMonitoring
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasetMetricMonitoringResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get dataset metric monitoring configuration information
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/metricMonitoring/historicalMetricCollection:
+    post:
+      description: 'This endpoint triggers a historical metric collection scan for a specific dataset
+        in your organization''s Soda Cloud account.
+
+
+        The dataset must have metric monitoring enabled and a historical collection scan definition configured.
+
+
+        The response includes the scan ID and a Location header pointing to the scan status endpoint.
+
+
+        ## Authorization
+
+
+        Only users with **Manage contracts** permission can run historical metric collection. Soda Cloud
+        Admins have access to run historical metric collection for all datasets. **See [Manage dataset
+        roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/metricMonitoring/historicalMetricCollection
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+            X-Soda-Scan-Id:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Run historical metric collection for a dataset
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/profiling:
+    get:
+      description: 'This endpoint allows you to retrieve detailed profiling information for a specific
+        dataset in your organization''s Soda Cloud account. Profiling information provides insights into
+        the dataset''s structure, statistical summaries, and data characteristics.
+
+
+        ## Authorization
+
+
+        Only users with **Access dataset profiling and sampling** permission can view dataset profiling.
+        Soda Cloud Admins have access to profiling information for all datasets.**See [Manage dataset
+        roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}/profiling
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasetProfilingResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Get dataset profiling information
+      tags:
+      - Datasets
+  /api/v1/datasets/{datasetId}/responsibilities:
+    get:
+      description: 'This endpoint enables you to gather information about the user and user groups permissions
+        assigned to a dataset, and their associated roles in your organization''s Soda Cloud account.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 100, inclusive. The default value is 100.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        ## Authorization
+
+
+        Soda only returns the dataset responsibilities to which the user has **View dataset** permissions.
+        Soda Cloud Admins have access to all dataset responsibilities.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: GET/api/v1/datasets/{datasetId}/responsibilities
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiDatasetResponsibilitiesResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: List dataset responsibilities
+      tags:
+      - Datasets
+    post:
+      description: 'This endpoint enables you to update the user and user groups permissions and their
+        associated roles for a dataset in your organization''s Soda Cloud account.
+
+
+        **Note**: This API fully replaces the existing responsibilities. The entire list of responsibilities
+        must be provided in the request, including both new and existing entries, as any omissions will
+        result in their removal.
+
+
+        ## Authorization
+
+
+        Only users with **Manage dataset responsibilities** permission can update dataset responsibilities.
+        Soda Cloud Admins have permission to update all datasets responsibilities.**See [Manage dataset
+        roles](https://go.soda.io/roles-dataset) for more information.**The Response of this call, when
+        successful, is `201` and contains header `Location` which identify the URL where the responsibilities
+        will eventually become available.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Datasets`
+
+
+        ## Rate limiting
+
+
+        100 requests/60 seconds'
+      operationId: POST/api/v1/datasets/{datasetId}/responsibilities
+      parameters:
+      - in: path
+        name: datasetId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/PublicApiUpdateDatasetResponsibilitiesRequestDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Update dataset responsibilities
+      tags:
+      - Datasets
 components:
   securitySchemes:
-    basicAuth:
-      type: http
+    basicAuthApiKey:
       scheme: basic
-      description: 'Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
-
-        '
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    ColumnMetricContentDTO:
+      type: object
+      properties:
+        average:
+          type: number
+        averageLength:
+          type: number
+        distinctCount:
+          type: integer
+          format: int64
+        extremeValues:
+          type: object
+          $ref: '#/components/schemas/ExtremeValuesContentDTO'
+        frequentValues:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ValueCountContentDTO'
+        histogram:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/HistogramBinContentDTO'
+        maximum:
+          type: object
+          $ref: '#/components/schemas/_object'
+        maximumLength:
+          type: integer
+          format: int32
+        maximumTimestamp:
+          type: string
+          format: date-time
+        median:
+          type: number
+        minimum:
+          type: object
+          $ref: '#/components/schemas/_object'
+        minimumLength:
+          type: integer
+          format: int32
+        minimumTimestamp:
+          type: string
+          format: date-time
+        missingCount:
+          type: integer
+          format: int64
+        standardDeviation:
+          type: number
+        sum:
+          type: number
+        variance:
+          type: number
+    ColumnMetricMonitorConfigurationDTO:
+      type: object
+      properties:
+        configuration:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
+        metricType:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorMetricTypeDTO'
+      required:
+      - configuration
+      - metricType
+    ColumnMetricMonitorDTO:
+      type: object
+      properties:
+        checkId:
+          type: string
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
+        metricType:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorMetricTypeDTO'
+      required:
+      - checkId
+      - columnName
+      - configuration
+      - metricType
+    ColumnMonitorConfigurationDTO:
+      type: object
+      properties:
+        groupByColumns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/GroupByColumnConfigurationDTO'
+        exclusionZones:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExclusionZoneDTO'
+        isEnabled:
+          type: boolean
+        isSamplingEnabled:
+          type: boolean
+        sensitivity:
+          type: number
+        thresholdStrategy:
+          type: object
+          $ref: '#/components/schemas/ThresholdStrategyDTO'
+        validRange:
+          type: object
+          $ref: '#/components/schemas/ValidRangeDTO'
+    ColumnMonitorMetricTypeDTO:
+      type: string
+      enum:
+      - missingPercentage
+      - duplicatePercentage
+      - average
+      - columnFreshness
+      - sum
+      - distinctValuesCount
+      - count
+      - minimumValue
+      - maximumValue
+      - duplicateValuesPercentage
+      - minimumLength
+      - maximumLength
+      - averageLength
+      - standardDeviation
+      - variance
+      - q1
+      - median
+      - q3
+    ColumnTypeDTO:
+      type: string
+      enum:
+      - unknown
+      - string
+      - integer
+      - float
+      - time
+      - boolean
+      - date
+      - dateTime
+    CustomMetricMonitorDTO:
+      type: object
+      properties:
+        checkId:
+          type: string
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/CustomSqlMonitorConfigurationDTO'
+        monitorName:
+          type: string
+      required:
+      - checkId
+      - configuration
+      - monitorName
+    CustomSqlMonitorConfigurationDTO:
+      type: object
+      properties:
+        groupByColumnNames:
+          type: array
+          items:
+            type: string
+        resultMetric:
+          type: string
+        sqlQuery:
+          type: string
+        exclusionZones:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExclusionZoneDTO'
+        isEnabled:
+          type: boolean
+        isSamplingEnabled:
+          type: boolean
+        sensitivity:
+          type: number
+        thresholdStrategy:
+          type: object
+          $ref: '#/components/schemas/ThresholdStrategyDTO'
+        validRange:
+          type: object
+          $ref: '#/components/schemas/ValidRangeDTO'
+      required:
+      - resultMetric
+      - sqlQuery
+    CustomSqlMonitorConfigurationUpdateDTO:
+      type: object
+      properties:
+        groupByColumnNames:
+          type: array
+          items:
+            type: string
+        resultMetric:
+          type: string
+        sqlQuery:
+          type: string
+        exclusionZones:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExclusionZoneDTO'
+        isEnabled:
+          type: boolean
+        isSamplingEnabled:
+          type: boolean
+        sensitivity:
+          type: number
+        thresholdStrategy:
+          type: object
+          $ref: '#/components/schemas/ThresholdStrategyDTO'
+        validRange:
+          type: object
+          $ref: '#/components/schemas/ValidRangeDTO'
+    DataQualityStatusDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+    DatasetColumnProfilingContentDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        metrics:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricContentDTO'
+        name:
+          type: string
+        type:
+          type: string
+      required:
+      - id
+      - name
+      - type
+    DatasetComputeWarehouseConfigurationDTO:
+      type: object
+      properties:
+        availableWarehouses:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        currentWarehouse:
+          type: object
+          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        datasetWarehouseOverride:
+          type: object
+          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        defaultWarehouse:
+          type: object
+          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        enabled:
+          type: boolean
+    DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    DatasetDiagnosticsWarehouseFailedRowsConfigurationRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        maxRowCount:
+          type: integer
+          format: int32
+        schema:
+          type: string
+          deprecated: true
+        storageStrategy:
+          type: object
+          $ref: '#/components/schemas/DiagnosticsWarehouseFailedRowsStorageStrategyDTO'
+        uniqueKeyColumnNames:
+          type: array
+          items:
+            type: string
+    DatasetDiagnosticsWarehouseScanAndResultsConfigurationRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    DatasetMetricMonitorConfigurationDTO:
+      type: object
+      properties:
+        configuration:
+          type: object
+          $ref: '#/components/schemas/DatasetMonitorConfigurationDTO'
+        metricType:
+          type: object
+          $ref: '#/components/schemas/DatasetMonitorMetricTypeDTO'
+      required:
+      - configuration
+      - metricType
+    DatasetMonitorConfigurationDTO:
+      type: object
+      properties:
+        exclusionZones:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExclusionZoneDTO'
+        isEnabled:
+          type: boolean
+        isSamplingEnabled:
+          type: boolean
+        sensitivity:
+          type: number
+        thresholdStrategy:
+          type: object
+          $ref: '#/components/schemas/ThresholdStrategyDTO'
+        validRange:
+          type: object
+          $ref: '#/components/schemas/ValidRangeDTO'
+    DatasetMonitorMetricTypeDTO:
+      type: string
+      enum:
+      - rowCount
+      - freshness
+      - schema
+      - rowsInserted
+      - totalRowCountChange
+      - timeliness
+      - recordAnomalyScore
+    DatasetOwnerDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        user:
+          type: object
+          $ref: '#/components/schemas/UserContentDTO'
+        userGroup:
+          type: object
+          $ref: '#/components/schemas/UserGroupContentBasicDTO'
+      required:
+      - type
+    DatasetOwnerTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    DatasetPartitionColumnContentDTO:
+      type: object
+      properties:
+        columnType:
+          type: object
+          $ref: '#/components/schemas/ColumnTypeDTO'
+        name:
+          type: string
+      required:
+      - columnType
+      - name
+    DatasetResponsibilityContentDTO:
+      type: object
+      properties:
+        managed:
+          type: boolean
+        role:
+          type: object
+          $ref: '#/components/schemas/DatasetRoleContentDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - managed
+      - role
+      - type
+    DatasetResponsibilityContentRequestDTO:
+      type: object
+      properties:
+        roleId:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - roleId
+      - type
+    DatasetRoleContentDTO:
+      type: object
+      properties:
+        configureDataset:
+          type: boolean
+        createCheckProposals:
+          type: boolean
+        deleteDataset:
+          type: boolean
+        executeContracts:
+          type: boolean
+          deprecated: true
+        id:
+          type: string
+        manageChecks:
+          type: boolean
+        manageContracts:
+          type: boolean
+        manageIncidents:
+          type: boolean
+        managePermissions:
+          type: boolean
+        name:
+          type: string
+        publishContracts:
+          type: boolean
+          deprecated: true
+        viewFailedRows:
+          type: boolean
+        viewProfilingAndSamples:
+          type: boolean
+      required:
+      - id
+      - name
+    DatasetTimePartitionDTO:
+      type: object
+      properties:
+        partitionColumn:
+          type: object
+          $ref: '#/components/schemas/DatasetPartitionColumnContentDTO'
+        sqlExpression:
+          type: string
+        timePartitionType:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionTypeDTO'
+    DatasetTimePartitionTypeDTO:
+      type: string
+      enum:
+      - disabled
+      - partitionColumn
+      - sqlExpression
+    DatasetsContentDTO:
+      type: object
+      properties:
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringTo_object'
+        checks:
+          type: integer
+          format: int64
+        cloudUrl:
+          type: string
+        dataQualityStatus:
+          type: object
+          $ref: '#/components/schemas/DataQualityStatusDTO'
+        datasetQualifiedName:
+          type: string
+        datasource:
+          type: object
+          $ref: '#/components/schemas/DatasourcePropertiesDTO'
+        healthStatus:
+          type: integer
+          format: int32
+        id:
+          type: string
+        incidents:
+          type: integer
+          format: int64
+        label:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+        name:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetOwnerDTO'
+        partitionColumn:
+          type: object
+          $ref: '#/components/schemas/DatasetPartitionColumnContentDTO'
+          deprecated: true
+        qualifiedName:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        timePartition:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionDTO'
+      required:
+      - checks
+      - cloudUrl
+      - healthStatus
+      - id
+      - incidents
+      - name
+    DatasourcePropertiesDTO:
+      type: object
+      properties:
+        label:
+          type: string
+        name:
+          type: string
+        prefix:
+          type: string
+        type:
+          type: string
+        version:
+          type: object
+          $ref: '#/components/schemas/ModelVersionDTO'
+    DiagnosticsWarehouseFailedRowsStorageStrategyDTO:
+      type: string
+      enum:
+      - fullFailedRows
+      - uniqueKeys
+      - scansAndResultsOnly
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    ExclusionZoneDTO:
+      type: object
+      properties:
+        lowerLimit:
+          type: number
+        singleValue:
+          type: boolean
+        upperLimit:
+          type: number
+      required:
+      - lowerLimit
+      - upperLimit
+    ExtremeValuesContentDTO:
+      type: object
+      properties:
+        maximum:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/_object'
+        minimum:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/_object'
+    FailedRowSamplesDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        sampleSize:
+          type: integer
+          format: int32
+    FailedRowsCollectionStrategyDTO:
+      type: object
+      properties:
+        maxRowCountOverride:
+          type: integer
+          format: int32
+        threshold:
+          type: number
+        thresholdCondition:
+          type: object
+          $ref: '#/components/schemas/ThresholdConditionDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyTypeDTO'
+      required:
+      - threshold
+      - thresholdCondition
+    FailedRowsCollectionStrategyTypeDTO:
+      type: string
+      enum:
+      - useDefaultMaxRowCount
+      - absolute
+      - percentage
+    FailedRowsConfigurationStateDTO:
+      type: string
+      enum:
+      - ready
+      - doNotDetectAutomatically
+      - awaitingPrimaryKeysInformationFromAgent
+      - awaitingPrimaryKeysInformationFromRunner
+      - errorMissingUniqueKeys
+    GroupByColumnConfigurationDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        excludedValues:
+          type: array
+          items:
+            type: string
+      required:
+      - columnName
+    HistogramBinContentDTO:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        lowerBound:
+          type: number
+        upperBound:
+          type: number
+      required:
+      - count
+      - lowerBound
+      - upperBound
+    MapOfStringToMapOfStringTo_object:
+      type: object
+      additionalProperties: true
+    MapOfStringTo_object:
+      type: object
+      additionalProperties: true
+    ModelVersionDTO:
+      type: string
+      enum:
+      - '3'
+      - '4'
+    ProfilingSamplingStrategyConfigurationDTO:
+      type: object
+      properties:
+        numberOfRows:
+          type: integer
+          format: int32
+        numberOfUnits:
+          type: integer
+          format: int32
+        unitOfTime:
+          type: object
+          $ref: '#/components/schemas/UnitOfTimeDTO'
+    PublicApiCreateColumnMetricMonitorRequestDTO:
+      type: object
+      properties:
+        columnMetricMonitorConfiguration:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricMonitorConfigurationDTO'
+        columnName:
+          type: string
+      required:
+      - columnMetricMonitorConfiguration
+      - columnName
+    PublicApiCreateColumnMetricMonitorResponse:
+      type: object
+      properties:
+        columnMetricMonitor:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricMonitorDTO'
+      required:
+      - columnMetricMonitor
+    PublicApiCreateCustomSqlMonitorRequestDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/CustomSqlMonitorConfigurationDTO'
+        monitorName:
+          type: string
+      required:
+      - configuration
+      - monitorName
+    PublicApiCreateCustomSqlMonitorResponse:
+      type: object
+      properties:
+        customSqlMonitor:
+          type: object
+          $ref: '#/components/schemas/CustomMetricMonitorDTO'
+      required:
+      - customSqlMonitor
+    PublicApiCreateDatasetRoleResponse:
+      type: object
+      properties:
+        datasetRole:
+          type: object
+          $ref: '#/components/schemas/DatasetRoleContentDTO'
+      required:
+      - datasetRole
+    PublicApiDatasetColumnContentDTO:
+      type: object
+      properties:
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringTo_object'
+        columnId:
+          type: string
+        columnName:
+          type: string
+      required:
+      - attributes
+      - columnId
+      - columnName
+    PublicApiDatasetDiagnosticsWarehouseResponse:
+      type: object
+      properties:
+        failedRowsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseFailedRowsConfigurationDTO'
+        scanAndResultsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseScanAndResultsConfigurationDTO'
+        schema:
+          oneOf:
+          - type: string
+          - type: 'null'
+    PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseFailedRowsConfigurationDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        maxRowCount:
+          type: integer
+          format: int32
+        state:
+          type: object
+          $ref: '#/components/schemas/FailedRowsConfigurationStateDTO'
+        storageStrategy:
+          type: object
+          $ref: '#/components/schemas/DiagnosticsWarehouseFailedRowsStorageStrategyDTO'
+        uniqueKeyColumnNames:
+          type: array
+          items:
+            type: string
+    PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseScanAndResultsConfigurationDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    PublicApiDatasetMetricMonitoringResponse:
+      type: object
+      properties:
+        columnMetricMonitors:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ColumnMetricMonitorDTO'
+        customSqlMetricMonitors:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/CustomMetricMonitorDTO'
+        datasetId:
+          type: string
+        datasetMetricMonitorsConfiguration:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetMetricMonitorConfigurationDTO'
+        enabled:
+          type: boolean
+        historicalMetricCollectionScanStartDate:
+          type: string
+          format: date-time
+        partitionColumn:
+          type: string
+          deprecated: true
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+        timePartition:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionDTO'
+    PublicApiDatasetProfilingResponse:
+      type: object
+      properties:
+        columnCount:
+          type: integer
+          format: int64
+        columns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetColumnProfilingContentDTO'
+        datasetId:
+          type: string
+        enabled:
+          type: boolean
+        partitionColumn:
+          type: string
+          deprecated: true
+        profilingTime:
+          type: string
+          format: date-time
+        rowCount:
+          type: integer
+          format: int64
+        samplingStrategyConfiguration:
+          type: object
+          $ref: '#/components/schemas/ProfilingSamplingStrategyConfigurationDTO'
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+        timePartition:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionDTO'
+      required:
+      - columns
+      - datasetId
+    PublicApiDatasetResponsibilitiesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetResponsibilityContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiDatasetRoleRequestDTO:
+      type: object
+      properties:
+        configureDataset:
+          type: boolean
+        createCheckProposals:
+          type: boolean
+        deleteDataset:
+          type: boolean
+        manageChecks:
+          type: boolean
+        manageContracts:
+          type: boolean
+        manageIncidents:
+          type: boolean
+        managePermissions:
+          type: boolean
+        name:
+          type: string
+        viewFailedRows:
+          type: boolean
+        viewProfilingAndSamples:
+          type: boolean
+      required:
+      - name
+    PublicApiDatasetRolesResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetRoleContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiDatasetsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetsContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiDeleteColumnMetricMonitorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiDeleteCustomSqlMonitorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiDeleteDatasetResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiDeleteDatasetRoleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiListDatasetColumnsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiDatasetColumnContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiSetColumnAttributesRequestDTO:
+      type: object
+      properties:
+        columnAttributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringToMapOfStringTo_object'
+      required:
+      - columnAttributes
+    PublicApiUpdateColumnMetricMonitorRequestDTO:
+      type: object
+      properties:
+        configuration:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
+      required:
+      - configuration
+    PublicApiUpdateColumnMetricMonitorResponse:
+      type: object
+      properties:
+        columnMetricMonitor:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricMonitorDTO'
+      required:
+      - columnMetricMonitor
+    PublicApiUpdateCustomSqlMonitorRequestDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/CustomSqlMonitorConfigurationUpdateDTO'
+        name:
+          type: string
+    PublicApiUpdateCustomSqlMonitorResponse:
+      type: object
+      properties:
+        customSqlMetricMonitor:
+          type: object
+          $ref: '#/components/schemas/CustomMetricMonitorDTO'
+      required:
+      - customSqlMetricMonitor
+    PublicApiUpdateDatasetDTO:
+      type: object
+      properties:
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringTo_object'
+        computeWarehouseOverride:
+          type: object
+          $ref: '#/components/schemas/UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO'
+        diagnosticsWarehouse:
+          type: object
+          $ref: '#/components/schemas/UpdateDatasetDiagnosticsWarehouseConfigurationRequestDTO'
+        label:
+          type: string
+        metricMonitoring:
+          type: object
+          $ref: '#/components/schemas/UpdateDatasetMetricMonitoringConfigurationRequestDTO'
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiUpdateDatasetOwnerRequestDTO'
+        partitionColumn:
+          type: string
+          deprecated: true
+        profiling:
+          type: object
+          $ref: '#/components/schemas/UpdateDatasetProfilingConfigurationRequestDTO'
+        tags:
+          type: array
+          items:
+            type: string
+        timePartition:
+          type: object
+          $ref: '#/components/schemas/UpdateDatasetTimePartitionRequestDTO'
+    PublicApiUpdateDatasetOwnerRequestDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - type
+    PublicApiUpdateDatasetResponsibilitiesRequestDTO:
+      type: object
+      properties:
+        responsibilities:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetResponsibilityContentRequestDTO'
+      required:
+      - responsibilities
+    PublicApiUpdateDatasetRoleResponse:
+      type: object
+      properties:
+        datasetRole:
+          type: object
+          $ref: '#/components/schemas/DatasetRoleContentDTO'
+      required:
+      - datasetRole
+    ResponsibilityTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    ThresholdConditionDTO:
+      type: string
+      enum:
+      - greaterThan
+      - lessThan
+    ThresholdStrategyDTO:
+      type: object
+      properties:
+        isLowerBoundEnabled:
+          type: boolean
+        isUpperBoundEnabled:
+          type: boolean
+      required:
+      - isLowerBoundEnabled
+      - isUpperBoundEnabled
+    UnitOfTimeDTO:
+      type: string
+      enum:
+      - hours
+      - days
+      - weeks
+    UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO:
+      type: object
+      properties:
+        computeWarehouseConfiguration:
+          type: object
+          $ref: '#/components/schemas/UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO_WarehouseConfigurationDTO'
+        enabled:
+          type: boolean
+    UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO_WarehouseConfigurationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    UpdateDatasetDiagnosticsWarehouseConfigurationRequestDTO:
+      type: object
+      properties:
+        failedRowsConfiguration:
+          type: object
+          $ref: '#/components/schemas/DatasetDiagnosticsWarehouseFailedRowsConfigurationRequest'
+        scanAndResultsConfiguration:
+          type: object
+          $ref: '#/components/schemas/DatasetDiagnosticsWarehouseScanAndResultsConfigurationRequest'
+        schema:
+          type: string
+    UpdateDatasetMetricMonitoringConfigurationRequestDTO:
+      type: object
+      properties:
+        datasetMetricMonitorsConfiguration:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetMetricMonitorConfigurationDTO'
+        enabled:
+          type: boolean
+        historicalMetricCollectionScanStartDate:
+          type: string
+          format: date-time
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+    UpdateDatasetProfilingConfigurationRequestDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        profilingSamplingStrategy:
+          type: object
+          $ref: '#/components/schemas/ProfilingSamplingStrategyConfigurationDTO'
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+    UpdateDatasetTimePartitionRequestDTO:
+      type: object
+      properties:
+        partitionColumn:
+          type: string
+        sqlExpression:
+          type: string
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
+    UserGroupContentBasicDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userGroupId:
+          type: string
+      required:
+      - name
+      - userGroupId
+    ValidRangeDTO:
+      type: object
+      properties:
+        max:
+          type: number
+        min:
+          type: number
+    ValueCountContentDTO:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        value:
+          type: object
+          $ref: '#/components/schemas/_object'
+    ZonedCronDTO:
+      type: object
+      properties:
+        cronExpression:
+          type: string
+        timezone:
+          type: string
+      required:
+      - cronExpression
+      - timezone
+    _object:
+      type: object

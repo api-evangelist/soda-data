@@ -1,0 +1,286 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.soda.io/soda-ai/soda-mcp.md + https://docs.soda.io/soda-ai/soda-mcp/mcp-tools.md
+provider: Soda
+providerId: soda-data
+name: soda-mcp
+description: soda-mcp is Soda's first-party Model Context Protocol server for Soda Cloud. It runs as a
+  LOCAL stdio process started by the MCP client (Claude Code, Cursor, Codex, GitHub Copilot), authenticates
+  to Soda Cloud with an API key ID/secret passed through environment variables, and exposes the user-callable
+  Soda Cloud Public API v4 surface as MCP tools.
+deployment:
+  mode: local-stdio
+  install: uvx -qq --no-progress soda-mcp@latest
+  package: 'soda-mcp (Soda private PyPI: team.pypi.cloud.soda.io | team.pypi.us.soda.io | enterprise.pypi.cloud.soda.io
+    | enterprise.pypi.us.soda.io)'
+  auth: api-key
+  verified: searched
+  note: 'There is NO remote/hosted MCP endpoint. Soda publishes only a stdio package, and the package
+    itself is entitled: it is served from Soda''s private per-licence PyPI indexes and resolves only with
+    a Soda Cloud API key in UV_INDEX, so a human with a Team or Enterprise licence must install it on
+    a machine before any agent can call it. github.com/sodadata/soda-mcp returns 404 and pypi.org has
+    no soda-mcp project. tools/list could not be probed for the same reason — there is no URL to POST
+    to.'
+transport: stdio
+requirements:
+- Python 3.10+
+- uv on PATH
+- Soda Cloud API key ID + secret
+- Soda Cloud host URL (cloud.soda.io or cloud.us.soda.io)
+- Team or Enterprise licence entitling the private package index
+environment:
+- SODA_CLOUD_HOST
+- SODA_API_KEY_ID
+- SODA_API_KEY_SECRET
+- UV_INDEX
+clients_documented:
+- Claude Code
+- OpenCode
+- Cursor
+- Codex
+- GitHub Copilot
+backing_api:
+  name: Soda Cloud API v4
+  spec: openapi/_original/soda-data-cloud-api-v4-openapi.yml
+  servers:
+  - https://cloud.soda.io
+  - https://cloud.us.soda.io
+tools_source: https://docs.soda.io/soda-ai/soda-mcp/mcp-tools.md
+tools_note: 'Names and descriptions are verbatim from Soda''s published tool catalogue. inputSchema is
+  NOT recorded: the live server cannot be introspected anonymously (local stdio + entitled package), so
+  per-tool input schemas require an authenticated install. Each tool''s real parameters are the parameters/requestBody
+  of the OpenAPI operation it is bound to in mcp/soda-data-tool-crosswalk.yml.'
+summary:
+  tool_count: 78
+  categories: 10
+  read_tools: 33
+  write_tools: 45
+categories:
+- name: Attributes
+  tool_count: 4
+  tools:
+  - name: list_attributes
+    description: List attribute definitions available in your Soda Cloud organization for datasets, checks,
+      and columns.
+  - name: create_attribute
+    description: Create a new attribute definition for datasets, checks, or columns.
+  - name: update_attribute
+    description: Update an attribute's label, description, or allowed values.
+  - name: delete_attribute
+    description: Delete an attribute definition. The attribute is removed from any resources where it
+      is set.
+- name: Checks
+  tool_count: 2
+  tools:
+  - name: list_checks
+    description: List checks in your Soda Cloud organization, including associated datasets, agreements,
+      and linked incidents.
+  - name: delete_check
+    description: Delete a specific check by its ID. Checks are deterministic validations defined in data
+      contracts (not monitors).
+- name: Datasets
+  tool_count: 16
+  tools:
+  - name: list_datasets
+    description: List datasets in your Soda Cloud organization, including data source, incidents, attributes,
+      and health status.
+  - name: get_dataset
+    description: Get a single dataset by dataset ID.
+  - name: get_dataset_by_dataset_qualified_name
+    description: 'Get a single dataset by dataset qualified name (DQN): [datasource _name]/ [database
+      _name]/ [schema _name]/ [dataset _name].'
+  - name: update_dataset
+    description: Update dataset properties (label, tags, attributes, owners, profiling, metric monitoring,
+      diagnostics warehouse, compute warehouse, time partition).
+  - name: list_dataset_columns
+    description: List active columns of a dataset with current assigned column attribute values.
+  - name: set_column_attributes
+    description: Set attribute values on columns of a dataset.
+  - name: delete_dataset
+    description: Delete a dataset. This action is permanent and cannot be undone.
+  - name: list_dataset_roles
+    description: List available dataset roles. Use dataset roles to manage access to individual datasets.
+  - name: create_dataset_role
+    description: Create a custom dataset role.
+  - name: update_dataset_role
+    description: Update the name or permissions of a custom dataset role.
+  - name: delete_dataset_role
+    description: Delete a custom dataset role. This action is permanent and cannot be undone.
+  - name: get_dataset_compute_warehouse
+    description: Get the compute warehouse configuration for a dataset.
+  - name: get_dataset_diagnostics_warehouse
+    description: Get diagnostics warehouse information for a dataset.
+  - name: get_dataset_profiling
+    description: Get profiling information for a dataset (structure, statistical summaries, data characteristics).
+  - name: list_dataset_responsibilities
+    description: List user and user group permissions assigned to a dataset, and their associated roles.
+  - name: update_dataset_responsibilities
+    description: Update user/group permissions and their associated roles for a dataset.
+- name: Monitors
+  tool_count: 8
+  tools:
+  - name: get_dataset_metric_monitoring
+    description: Get metric monitoring configuration for a dataset, including all three monitor types
+      and the dataset-level scan schedule.
+  - name: create_column_metric_monitor
+    description: Create a user-defined column metric monitor for a dataset.
+  - name: update_column_metric_monitor
+    description: Update an existing user-defined column metric monitor (e.g. sensitivity, thresholds,
+      grouping, exclusion zones).
+  - name: delete_column_metric_monitor
+    description: Delete a user-defined column metric monitor. This action is permanent and cannot be undone.
+  - name: create_custom_sql_monitor
+    description: Create a user-defined custom SQL monitor for a dataset.
+  - name: update_custom_sql_monitor
+    description: Update an existing user-defined custom SQL monitor (e.g. SQL query, sensitivity, thresholds,
+      grouping, exclusion zones).
+  - name: delete_custom_sql_monitor
+    description: Delete a user-defined custom SQL monitor. This action is permanent and cannot be undone.
+  - name: run_historical_metric_collection
+    description: Trigger a historical metric collection scan for a dataset. The v4 API calls this a historical
+      metric collection scan; in user-facing terms it backfills metric history so monitors (ML-based anomaly
+      detection) have a baseline to learn from.
+- name: Contracts
+  tool_count: 10
+  tools:
+  - name: list_contracts
+    description: List data contracts in your Soda Cloud organization. A data contract is the declarative
+      source-of-truth for checks on a dataset.
+  - name: create_contract
+    description: Create a new data contract on a dataset. The contract is initialized with the YAML contents
+      you supply; the full contract YAML is normally installed later via `publish_contract`.
+  - name: get_contract
+    description: Retrieve a specific data contract by ID, including its YAML content.
+  - name: publish_contract
+    description: Publish new YAML content for an existing data contract.
+  - name: list_contract_versions
+    description: List published versions of a specific data contract. Each publish creates a new version;
+      this tool returns the version history.
+  - name: verify_contract
+    description: Trigger a contract verification scan for the given contract. Runs the checks defined
+      in the contract against the dataset.
+  - name: create_skeleton_contract
+    description: Trigger async generation of a skeleton contract for a dataset, derived from its warehouse
+      schema. Use this to bootstrap a contract's YAML body when no contract has been published yet.
+  - name: get_skeleton_contract_status
+    description: Get the status of a skeleton contract generation operation started via `create_skeleton_contract`.
+  - name: generate_contracts
+    description: Trigger async AI-powered generation of full contracts for one or more datasets.
+  - name: get_contract_generation_status
+    description: Get the status of a contract generation operation started via `generate_contracts`.
+- name: Data Standards
+  tool_count: 11
+  tools:
+  - name: list_data_standards
+    description: List data standards in your Soda Cloud organization. A data standard is an organization-wide
+      YAML policy whose checks are automatically applied to every dataset matching its scope.
+  - name: get_data_standards_activity
+    description: Get an organization-wide rollup of data standards activity, including counts of active
+      and total standards, matched datasets, and aggregated check results.
+  - name: get_data_standard
+    description: Retrieve a specific data standard by ID, including its YAML contents and scope.
+  - name: list_data_standard_checks
+    description: List the aggregated checks generated by a specific data standard across the datasets
+      it matches.
+  - name: list_data_standard_datasets
+    description: List the datasets currently matched by a specific data standard's scope.
+  - name: evaluate_data_standard_scope
+    description: Re-evaluate which datasets currently match a data standard's scope and return their dataset
+      IDs.
+  - name: create_data_standard
+    description: Create a new data standard from YAML contents, a structured scope, status, owners, and
+      an optional schedule. A data standard is an organization-wide YAML policy whose checks are automatically
+      applied to every dataset matching its scope.
+  - name: update_data_standard
+    description: Update an existing data standard's YAML contents, scope, status, owners, and schedule.
+  - name: update_data_standard_status
+    description: Transition a data standard to a new status without modifying its contents, scope, owners,
+      or schedule. Use this to pause or activate an existing standard.
+  - name: delete_data_standard
+    description: Delete a data standard.
+  - name: execute_data_standards
+    description: Trigger a scan that runs the active data standards linked to a dataset. Identify the
+      dataset by `datasetId`.
+- name: Datasources
+  tool_count: 18
+  tools:
+  - name: list_datasources
+    description: List datasources in your Soda Cloud organization. A datasource is a configured connection
+      to a warehouse (e.g. Snowflake, Postgres) that owns datasets.
+  - name: run_datasource_discovery
+    description: Trigger a discovery scan on a datasource. Detects new tables and schemas in the warehouse
+      on-demand (instead of waiting for the scheduled cron).
+  - name: create_datasource
+    description: Create a new datasource from a YAML configuration document. The datasource type (e.g.
+      Snowflake, Postgres) is extracted from the YAML contents.
+  - name: get_datasource
+    description: Get a datasource's full configuration by ID, including its YAML configuration, label,
+      runner, and type.
+  - name: update_datasource
+    description: Update a datasource's configuration. Only the fields you supply are updated (PATCH semantics);
+      omitted fields keep their existing values.
+  - name: delete_datasource
+    description: Delete a datasource and all its associated resources (datasets, checks, scans, incidents).
+  - name: list_datasource_roles
+    description: List available datasource roles. Use datasource roles to manage access to individual
+      datasources.
+  - name: create_datasource_role
+    description: Create a custom datasource role.
+  - name: update_datasource_role
+    description: Update the name or permissions of a custom datasource role.
+  - name: delete_datasource_role
+    description: Delete a custom datasource role. This action is permanent and cannot be undone.
+  - name: get_datasource_diagnostics_warehouse
+    description: Get the diagnostics warehouse configuration for a datasource. The diagnostics warehouse
+      collects scan-related data (failed rows, scan results) and forwards it to the customer's warehouse
+      for storage and analysis.
+  - name: update_datasource_diagnostics_warehouse
+    description: Update the diagnostics warehouse configuration for a datasource. The diagnostics warehouse
+      collects scan-related data (failed rows, scan results) and stores it in your warehouse for analysis.
+  - name: list_datasource_responsibilities
+    description: List user and user group permissions assigned to a datasource, and their associated roles.
+  - name: update_datasource_responsibilities
+    description: Update user/group permissions and their associated roles for a datasource.
+  - name: test_datasource_connection
+    description: Trigger an async connection test for a datasource configuration. Use this to validate
+      a YAML + runner combination without creating a datasource, e.g. before calling `create_datasource`.
+  - name: get_datasource_connection_test_status
+    description: Get the status of an async datasource-connection-test operation started via `test_datasource_connection`.
+  - name: onboard_discovered_datasets
+    description: Trigger async onboarding of one or more discovered datasets for a datasource. Onboarding
+      promotes a discovered-but-not-yet-tracked dataset into a regular Soda dataset that can carry contracts,
+      checks, and monitors.
+  - name: get_onboard_discovered_datasets_status
+    description: Get the status of an async dataset-onboarding operation started via `onboard_discovered_datasets`.
+- name: Discovered Datasets
+  tool_count: 1
+  tools:
+  - name: list_discovered_datasets
+    description: List datasets Soda has discovered in your data sources. Discovered datasets have been
+      found during a discovery scan but may not yet be onboarded as first-class Soda datasets.
+- name: Runners
+  tool_count: 4
+  tools:
+  - name: list_runners
+    description: List Soda runners in your organization.
+  - name: create_runner
+    description: Create API key credentials for a new self-hosted Soda runner deployment.
+  - name: get_runner
+    description: Get a runner by ID, including online status, runner type, version information, and last-seen
+      timestamp.
+  - name: delete_runner
+    description: Delete a self-hosted runner by ID only after the user has explicitly confirmed deletion.
+- name: Secrets
+  tool_count: 4
+  tools:
+  - name: list_secrets
+    description: List secrets in your organization.
+  - name: create_secret
+    description: Create a new secret that can be referenced in datasource YAML as `${secret.NAME}`.
+  - name: delete_secret
+    description: Delete an existing secret.
+  - name: update_secret
+    description: Update the value of an existing secret. The secret name cannot be changed.
+related:
+  claude_code_plugin: https://github.com/sodadata/soda-agentic-tools
+  product_page: https://www.soda.io/product/mcp

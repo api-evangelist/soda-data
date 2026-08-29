@@ -1,0 +1,153 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://pypi.org/pypi/soda-core/json, https://api.github.com/repos/sodadata,
+  https://docs.soda.io/reference/soda-cli-reference.md, https://docs.soda.io/soda-ai/soda-mcp.md
+provider: Soda
+providerId: soda-data
+description: >-
+  First-party Soda client libraries, CLIs and agent tooling. Versions and publish dates were read
+  from the registry metadata endpoints (pypi.org/pypi/<pkg>/json) and the GitHub Releases API on
+  2026-08-29. Soda's paid runtime packages (soda-mcp, soda-plugin) are NOT on public PyPI: they are
+  published to Soda's private per-licence indexes (team/enterprise.pypi.cloud.soda.io) and are
+  entitled by a Soda Cloud API key, so no public version metadata exists to read.
+packages:
+- name: soda-core
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core/
+  repository: https://github.com/sodadata/soda-core
+  version: 4.22.0
+  published: '2026-08-25'
+  description: Soda core library and CLI (`soda`) — the open-source data contract / data quality engine.
+  note: >-
+    Actively released; 4.x is the current generation. The public GitHub repo carries 2,421 stars and
+    was pushed 2026-08-27.
+- name: soda-core-postgres
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core-postgres/
+  version: 3.5.6
+  published: '2025-09-24'
+  description: PostgreSQL data source connector extra for Soda Core.
+  note: >-
+    DECAY SIGNAL — every published soda-core-<connector> extra (postgres, snowflake, bigquery,
+    spark-df, duckdb, athena, redshift, sqlserver, trino, oracle, mysql, contracts) is pinned at
+    3.5.6 / 2025-09-24, eleven months behind soda-core 4.22.0. In the v4 generation data-source
+    support moved into soda-core itself (see the Soda Core data source reference), so the 3.x
+    connector extras are effectively frozen rather than abandoned — but a consumer reading PyPI
+    alone cannot tell the difference.
+- name: soda-core-snowflake
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core-snowflake/
+  version: 3.5.6
+  published: '2025-09-24'
+  description: Snowflake data source connector extra for Soda Core (3.x generation).
+- name: soda-core-bigquery
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core-bigquery/
+  version: 3.5.6
+  published: '2025-09-24'
+  description: Google BigQuery data source connector extra for Soda Core (3.x generation).
+- name: soda-core-spark-df
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core-spark-df/
+  version: 3.5.6
+  published: '2025-09-24'
+  description: Spark DataFrame data source connector extra for Soda Core (3.x generation).
+- name: soda-core-duckdb
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core-duckdb/
+  version: 3.5.6
+  published: '2025-09-24'
+  description: DuckDB data source connector extra for Soda Core (3.x generation).
+- name: soda-core-contracts
+  registry: pypi
+  official: true
+  language: Python
+  url: https://pypi.org/project/soda-core-contracts/
+  version: 3.5.6
+  published: '2025-09-24'
+  description: Data-contract extra for Soda Core (3.x generation).
+- name: sodacli
+  registry: github-releases
+  official: true
+  language: Go
+  url: https://github.com/sodadata/soda-cli/releases
+  repository: https://github.com/sodadata/soda-cli
+  version: v0.4.0
+  published: '2026-04-17'
+  install:
+  - brew tap sodadata/tap && brew install sodacli
+  - curl -sSL https://raw.githubusercontent.com/sodadata/soda-cli/main/install.sh | sh
+  description: >-
+    Soda CLI — a single dependency-free Go binary that manages the whole Soda Cloud platform
+    (datasources, datasets, contracts, monitors, results, runners, secrets, IAM).
+  note: >-
+    Distributed as GitHub Releases plus a first-party Homebrew tap (github.com/sodadata/homebrew-tap);
+    there is no npm/PyPI registry entry to query. Latest tagged release v0.4.0 (2026-04-17) while the
+    repo default branch was pushed 2026-08-04, so the released binary trails main.
+- name: soda-mcp
+  registry: private-pypi
+  official: true
+  language: Python
+  url: https://docs.soda.io/soda-ai/soda-mcp.md
+  version: null
+  published: null
+  install: uvx -qq --no-progress soda-mcp@latest
+  description: The Soda Cloud MCP server, run locally over stdio by an MCP client.
+  note: >-
+    version/published are null on purpose — checked, nothing to record. soda-mcp is not on public
+    PyPI (pypi.org/pypi/soda-mcp/json returns no project) and github.com/sodadata/soda-mcp is 404.
+    It ships only from Soda's private indexes — team.pypi.cloud.soda.io, team.pypi.us.soda.io,
+    enterprise.pypi.cloud.soda.io, enterprise.pypi.us.soda.io — authenticated with a Soda Cloud API
+    key ID/secret, so no anonymous version metadata is readable. The docs pin nothing: the published
+    install command is `soda-mcp@latest`, so a consumer cannot tell which build they get either.
+- name: soda-plugin
+  registry: private-pypi
+  official: true
+  language: Python
+  url: https://github.com/sodadata/soda-agentic-tools
+  version: null
+  published: null
+  install: uvx soda-plugin@latest install
+  description: >-
+    Installer for Soda's Claude Code plugin marketplace (the `/rca` root-cause-analysis skill plus
+    the soda-mcp server registration).
+  note: >-
+    Same private-index distribution and same unpinned `@latest` as soda-mcp; only the installer shell
+    script is public (github.com/sodadata/soda-agentic-tools).
+- name: soda-spark
+  registry: github-releases
+  official: true
+  language: Python
+  url: https://github.com/sodadata/soda-spark
+  version: 0.3.3
+  published: '2022-05-11'
+  description: PySpark library for testing data in Spark DataFrames.
+  note: Legacy — superseded by Soda Core; last release 2022.
+- name: prefect-soda-core
+  registry: github-releases
+  official: true
+  language: Python
+  url: https://github.com/sodadata/prefect-soda-core
+  version: v0.1.8
+  published: '2023-12-12'
+  description: Prefect collection for running Soda Core scans from a Prefect flow.
+  note: Legacy integration; last release 2023.
+counts:
+  total: 12
+  official: 12
+  public_registry: 8
+  private_registry: 2
+  unversioned: 2

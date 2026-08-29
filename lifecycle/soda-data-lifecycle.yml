@@ -1,0 +1,102 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://docs.soda.io/reference/documentation-access-and-licensing/release-stages.md,
+  https://docs.soda.io/reference/migrate-from-v3-to-v4.md, https://status.soda.io,
+  https://docs.soda.io/release-notes, https://docs.soda.io/reference/soda-apis/rest-api/
+provider: Soda
+providerId: soda-data
+description: >-
+  Versioning, release-stage and operational-lifecycle posture of the Soda platform and its v4 public API.
+versioning:
+  api_style: URI path — /api/v1/*
+  product_generation: v4 (info.title "Soda Cloud API v4")
+  note: >-
+    The product generation and the URI segment disagree: the v4 API is served under /api/v1. The
+    previous generation (v3) is a separate Reporting API surface, not an earlier version of the same
+    paths, and there is no /api/v2 or /api/v3 in the public reference.
+release_stages:
+  documented: true
+  url: https://docs.soda.io/reference/documentation-access-and-licensing/release-stages.md
+  stages:
+  - name: private preview
+    definition: Early release to a limited group; not visible in Soda Cloud until design-partner feedback. Functionality, configuration and interface can change; documentation may be incomplete.
+    access: request via support@soda.io
+  - name: public beta
+    definition: Available to every eligible organization with no request needed; free of additional cost during the beta; organizations may opt out. Functionality and documentation can still change.
+    access: automatic if the feature applies to your plan
+  - name: general availability
+    definition: Fully released, stable, fully documented, covered by standard support, carries no stage label.
+    access: all eligible organizations
+  labelling: Each feature's documentation states its stage at the top of the page, and Soda Cloud shows a Preview or Beta badge.
+  pricing_transition: A public beta feature that reaches GA is priced according to the organization's plan.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  detail: >-
+    Soda publishes no deprecation POLICY — no notice period, no Sunset/Deprecation response headers,
+    no end-of-life calendar. What it publishes instead is per-item deprecation FACTS, scattered across
+    the docs and the spec. That is enough to know something is going away and not enough to plan for it.
+  observed_deprecations:
+  - item: Soda SQL and Soda Spark
+    replaced_by: Soda Core
+    evidence: https://docs.soda.io/soda-documentation/soda-v3/learning-resources/deprecated.md; both GitHub repos are archived (soda-sql archived, last push 2022-11-30)
+  - item: SodaCL anomaly detection checks
+    status: deprecated
+    evidence: https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/anomaly-detection.md
+  - item: SodaCL anomaly score checks
+    status: deprecated
+    evidence: https://docs.soda.io/soda-documentation/soda-v3/sodacl-reference/anomaly-score.md
+  - item: Webhook payload field `outcome`
+    replaced_by: evaluationStatus
+    evidence: https://docs.soda.io/reference/soda-apis/webhook-api.md
+  - item: Webhook payload field `diagnostics`
+    replaced_by: value
+    evidence: https://docs.soda.io/reference/soda-apis/webhook-api.md
+  - item: Webhook payload field `agreement`
+    status: deprecated, v3 concept
+    evidence: https://docs.soda.io/reference/soda-apis/webhook-api.md
+  - item: DatasetsContentDTO.partitionColumn
+    status: 'deprecated: true in the published OpenAPI'
+    evidence: openapi/_original/soda-data-cloud-api-v4-openapi.yml
+  spec_level_deprecations: >-
+    0 operations carry a `deprecated` flag across all 103 harvested operations; the only
+    spec-level deprecation is the DatasetsContentDTO.partitionColumn property.
+migration:
+  from: v3
+  to: v4
+  url: https://docs.soda.io/reference/migrate-from-v3-to-v4.md
+  mechanism: Soda-side feature flag (v3ToV4DatasetMigrationEnabled) plus an in-app bulk or per-dataset migration flow
+  requires: global Admin role, or Manage contract permission where enabled
+  constraint: A v3 dataset can only migrate to a v4 data source of the same type.
+  optional_carry: up to 90 days of historical check results; dataset ownership and responsibilities
+  reversible: not published
+status_page:
+  present: true
+  url: https://status.soda.io
+  provider_hosted: true
+  status_at_probe: All systems operational
+  components_observed:
+  - Cloud
+  - Cloud - EU
+  - Soda Hosted Agent - EU
+  uptime_window: 90 days
+  subscribe: true
+sla:
+  published: false
+  note: >-
+    No public SLA/uptime commitment. Premium support is an Enterprise-plan line item on the pricing
+    page with no numbers attached.
+support:
+  email: support@soda.io
+  community: https://join.slack.com/t/soda-community/shared_invite/zt-3t8pdvhnk-h6ABuQgsNenzEILMwOiBSQ
+  note: Free support for open-source tools and the free tier is via the Soda Slack community; Premium support is Enterprise-plan only.
+changelog: changelog/soda-data-changelog.yml
+docs_access:
+  note: >-
+    Documentation itself is licence-tiered. Public pages carry a banner reading "You are not logged in
+    to Soda and are viewing the default public documentation", and licensed users see more when logged
+    in to Soda Cloud in the same browser. Everything captured in this repo is the PUBLIC view.
+  url: https://docs.soda.io/reference/documentation-access-and-licensing.md

@@ -6,9 +6,9 @@
 #   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
 openapi: 3.1.0
 info:
-  title: Soda Cloud API v4 — Attributes
+  title: Soda Cloud API v4 — Notification Rules
   version: v1
-  description: The Attributes surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested
+  description: The Notification Rules surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested
     verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
@@ -22,28 +22,21 @@ security:
 - basicAuthApiKey: []
 - cookieToken: []
 tags:
-- name: Attributes
-  description: Soda Cloud API Attribute Endpoints
+- name: Notification Rules
+  description: Soda Cloud API Notification Rule Endpoints
 paths:
-  /api/v1/attributes:
+  /api/v1/notificationRules:
     get:
-      description: 'This endpoint enables you to list the attributes available in your organization''s
-        Soda Cloud account.
-
-
-        Optionally filter by resource type using the `resourceType` query parameter.
+      description: 'This endpoint allows you to list the notification rules in your organization.
 
 
         This GET is a paginated API that uses the following parameters to request specific details:
 
 
-        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 1000.
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
 
 
         - `page`: Supply an integer value. The default value is 0.
-
-
-        - `resourceType`: Optional. Filter by resource type (`dataset`, `check`, or `column`).
 
 
         ## Authentication
@@ -56,34 +49,23 @@ paths:
         token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
-        ## Authorization
-
-
-        Any Soda Cloud user in your organization may execute this query.
-
-
         ## Tags
 
 
-        `Attributes`
+        `Notification Rules`
 
 
         ## Rate limiting
 
 
         60 requests/60 seconds'
-      operationId: GET/api/v1/attributes
+      operationId: GET/api/v1/notificationRules
       parameters:
       - in: query
         name: page
         schema:
           type: integer
           format: int32
-      - in: query
-        name: resourceType
-        schema:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
       - in: query
         name: size
         schema:
@@ -95,7 +77,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiListAttributesResponse'
+                $ref: '#/components/schemas/PublicApiListNotificationRulesResponse'
           description: Successful response
         '400':
           content:
@@ -118,13 +100,6 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Forbidden
-        '404':
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Not found
         '429':
           content:
             application/json:
@@ -139,18 +114,15 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: List attributes
+      summary: List notification rules
       tags:
-      - Attributes
+      - Notification Rules
     post:
-      description: 'This endpoint enables you to create a new attribute in your organization''s Soda Cloud
-        account.
+      description: 'Creates a notification rule with the provided filter and recipients.
 
 
-        Attributes are scoped to a resource type (dataset, check, or column). Once an attribute is created,
-        it can be set on the associated resource type. Attributes can be used to configure notification
-        rules, dashboards, filters, etc. For example sending email alerts when checks marked as critical
-        fail.
+        The filter is a simplified expression tree (and/or/not/equals/contains/in) over check and monitor
+        attributes; recipients can be users, user groups, emails, integrations, or roles.
 
 
         ## Authentication
@@ -166,26 +138,26 @@ paths:
         ## Authorization
 
 
-        Users must have global role permission MANAGE_ATTRIBUTES to execute this call.
+        Users must have global role permission MANAGE_NOTIFICATION_RULES to execute this call.
 
 
         ## Tags
 
 
-        `Attributes`
+        `Notification Rules`
 
 
         ## Rate limiting
 
 
-        100 requests/60 seconds'
-      operationId: POST/api/v1/attributes
+        10 requests/60 seconds'
+      operationId: POST/api/v1/notificationRules
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/PublicApiCreateAttributeRequestDTO'
+              $ref: '#/components/schemas/PublicApiNotificationRuleRequestDTO'
         required: true
       responses:
         '200':
@@ -193,7 +165,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiCreateAttributeResponse'
+                $ref: '#/components/schemas/PublicApiNotificationRuleDTO'
           description: Successful response
         '400':
           content:
@@ -230,20 +202,13 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: Create an attribute
+      summary: Create a notification rule
       tags:
-      - Attributes
-  /api/v1/attributes/{attributeId}:
+      - Notification Rules
+  /api/v1/notificationRules/{notificationRuleId}:
     post:
-      description: 'This endpoint enables you to update an existing attribute in your organization''s
-        Soda Cloud account.
-
-
-        Only label, description, and allowedValues (for select types) can be updated.
-
-
-        When updating allowedValues, existing attribute values on resources are left in place, even if
-        they are no longer in the allowed set.
+      description: 'Updates a notification rule. This is a full replacement: the rule''s name, type, filter,
+        recipients, status, and customization are all set from the request body.
 
 
         ## Authentication
@@ -259,23 +224,23 @@ paths:
         ## Authorization
 
 
-        Users must have global role permission MANAGE_ATTRIBUTES to execute this call.
+        Users must have global role permission MANAGE_NOTIFICATION_RULES to execute this call.
 
 
         ## Tags
 
 
-        `Attributes`
+        `Notification Rules`
 
 
         ## Rate limiting
 
 
-        100 requests/60 seconds'
-      operationId: POST/api/v1/attributes/{attributeId}
+        10 requests/60 seconds'
+      operationId: POST/api/v1/notificationRules/{notificationRuleId}
       parameters:
       - in: path
-        name: attributeId
+        name: notificationRuleId
         required: true
         schema:
           type: string
@@ -284,7 +249,7 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/PublicApiUpdateAttributeRequestDTO'
+              $ref: '#/components/schemas/PublicApiNotificationRuleRequestDTO'
         required: true
       responses:
         '200':
@@ -292,7 +257,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiUpdateAttributeResponse'
+                $ref: '#/components/schemas/PublicApiNotificationRuleDTO'
           description: Successful response
         '400':
           content:
@@ -336,15 +301,11 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: Update an attribute
+      summary: Update a notification rule
       tags:
-      - Attributes
+      - Notification Rules
     delete:
-      description: 'This endpoint enables you to delete an existing attribute from your organization''s
-        Soda Cloud account.
-
-
-        The attribute will be removed from any resources where it is set.
+      description: 'Schedules a notification rule for deletion. Deletion is processed asynchronously.
 
 
         ## Authentication
@@ -360,23 +321,23 @@ paths:
         ## Authorization
 
 
-        Users must have global role permission MANAGE_ATTRIBUTES to execute this call.
+        Users must have global role permission MANAGE_NOTIFICATION_RULES to execute this call.
 
 
         ## Tags
 
 
-        `Attributes`
+        `Notification Rules`
 
 
         ## Rate limiting
 
 
-        100 requests/60 seconds'
-      operationId: DELETE/api/v1/attributes/{attributeId}
+        10 requests/60 seconds'
+      operationId: DELETE/api/v1/notificationRules/{notificationRuleId}
       parameters:
       - in: path
-        name: attributeId
+        name: notificationRuleId
         required: true
         schema:
           type: string
@@ -386,7 +347,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiDeleteAttributeResponse'
+                $ref: '#/components/schemas/PublicApiDeleteNotificationRuleResponse'
           description: Successful response
         '400':
           content:
@@ -430,9 +391,9 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: Delete an attribute
+      summary: Delete a notification rule
       tags:
-      - Attributes
+      - Notification Rules
 components:
   securitySchemes:
     basicAuthApiKey:
@@ -443,48 +404,6 @@ components:
       name: token
       type: apiKey
   schemas:
-    AttributeContentDTO:
-      type: object
-      properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/AttributeTypeDTO'
-      required:
-      - id
-      - label
-      - name
-      - resourceType
-      - type
-    AttributeResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - check
-      - column
-    AttributeTypeDTO:
-      type: string
-      enum:
-      - text
-      - number
-      - checkbox
-      - datetime
-      - singleSelect
-      - multiSelect
     ErrorResponse:
       type: object
       properties:
@@ -492,53 +411,177 @@ components:
           type: string
         message:
           type: string
-    PublicApiCreateAttributeRequestDTO:
+    NotificationCustomizationDTO:
       type: object
       properties:
-        allowedValues:
+        message:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationCustomizationTypeDTO'
+      required:
+      - type
+    NotificationCustomizationTypeDTO:
+      type: string
+      enum:
+      - rich
+      - minimal
+    NotificationFilterDTO:
+      type: object
+      properties:
+        expression:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterDTO'
+        expressions:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationFilterDTO'
+        field:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterFieldDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterTypeDTO'
+        value:
+          type: string
+        values:
           type: array
           items:
             type: string
-        description:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/AttributeTypeDTO'
       required:
-      - label
-      - name
-      - resourceType
       - type
-    PublicApiCreateAttributeResponse:
+    NotificationFilterFieldDTO:
       type: object
       properties:
-        attribute:
+        attributeName:
+          type: string
+        field:
           type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
+          $ref: '#/components/schemas/NotificationFilterFieldTypeDTO'
       required:
-      - attribute
-    PublicApiDeleteAttributeResponse:
+      - field
+    NotificationFilterFieldTypeDTO:
+      type: string
+      enum:
+      - datasourceId
+      - datasourceLabel
+      - datasetId
+      - datasetLabel
+      - datasetOwnerId
+      - datasetTags
+      - checkId
+      - checkName
+      - checkOwnerId
+      - columnId
+      - metricType
+      - datasetResourceAttribute
+      - checkResourceAttribute
+    NotificationFilterTypeDTO:
+      type: string
+      enum:
+      - equals
+      - contains
+      - in
+      - and
+      - or
+      - not
+    NotificationLevelDTO:
+      type: string
+      enum:
+      - info
+      - warning
+      - critical
+      - not_evaluated
+    NotificationRecipientDTO:
+      type: object
+      properties:
+        customRoleId:
+          type: string
+        email:
+          type: string
+        integrationChannel:
+          type: string
+        integrationId:
+          type: string
+        role:
+          type: object
+          $ref: '#/components/schemas/NotificationRecipientRoleDTO'
+        triggers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationRecipientTriggerDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationRecipientTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - triggers
+      - type
+    NotificationRecipientRoleDTO:
+      type: string
+      enum:
+      - datasetOwner
+      - monitorOwner
+    NotificationRecipientTriggerDTO:
+      type: object
+      properties:
+        level:
+          type: object
+          $ref: '#/components/schemas/NotificationLevelDTO'
+        scanState:
+          type: object
+          $ref: '#/components/schemas/NotificationScanStateDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationTriggerTypeDTO'
+      required:
+      - type
+    NotificationRecipientTypeDTO:
+      type: string
+      enum:
+      - email
+      - user
+      - userGroup
+      - integration
+      - resourceRole
+      - customRole
+    NotificationRuleStatusDTO:
+      type: string
+      enum:
+      - active
+      - paused
+    NotificationScanStateDTO:
+      type: string
+      enum:
+      - failed
+      - timedOut
+      - canceled
+      - completedWithErrors
+    NotificationTriggerTypeDTO:
+      type: string
+      enum:
+      - testResultLevel
+      - scanState
+    PublicApiDeleteNotificationRuleResponse:
       type: object
       properties:
         message:
           type: string
       required:
       - message
-    PublicApiListAttributesResponse:
+    PublicApiListNotificationRulesResponse:
       type: object
       properties:
         content:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/AttributeContentDTO'
+            $ref: '#/components/schemas/PublicApiNotificationRuleDTO'
         first:
           type: boolean
         last:
@@ -563,22 +606,71 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiUpdateAttributeRequestDTO:
+    PublicApiNotificationRuleDTO:
       type: object
       properties:
-        allowedValues:
+        createdAt:
+          type: string
+          format: date-time
+        customization:
+          type: object
+          $ref: '#/components/schemas/NotificationCustomizationDTO'
+        filter:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterDTO'
+        id:
+          type: string
+        isDefault:
+          type: boolean
+        lastTriggeredAt:
+          type: string
+          format: date-time
+        name:
+          type: string
+        ownerId:
+          type: string
+        recipients:
           type: array
           items:
-            type: string
-        description:
+            type: object
+            $ref: '#/components/schemas/NotificationRecipientDTO'
+        ruleType:
+          type: object
+          $ref: '#/components/schemas/PublicApiRuleTypeDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/NotificationRuleStatusDTO'
+        updatedAt:
           type: string
-        label:
-          type: string
-    PublicApiUpdateAttributeResponse:
+          format: date-time
+    PublicApiNotificationRuleRequestDTO:
       type: object
       properties:
-        attribute:
+        customization:
           type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
+          $ref: '#/components/schemas/NotificationCustomizationDTO'
+        filter:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterDTO'
+        name:
+          type: string
+        recipients:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationRecipientDTO'
+        ruleType:
+          type: object
+          $ref: '#/components/schemas/PublicApiRuleTypeDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/NotificationRuleStatusDTO'
       required:
-      - attribute
+      - name
+      - recipients
+      - ruleType
+    PublicApiRuleTypeDTO:
+      type: string
+      enum:
+      - check
+      - monitor

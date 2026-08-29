@@ -1,0 +1,34 @@
+generated: '2026-08-29'
+method: generated
+source: openapi/_original/soda-data-cloud-api-v4-openapi.yml + https://docs.soda.io/reference/soda-apis/rest-api/
+provider: Soda
+providerId: soda-data
+description: >-
+  Packaged Agent Skills for the Soda Cloud v4 API, generated from the harvested OpenAPI. Every
+  operationId referenced in every skill was verified to exist in
+  openapi/_original/soda-data-cloud-api-v4-openapi.yml — none were invented. The three skills mirror
+  the three marquee flows the API is actually shaped around: get data in, put a contract on it, deal
+  with what breaks.
+skills:
+- name: soda-onboard-datasource
+  file: soda-data-onboard-datasource.md
+  description: Connect a warehouse, discover its tables, and onboard them as Soda datasets.
+  operations: 8
+- name: soda-contract-lifecycle
+  file: soda-data-contract-lifecycle.md
+  description: Generate, publish, verify and roll back a Soda data contract.
+  operations: 12
+- name: soda-triage-failing-checks
+  file: soda-data-triage-failing-checks.md
+  description: Trace a failing check to its dataset and scan, then open or update an incident.
+  operations: 11
+provider_published_skills:
+  present: true
+  gated: true
+  source: https://github.com/sodadata/soda-agentic-tools
+  detail: >-
+    Soda publishes its own Claude Code plugin marketplace — today an `/rca` root-cause-analysis skill
+    and a `/create-incident` skill, installed alongside the soda-mcp server. Only the installer shell
+    script is public; the skills themselves ship from Soda's private, licence-entitled PyPI index
+    (uvx soda-plugin@latest install), so their content could not be captured here. The `/rca`
+    capability additionally requires the `incidentRcaReportEnabled` feature flag on the organization.

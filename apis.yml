@@ -1,7 +1,13 @@
 aid: soda-data
 name: Soda
-description: >-
-  Soda is a data quality platform that enables data testing, monitoring, and anomaly detection across data pipelines.
+description: Soda is a data quality and data observability platform for the modern data stack. Its core
+  abstraction is the data contract — a declarative YAML source of truth that defines the checks a dataset
+  must pass — extended by organization-wide data standards, ML-based metric monitors for anomaly detection,
+  record-level diagnostics, lineage and impact analysis, and AI-assisted contract generation (Contract
+  Autopilot and Copilot). Soda ships an open-source engine (Soda Core), a Go CLI for the whole platform
+  (sodacli), a 103-operation Soda Cloud v4 REST API, a webhook event surface, and a first-party MCP server
+  that exposes 78 tools so agents can manage data quality directly. Soda Data Inc. is headquartered in
+  Belgium.
 type: Index
 deliveryModel:
   model: unknown
@@ -29,101 +35,342 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/soda-data.png
 tags:
-  - AIOps
-  - Data Quality
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/soda-data/refs/heads/main/apis.yml
+- AIOps
+- Data Quality
+- Data Observability
+- Data Contracts
+- Data Governance
+- Anomaly Detection
+- Data Monitoring
+- Data Testing
+url: https://raw.githubusercontent.com/api-evangelist/soda-data/refs/heads/main/apis.yml
 created: '2026-03-27'
-modified: '2026-03-27'
+modified: '2026-08-29'
 specificationVersion: '0.23'
 apis:
 - aid: soda-data:soda-data
-  name: Soda
-  description: >-
-    Soda is a data quality platform that enables data testing, monitoring, and anomaly detection across
-    data pipelines.
-  humanURL: https://www.soda.io
+  name: Soda Cloud API v4
+  description: The Soda Cloud public REST API (v4). 103 operations across 15 resources — datasources,
+    datasets, discovered datasets, data contracts, checks, data standards, monitors, scans, incidents,
+    notification rules, runners, secrets, users and licensing — for managing data quality programmatically.
+    HTTP Basic auth with a Soda Cloud API key pair; separate EU and US tenancies.
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api
+  baseURL: https://cloud.soda.io
   tags:
+  - Data Quality
+  - Data Observability
   - AIOps
   properties:
+  - type: OpenAPI
+    url: openapi/_original/soda-data-cloud-api-v4-openapi.yml
   - type: Documentation
-    url: https://docs.soda.io
+    url: https://docs.soda.io/reference/soda-apis/rest-api
+  - type: APIReference
+    url: https://docs.soda.io/reference/soda-apis
+  - type: Authentication
+    url: https://docs.soda.io/reference/soda-apis/generate-api-keys
 - aid: soda-data:soda-data-attributes-api
   name: Soda Attributes API
-  description: The Attributes API from Soda — 2 operation(s) for attributes.
-  humanURL: https://www.soda.io
+  description: The Attributes surface of the Soda Cloud v4 API — 4 operation(s) across 2 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/attributes
+  baseURL: https://cloud.soda.io
   tags:
   - Attributes
   properties:
   - type: OpenAPI
     url: openapi/soda-data-attributes-api-openapi.yml
-- aid: soda-data:soda-data-authentication-api
-  name: Soda Authentication API
-  description: The Authentication API from Soda — 1 operation(s) for authentication.
-  humanURL: https://www.soda.io
-  tags:
-  - Authentication
-  properties:
-  - type: OpenAPI
-    url: openapi/soda-data-authentication-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-attributes-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/attributes
 - aid: soda-data:soda-data-checks-api
   name: Soda Checks API
-  description: The Checks API from Soda — 2 operation(s) for checks.
-  humanURL: https://www.soda.io
+  description: The Checks surface of the Soda Cloud v4 API — 2 operation(s) across 2 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/checks
+  baseURL: https://cloud.soda.io
   tags:
   - Checks
   properties:
   - type: OpenAPI
     url: openapi/soda-data-checks-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-checks-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/checks
 - aid: soda-data:soda-data-contracts-api
   name: Soda Contracts API
-  description: The Contracts API from Soda — 8 operation(s) for contracts.
-  humanURL: https://www.soda.io
+  description: The Contracts surface of the Soda Cloud v4 API — 10 operation(s) across 8 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/contracts
+  baseURL: https://cloud.soda.io
   tags:
   - Contracts
   properties:
   - type: OpenAPI
     url: openapi/soda-data-contracts-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-contracts-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/contracts
+- aid: soda-data:soda-data-data-standards-api
+  name: Soda Data Standards API
+  description: The Data Standards surface of the Soda Cloud v4 API — 13 operation(s) across 10 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/data-standards
+  baseURL: https://cloud.soda.io
+  tags:
+  - Data Standards
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-data-standards-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-data-standards-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/data-standards
 - aid: soda-data:soda-data-datasets-api
   name: Soda Datasets API
-  description: The Datasets API from Soda — 1 operation(s) for datasets.
-  humanURL: https://www.soda.io
+  description: The Datasets surface of the Soda Cloud v4 API — 24 operation(s) across 17 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/datasets
+  baseURL: https://cloud.soda.io
   tags:
   - Datasets
   properties:
   - type: OpenAPI
     url: openapi/soda-data-datasets-api-openapi.yml
-common:
-  - type: AgenticAccess
-    url: agentic-access/soda-data-agentic-access.yml
-  - type: TrustCenter
-    url: security/soda-data-trust-center.yml
-  - type: DomainSecurity
-    url: security/soda-data-domain-security.yml
-  - type: Authentication
-    url: authentication/soda-data-authentication.yml
-  - type: GitHubOrganization
-    url: https://github.com/sodadata
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/sodadata
-  - type: Website
-    url: https://www.soda.io
+  - type: Overlay
+    url: overlays/soda-data-datasets-overlay.yaml
   - type: Documentation
-    url: https://docs.soda.io
-  - type: Integrations
-    url: https://soda.io/integrations
-  - type: LlmsText
-    url: https://docs.soda.io/llms.txt
-  - url: https://www.soda.io/blog
-    type: Blog
+    url: https://docs.soda.io/reference/soda-apis/rest-api/datasets
+- aid: soda-data:soda-data-datasources-api
+  name: Soda Datasources API
+  description: The Datasources surface of the Soda Cloud v4 API — 18 operation(s) across 11 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/datasources
+  baseURL: https://cloud.soda.io
+  tags:
+  - Datasources
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-datasources-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-datasources-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/datasources
+- aid: soda-data:soda-data-discovered-datasets-api
+  name: Soda Discovered Datasets API
+  description: The Discovered Datasets surface of the Soda Cloud v4 API — 1 operation(s) across 1 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/discovered-datasets
+  baseURL: https://cloud.soda.io
+  tags:
+  - Discovered Datasets
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-discovered-datasets-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-discovered-datasets-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/discovered-datasets
+- aid: soda-data:soda-data-incidents-api
+  name: Soda Incidents API
+  description: The Incidents surface of the Soda Cloud v4 API — 5 operation(s) across 3 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/incidents
+  baseURL: https://cloud.soda.io
+  tags:
+  - Incidents
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-incidents-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-incidents-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/incidents
+- aid: soda-data:soda-data-licensing-api
+  name: Soda Licensing API
+  description: The Licensing surface of the Soda Cloud v4 API — 1 operation(s) across 1 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/licensing
+  baseURL: https://cloud.soda.io
+  tags:
+  - Licensing
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-licensing-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-licensing-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/licensing
+- aid: soda-data:soda-data-notification-rules-api
+  name: Soda Notification Rules API
+  description: The Notification Rules surface of the Soda Cloud v4 API — 4 operation(s) across 2 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/notification-rules
+  baseURL: https://cloud.soda.io
+  tags:
+  - Notification Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-notification-rules-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-notification-rules-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/notification-rules
+- aid: soda-data:soda-data-runners-api
+  name: Soda Runners API
+  description: The Runners surface of the Soda Cloud v4 API — 4 operation(s) across 2 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/runners
+  baseURL: https://cloud.soda.io
+  tags:
+  - Runners
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-runners-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-runners-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/runners
+- aid: soda-data:soda-data-scans-api
+  name: Soda Scans API
+  description: The Scans surface of the Soda Cloud v4 API — 3 operation(s) across 2 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/scans
+  baseURL: https://cloud.soda.io
+  tags:
+  - Scans
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-scans-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-scans-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/scans
+- aid: soda-data:soda-data-secrets-api
+  name: Soda Secrets API
+  description: The Secrets surface of the Soda Cloud v4 API — 5 operation(s) across 3 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/secrets
+  baseURL: https://cloud.soda.io
+  tags:
+  - Secrets
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-secrets-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-secrets-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/secrets
+- aid: soda-data:soda-data-users-api
+  name: Soda Users API
+  description: The Users surface of the Soda Cloud v4 API — 8 operation(s) across 4 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/users
+  baseURL: https://cloud.soda.io
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-users-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-users-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/users
+- aid: soda-data:soda-data-utility-api
+  name: Soda Utility API
+  description: The Utility surface of the Soda Cloud v4 API — 1 operation(s) across 1 path(s).
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/utility
+  baseURL: https://cloud.soda.io
+  tags:
+  - Utility
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-utility-api-openapi.yml
+  - type: Overlay
+    url: overlays/soda-data-utility-overlay.yaml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/utility
+common:
+- type: Website
+  url: https://www.soda.io
+- type: DeveloperPortal
+  url: https://docs.soda.io
+- type: Documentation
+  url: https://docs.soda.io
+- type: APIReference
+  url: https://docs.soda.io/reference/soda-apis/rest-api
+- type: GettingStarted
+  url: https://docs.soda.io/quickstart
+- type: Support
+  url: https://docs.soda.io/soda-documentation/soda-v3/learning-resources/support
+- type: Blog
+  url: https://www.soda.io/blog
+- type: GitHubOrganization
+  url: https://github.com/sodadata
+- type: LinkedIn
+  url: https://www.linkedin.com/company/sodadata
+- type: Integrations
+  url: https://www.soda.io/integrations
+- type: Pricing
+  url: https://www.soda.io/pricing
+- type: SignUp
+  url: https://www.soda.io/request-free
+- type: Login
+  url: https://cloud.soda.io
+- type: TermsOfService
+  url: https://www.soda.io/legal/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.soda.io/legal/privacy-policy
+- type: StatusPage
+  url: https://status.soda.io
+- type: ChangeLog
+  url: https://docs.soda.io/release-notes
+- type: LlmsText
+  url: https://docs.soda.io/llms.txt
+- type: AgenticAccess
+  url: agentic-access/soda-data-agentic-access.yml
+- type: Authentication
+  url: authentication/soda-data-authentication.yml
+- type: Conventions
+  url: conventions/soda-data-conventions.yml
+- type: ErrorCatalog
+  url: errors/soda-data-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/soda-data-lifecycle.yml
+- type: Conformance
+  url: conformance/soda-data-conformance.yml
+- type: Compliance
+  url: security/soda-data-trust-center.yml
+- type: TrustCenter
+  url: security/soda-data-trust-center.yml
+- type: DomainSecurity
+  url: security/soda-data-domain-security.yml
+- type: DataModel
+  url: data-model/soda-data-data-model.yml
+- type: Packages
+  url: packages/soda-data-packages.yml
+- type: SDKs
+  url: packages/soda-data-packages.yml
+- type: CLI
+  url: cli/soda-data-cli.yml
+- type: MCPServer
+  url: mcp/soda-data-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/soda-data-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Webhooks
+  url: asyncapi/soda-data-webhooks.yml
+- type: RateLimits
+  url: rate-limits/soda-data-rate-limits.yml
+- type: Plans
+  url: plans/soda-data-plans-pricing.yml
+- type: ChangeLog
+  url: changelog/soda-data-changelog.yml
+- type: LLMsTxt
+  url: llms/soda-data-llms.txt
 integrations:
-  - name: AICPA SOC
-  - name: Giga OM
-  - name: TW
-  - name: Gartner
-  - name: High Performer 2025 badge
-  - name: Best Roi 2025 badge
-  - name: Momentum Leader 2025 badge
+- name: AICPA SOC
+- name: Giga OM
+- name: TW
+- name: Gartner
+- name: High Performer 2025 badge
+- name: Best Roi 2025 badge
+- name: Momentum Leader 2025 badge
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-29'
+  status: enriched
+  artifacts_added: 43
+  pass: local-v1

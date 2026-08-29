@@ -1,0 +1,105 @@
+generated: '2026-08-29'
+method: derived
+source: openapi/_original/soda-data-cloud-api-v4-openapi.yml (harvested from https://docs.soda.io/reference/soda-apis/rest-api/)
+provider: Soda
+providerId: soda-data
+format: custom
+description: 'Error surface of the Soda Cloud API v4, derived from the 4xx/5xx responses declared on all
+  103 harvested operations. Soda does NOT use RFC 9457 problem+json: every error is application/json carrying
+  a flat ErrorResponse of {code: string, message: string}. There is no `type` URI, no `title`, no `instance`
+  and no trace/request id in the envelope, and Soda publishes no registry of the `code` values — so an
+  agent can branch on HTTP status but not on a stable machine-readable error code.'
+envelope:
+  media_type: application/json
+  schema: ErrorResponse
+  fields:
+  - name: code
+    type: string
+    note: Value space is not documented anywhere in the public reference.
+  - name: message
+    type: string
+    note: Human-readable.
+  rfc9457: false
+  request_id_field: null
+status_coverage:
+  '200': 89
+  '201': 9
+  '202': 4
+  '400': 101
+  '401': 102
+  '403': 102
+  '404': 84
+  '429': 103
+  '500': 103
+problem_types:
+- status: 400
+  title: Bad request
+  detail: The request body or query parameters failed validation.
+  remediation: Fix the payload/parameters against the operation schema before retrying; retrying the same
+    request unchanged will fail identically.
+  operations_declaring: 101
+  body:
+    schema: ErrorResponse
+    fields:
+      code: string
+      message: string
+- status: 401
+  title: Unauthorized
+  detail: Missing or invalid credentials.
+  remediation: Send a Basic Authorization header carrying base64(api_key_id:api_key_secret), or a valid
+    `token` cookie. Verify with GET /api/v1/test-login.
+  operations_declaring: 102
+  body:
+    schema: ErrorResponse
+    fields:
+      code: string
+      message: string
+- status: 403
+  title: Forbidden
+  detail: Authenticated, but the user or key lacks the required Soda Cloud permission or role for this
+    resource.
+  remediation: Grant the role named in the operation Authorization section (global or dataset/datasource
+    scoped). Do not retry — this will not clear on its own.
+  operations_declaring: 102
+  body:
+    schema: ErrorResponse
+    fields:
+      code: string
+      message: string
+- status: 404
+  title: Not found
+  detail: The addressed resource does not exist, or is not visible to this user.
+  remediation: Confirm the id. Note that Soda scopes reads by permission, so a resource you cannot see
+    is reported as absent rather than forbidden on some list-backed lookups.
+  operations_declaring: 84
+  body:
+    schema: ErrorResponse
+    fields:
+      code: string
+      message: string
+- status: 429
+  title: Too many requests
+  detail: The operation-level rate limit was exceeded.
+  remediation: Back off and retry. See rate-limits/soda-data-rate-limits.yml for the per-operation bucket
+    — no Retry-After or RateLimit-* header is documented, so the client must implement its own backoff.
+  operations_declaring: 103
+  body:
+    schema: ErrorResponse
+    fields:
+      code: string
+      message: string
+- status: 500
+  title: Internal server error
+  detail: Soda Cloud failed to process the request.
+  remediation: Retry with exponential backoff; if it persists, contact support@soda.io and check https://status.soda.io.
+  operations_declaring: 103
+  body:
+    schema: ErrorResponse
+    fields:
+      code: string
+      message: string
+gaps:
+- No published error-code registry — the ErrorResponse.code value space is undocumented.
+- No RFC 9457 application/problem+json representation.
+- No correlation/request id returned in the error envelope.
+- No Retry-After on 429.

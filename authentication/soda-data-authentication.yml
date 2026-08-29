@@ -1,13 +1,54 @@
-generated: '2026-07-11'
+generated: '2026-08-29'
 method: derived
-source: openapi/soda-data-openapi.yml
+source: openapi/soda-data-attributes-api-openapi.yml, openapi/soda-data-checks-api-openapi.yml,
+  openapi/soda-data-contracts-api-openapi.yml, openapi/soda-data-data-standards-api-openapi.yml,
+  openapi/soda-data-datasets-api-openapi.yml, openapi/soda-data-datasources-api-openapi.yml,
+  openapi/soda-data-discovered-datasets-api-openapi.yml, openapi/soda-data-incidents-api-openapi.yml,
+  openapi/soda-data-licensing-api-openapi.yml, openapi/soda-data-notification-rules-api-openapi.yml,
+  openapi/soda-data-runners-api-openapi.yml, openapi/soda-data-scans-api-openapi.yml ...
 summary:
   types:
+  - apiKey
   - http
+  api_key_in:
+  - cookie
 schemes:
-- name: basicAuth
+- name: basicAuthApiKey
   type: http
   scheme: basic
-  description: Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
   sources:
-  - openapi/soda-data-openapi.yml
+  - openapi/soda-data-attributes-api-openapi.yml
+  - openapi/soda-data-checks-api-openapi.yml
+  - openapi/soda-data-contracts-api-openapi.yml
+  - openapi/soda-data-data-standards-api-openapi.yml
+  - openapi/soda-data-datasets-api-openapi.yml
+  - openapi/soda-data-datasources-api-openapi.yml
+  - openapi/soda-data-discovered-datasets-api-openapi.yml
+  - openapi/soda-data-incidents-api-openapi.yml
+  - openapi/soda-data-licensing-api-openapi.yml
+  - openapi/soda-data-notification-rules-api-openapi.yml
+  - openapi/soda-data-runners-api-openapi.yml
+  - openapi/soda-data-scans-api-openapi.yml
+  - openapi/soda-data-secrets-api-openapi.yml
+  - openapi/soda-data-users-api-openapi.yml
+  - openapi/soda-data-utility-api-openapi.yml
+- name: cookieToken
+  type: apiKey
+  in: cookie
+  parameter: token
+  sources:
+  - openapi/soda-data-attributes-api-openapi.yml
+  - openapi/soda-data-checks-api-openapi.yml
+  - openapi/soda-data-contracts-api-openapi.yml
+  - openapi/soda-data-data-standards-api-openapi.yml
+  - openapi/soda-data-datasets-api-openapi.yml
+  - openapi/soda-data-datasources-api-openapi.yml
+  - openapi/soda-data-discovered-datasets-api-openapi.yml
+  - openapi/soda-data-incidents-api-openapi.yml
+  - openapi/soda-data-licensing-api-openapi.yml
+  - openapi/soda-data-notification-rules-api-openapi.yml
+  - openapi/soda-data-runners-api-openapi.yml
+  - openapi/soda-data-scans-api-openapi.yml
+  - openapi/soda-data-secrets-api-openapi.yml
+  - openapi/soda-data-users-api-openapi.yml
+  - openapi/soda-data-utility-api-openapi.yml

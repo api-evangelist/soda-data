@@ -17,6 +17,13 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "soda-data-attributes-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "soda-data-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "soda-data-checks-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "soda-data-contracts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "soda-data-datasets-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

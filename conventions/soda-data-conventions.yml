@@ -1,0 +1,204 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  https://docs.soda.io/reference/soda-apis/rest-api.md,
+  https://docs.soda.io/reference/soda-apis/rest-api/ (16 reference pages carrying the published OpenAPI),
+  https://docs.soda.io/reference/soda-apis/generate-api-keys.md
+provider: Soda
+providerId: soda-data
+description: >-
+  Cross-cutting runtime semantics of the Soda Cloud API v4, read from Soda's own reference pages and
+  cross-checked against the 103 operations captured in openapi/_original/.
+authentication:
+  style: HTTP Basic with an API key pair, or a session cookie
+  schemes:
+  - name: basicAuthApiKey
+    type: http basic
+    value: base64(api_key_id + ":" + api_key_secret)
+    header: 'Authorization: Basic <token>'
+  - name: cookieToken
+    type: apiKey in cookie
+    parameter: token
+    note: Pre-authenticated browser session token; cookie sessions extend automatically on each request.
+  key_provisioning: https://docs.soda.io/reference/soda-apis/generate-api-keys.md
+  oauth2: false
+  scopes: false
+  authorization_model: >-
+    Role-based, enforced per operation. Every operation's description carries its own "## Authorization"
+    section naming the global or dataset/datasource-scoped role required. Reads are permission-filtered
+    rather than rejected on some list endpoints — a user sees only the datasets they hold View on.
+  detail: authentication/soda-data-authentication.yml
+regions:
+  note: Two independent tenancies, not a routed pair. A key issued in one region does not work in the other.
+  hosts:
+  - url: https://cloud.soda.io
+    region: EU
+  - url: https://cloud.us.soda.io
+    region: US
+versioning:
+  style: URI path
+  current: /api/v1 (documented as "Soda Cloud API v4" — the product generation is v4, the URI segment is v1)
+  note: >-
+    A real trap for an agent: info.title is "Soda Cloud API v4" while every path is /api/v1/*. The v3
+    generation is a different product surface (the v3 Reporting API), and migration between them is a
+    Soda-side feature flag, not a URI change. See lifecycle/soda-data-lifecycle.yml.
+pagination:
+  style: page-number
+  request_params:
+  - name: page
+    type: integer
+    default: 0
+  - name: size
+    type: integer
+    default: 10
+    min: 10
+    max: 1000
+  filter_params:
+  - name: from
+    type: ISO 8601 timestamp
+    note: incremental sync — only records updated after this instant
+  - name: search
+    note: fuzzy match on name, where supported
+  response_fields:
+  - content
+  - first
+  - last
+  - number
+  - size
+  - totalElements
+  - totalPages
+  note: Spring-style page envelope (PublicApi*Response). No cursor/continuation token is offered.
+idempotency:
+  supported: false
+  header: null
+  detail: >-
+    NOT SUPPORTED. There is no Idempotency-Key header, no client-supplied request id, and no dedupe
+    window documented anywhere in the 16 REST reference pages. Compounding it, Soda uses POST for
+    UPDATES as well as creates (POST /api/v1/datasets/{datasetId}, POST /api/v1/contracts/{contractId},
+    POST /api/v1/attributes/{attributeId}) — those are naturally idempotent by target id, but the true
+    create endpoints (POST /api/v1/contracts, POST /api/v1/datasources, POST /api/v1/secrets,
+    POST /api/v1/runners) are not, and a retried create after a timeout will produce a duplicate.
+  safe_retry_targets:
+  - All GET operations.
+  - POST to a {id}-addressed update path, which overwrites rather than appends.
+  unsafe_retry_targets:
+  - POST /api/v1/contracts
+  - POST /api/v1/datasources
+  - POST /api/v1/secrets
+  - POST /api/v1/runners
+  - POST /api/v1/datasets/roles
+  - POST /api/v1/datasources/roles
+  - POST /api/v1/attributes
+async_operations:
+  pattern: submit-then-poll with an operation id
+  detail: >-
+    Long-running work is a two-call contract. A POST returns 202 with an operationId; a matching GET
+    returns its status. This is the closest thing in the API to a job/runtime handle.
+  pairs:
+  - submit: POST/api/v1/contracts/actions/createSkeleton
+    poll: GET/api/v1/contracts/actions/createSkeleton/{operationId}
+  - submit: POST/api/v1/contracts/actions/generate
+    poll: GET/api/v1/contracts/actions/generate/{operationId}
+  - submit: POST/api/v1/datasources/actions/testConnection
+    poll: GET/api/v1/datasources/actions/testConnection/{operationId}
+  - submit: POST/api/v1/datasources/{datasourceId}/onboardDatasets
+    poll: GET/api/v1/datasources/{datasourceId}/onboardDatasets/{operationId}
+  scan_handle: >-
+    Scan-triggering operations (contract verify, data standard execute, datasource discover, historical
+    metric collection) return a scan id observable through GET /api/v1/scans/{scanId} and
+    GET /api/v1/scans/{scanId}/logs.
+dry_run_mode:
+  supported: true
+  grade: documented
+  surfaces:
+  - operation: POST/api/v1/dataStandards/actions/test
+    note: Test a data standard's YAML without creating it.
+  - operation: POST/api/v1/dataStandards/actions/previewScope
+    note: Preview which datasets a scope WOULD match before the standard exists.
+  - operation: POST/api/v1/dataStandards/{dataStandardId}/actions/evaluateScope
+    note: Re-evaluate an existing standard's scope and return matching dataset ids without executing it.
+  - operation: POST/api/v1/datasources/actions/testConnection
+    note: Validate a datasource YAML + runner combination without creating the datasource.
+  - command: sodacli contract lint <file...>
+    note: Offline contract syntax validation, no Soda Cloud call.
+  - command: sodacli contract diff <file>
+    note: Local-vs-cloud diff before pushing.
+reversibility:
+  grade: documented
+  summary: >-
+    Reversal paths exist for the two most consequential authoring surfaces (contracts and data standards)
+    and are absent everywhere else, and NOT ONE of them carries a stated window. Soda is unusually
+    explicit that its deletes are terminal — the MCP tool catalogue says "This action is permanent and
+    cannot be undone" for datasets, monitors and roles — which is honest, but it means an agent's only
+    safe posture on delete is to not call it.
+  surfaces:
+  - surface: Data contract content
+    write: POST/api/v1/contracts/{contractId} (publish new YAML)
+    reversal: >-
+      Republish a prior version. Every publish creates a version and GET /api/v1/contracts/{contractId}/versions
+      returns the history, so the previous body is retrievable and can be re-published.
+    reversal_operations:
+    - GET/api/v1/contracts/{contractId}/versions
+    - POST/api/v1/contracts/{contractId}
+    window: not stated
+    docs: https://docs.soda.io/reference/soda-apis/rest-api/contracts.md
+    grade: documented
+  - surface: Data standard activation
+    write: POST/api/v1/dataStandards/{dataStandardId}/actions/status
+    reversal: Transition the standard back to its previous status; the operation is a symmetric pause/activate toggle that does not modify contents, scope, owners or schedule.
+    reversal_operations:
+    - POST/api/v1/dataStandards/{dataStandardId}/actions/status
+    window: not applicable — state toggle, no expiry stated
+    docs: https://docs.soda.io/reference/soda-apis/rest-api/data-standards.md
+    grade: documented
+  - surface: User access
+    write: POST/api/v1/users/{userId}/disable
+    reversal: No re-enable operation is published in the v4 REST surface; re-enabling is a Soda Cloud UI / SCIM-provisioning action.
+    window: not stated
+    grade: none
+  - surface: Deletes (dataset, datasource, contract check, monitor, role, runner, secret, scan, data standard)
+    write: DELETE/api/v1/* (13 operations)
+    reversal: NONE. Soda documents these as permanent. Deleting a datasource additionally cascades to its datasets, checks, scans and incidents.
+    window: none
+    grade: none
+  - surface: Dataset v3-to-v4 migration
+    write: Soda Cloud migration flow (feature-flagged, not a public REST operation)
+    reversal: not published
+    window: >-
+      The one number Soda does state in this area is a forward one — the migration optionally carries
+      90 days of historical check results — not a rollback window.
+    docs: https://docs.soda.io/reference/migrate-from-v3-to-v4.md
+    grade: none
+error_envelope:
+  media_type: application/json
+  schema: '{ code: string, message: string }'
+  rfc9457: false
+  detail: errors/soda-data-problem-types.yml
+rate_limit_signaling:
+  documented_limits: true
+  runtime_headers: false
+  status_on_exhaustion: 429
+  detail: rate-limits/soda-data-rate-limits.yml
+  note: >-
+    Every operation publishes its own limit, but no RateLimit-*/X-RateLimit-*/Retry-After header is
+    documented, so the limit is knowable at design time and invisible at run time.
+request_tracing:
+  request_id_header: null
+  note: No correlation/request id header or response field is documented.
+metadata_and_expansion:
+  field_expansion: false
+  sparse_fields: false
+  custom_metadata: >-
+    Yes, as first-class resources rather than a metadata bag — Attributes (typed, scoped to dataset,
+    check or column, with allowed values) and free-form dataset tags.
+  identifiers:
+  - style: opaque string ids
+  - style: >-
+      Dataset Qualified Name (DQN) — [datasource]/[database]/[schema]/[dataset], a human-composable
+      natural key with its own lookup operation
+      (GET /api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName}).
+  detail: data-model/soda-data-data-model.yml
+events:
+  webhooks: true
+  asyncapi: false
+  detail: asyncapi/soda-data-webhooks.yml

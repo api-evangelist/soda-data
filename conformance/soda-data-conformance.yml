@@ -1,0 +1,104 @@
+generated: '2026-08-29'
+method: searched
+source: >-
+  openapi/_original/soda-data-cloud-api-v4-openapi.yml,
+  https://docs.soda.io/organization-and-admin-settings/user-provisioning-with-scim.md,
+  https://docs.soda.io/organization-and-admin-settings/user-and-user-group-management-with-sso.md,
+  https://trust.soda.io/, https://docs.soda.io/reference/soda-apis/rest-api/
+provider: Soda
+providerId: soda-data
+description: >-
+  Standards the Soda Cloud v4 API and platform do and do not conform to. Each entry cites the exact
+  spec location or doc page that proves it; absence is recorded as conforms:false rather than omitted.
+standards:
+- id: scim2
+  name: SCIM 2.0 (System for Cross-domain Identity Management, RFC 7643/7644)
+  conforms: true
+  category: domain-standard
+  evidence: >-
+    Soda Cloud serves a SCIM 2.0 tenant endpoint at https://cloud.soda.io/scim/v2 (EU) and
+    https://cloud.us.soda.io/scim/v2 (US), authenticated with an org-generated bearer token, for user
+    and user-group provisioning and deprovisioning. Documented at
+    https://docs.soda.io/organization-and-admin-settings/user-provisioning-with-scim.md
+  scope: Enterprise plan only, opt-in, enabled by Soda Support.
+  limits: >-
+    Only Microsoft Entra ID is tested and supported as an identity provider. The SCIM surface is not
+    described in the v4 OpenAPI and no schema URNs are published, so the level of RFC 7643 schema
+    coverage cannot be verified from the public docs.
+- id: saml2
+  name: SAML 2.0 single sign-on
+  conforms: true
+  category: identity
+  evidence: Soda Cloud is documented as a SAML 2.0 service provider for SSO; see https://docs.soda.io/organization-and-admin-settings/user-and-user-group-management-with-sso.md
+  scope: Enterprise plan
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: No oauth2 securityScheme in any of the 103 harvested operations; the only schemes are HTTP Basic (basicAuthApiKey) and a session cookie (cookieToken). No /.well-known/oauth-authorization-server is served on any host.
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on www.soda.io and docs.soda.io, and an SPA HTML shell on cloud.soda.io and cloud.us.soda.io. See well-known/soda-data-well-known.yml.
+- id: rfc9457
+  name: RFC 9457 Problem Details for HTTP APIs
+  conforms: false
+  evidence: All error responses are application/json carrying a flat {code, message} ErrorResponse. No application/problem+json media type appears in the spec. See errors/soda-data-problem-types.yml.
+- id: rfc8594
+  name: RFC 8594 Sunset header / deprecation signalling
+  conforms: false
+  evidence: No Sunset or Deprecation response header is documented; no operation carries a deprecated flag. See lifecycle/soda-data-lifecycle.yml.
+- id: idempotency-key
+  name: Idempotency-Key (draft-ietf-httpapi-idempotency-key-header)
+  conforms: false
+  evidence: No idempotency header, request key or dedupe window appears in any of the 16 REST reference pages. See conventions/soda-data-conventions.yml.
+- id: pagination
+  name: Consistent collection pagination
+  conforms: true
+  evidence: Page-number pagination (page, size 10–1000, from) with a uniform PublicApi*Response envelope (content, first, last, number, size, totalElements, totalPages) across every list operation in the spec.
+- id: openapi31
+  name: OpenAPI 3.1.0
+  conforms: true
+  evidence: Soda publishes OpenAPI 3.1.0 documents inline on every REST API reference page; 103 operations, 305 component schemas, unique operationIds, 2xx and 4xx/5xx responses declared throughout.
+  gaps: No request/response examples are present in the spec (0 example/examples keys across all 103 operations), and operationIds are mechanical (`GET/api/v1/datasets`) rather than semantic.
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  evidence: soda-mcp, a first-party MCP server exposing 78 tools over stdio. See mcp/soda-data-mcp.yml.
+  limits: Local stdio only; the package ships from Soda's private entitled index, so there is no anonymously reachable agent surface.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: /.well-known/agent-card.json and /.well-known/agent.json return 404 on www.soda.io and docs.soda.io, and an SPA HTML shell on cloud.soda.io. No card is published.
+- id: llmstxt
+  name: llms.txt
+  conforms: true
+  evidence: https://docs.soda.io/llms.txt (53,823 bytes), plus llms-full.txt, a sitemap.md index, .md twins of every page, Accept text/markdown content negotiation, and a documented ?ask= natural-language query interface on every page.
+- id: rfc9116
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on www.soda.io and docs.soda.io; the cloud hosts answer with an SPA shell. See well-known/soda-data-well-known.yml.
+compliance:
+  published: true
+  trust_center: https://trust.soda.io/
+  certifications:
+  - name: SOC 2
+    evidence: https://trust.soda.io/
+  - name: GDPR
+    evidence: https://trust.soda.io/
+  note: >-
+    trust.soda.io answered 403 to an automated request on 2026-08-29 (bot challenge, not a dead page);
+    the certification list is carried forward from the 2026-07-11 probe recorded in
+    security/soda-data-trust-center.yml. Enterprise-plan security controls named on the pricing page —
+    audit logs, custom roles, RBAC, private deployment, SSO — are corroborated by the docs.
+domain_standard:
+  market: data quality / data observability / data contracts
+  declared_in_contract: SCIM 2.0 (identity provisioning) — see standards[] above.
+  data_contract_standard:
+    conforms: false
+    detail: >-
+      Soda's data contract language is its own (SodaCL / Soda contract language, documented at
+      https://docs.soda.io/reference/contract-language-reference.md). Nothing in the v4 contract or the
+      public docs declares conformance to an external data-contract standard such as ODCS/Bitol, and
+      the sodadata/data-contract-template repo carries Soda's own templates. Recorded as absent rather
+      than assumed — this is a reward-only check and Soda is not penalised for a market whose standard
+      it has not adopted.

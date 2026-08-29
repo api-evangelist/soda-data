@@ -1,69 +1,1026 @@
+# generated: '2026-08-29'
+# method: searched
+# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
+#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
+#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
+#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
 openapi: 3.1.0
 info:
-  title: Soda Cloud REST Attributes Checks API
-  description: 'The Soda Cloud REST API enables programmatic access to Soda''s data quality
-
-    platform, including data contracts, checks, attributes, and dataset ingestion.
-
-    Endpoints and authentication are derived from the public Soda documentation
-
-    at https://docs.soda.io/reference/rest-api.md.
-
-    '
-  version: 1.0.0
+  title: Soda Cloud API v4 — Checks
+  version: v1
+  description: The Checks surface of the Soda Cloud v4 public REST API — 2 operation(s). Harvested verbatim
+    from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
-  license:
-    name: Proprietary
 servers:
-- url: https://cloud.soda.io
-  description: EU region
-- url: https://cloud.us.soda.io
-  description: US region
+- description: Cloud EU
+  url: https://cloud.soda.io
+- description: Cloud US
+  url: https://cloud.us.soda.io
 security:
-- basicAuth: []
+- basicAuthApiKey: []
+- cookieToken: []
 tags:
 - name: Checks
+  description: Soda Cloud API Check Endpoints
 paths:
   /api/v1/checks:
     get:
-      tags:
-      - Checks
-      summary: Retrieve all checks
-      operationId: listChecks
+      description: 'This endpoint enables you to gather information about the checks that in exist in
+        your organization''s Soda Cloud account, including information about the datasets and agreements
+        with which they are associated and the incidents to which they are linked. .
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `datasetId`: Optionally, use this parameter to collect only the information for checks associated
+        with a specific dataset. Find the `datasetId` in the URL of the dataset page in Soda Cloud.
+
+
+        - `dataStandardId`: Optionally, use this parameter to collect only the information for checks
+        belonging to a specific data standard. Find the `dataStandardId` in the URL of the data standard
+        page in Soda Cloud.
+
+
+        - `checkIds`: Optionally, use this parameter to collect only the information for a specific batch
+        of checks. Provide multiple values as a comma-separated list of check IDs, which you can find
+        on the individual check pages in Soda Cloud. This query parameter is limited to 1000 check IDs
+        and it can''t be combined with other query parameters like `page`, `datasetId`, `size`.
+
+
+        If not specified, the query gathers information for all checks in the account and sorts the results
+        by check name in ascending order.
+
+
+        ## Authorization
+
+
+        Soda only returns the checks linked to datasets to which the user has **View dataset** permissions.
+        Soda Cloud Admins have access to all checks.**See [Manage dataset roles](https://go.soda.io/roles-dataset)
+        for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Checks`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
+      operationId: GET/api/v1/checks
       parameters:
       - in: query
         name: checkIds
-        required: false
         schema:
-          type: array
-          items:
-            type: string
-        description: Optional list of check IDs to filter by
+          type: string
+      - in: query
+        name: dataStandardId
+        schema:
+          type: string
+      - in: query
+        name: datasetId
+        schema:
+          type: string
+      - in: query
+        name: page
+        schema:
+          type: integer
+          format: int32
+      - in: query
+        name: size
+        schema:
+          type: integer
+          format: int32
       responses:
         '200':
-          description: A list of checks
-  /api/v1/checks/{checkId}:
-    parameters:
-    - in: path
-      name: checkId
-      required: true
-      schema:
-        type: string
-    delete:
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/PublicApiChecksResponse'
+          description: Successful response
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Check information
       tags:
       - Checks
-      summary: Remove a check
-      operationId: deleteCheck
+  /api/v1/checks/{checkId}:
+    delete:
+      description: 'This endpoint allows you to delete a specific check in your organization''s Soda Cloud
+        account.
+
+
+        ## Authorization
+
+
+        Only users with **Manage checks** permission (V3 datasets) or **Manage contracts** permission
+        (V4 datasets) can delete checks. Soda Cloud Admins can delete checks for all datasets. **See [Manage
+        dataset roles](https://go.soda.io/roles-dataset) for more information.**
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
+        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Tags
+
+
+        `Checks`
+
+
+        ## Rate limiting
+
+
+        1000 requests/60 seconds'
+      operationId: DELETE/api/v1/checks/{checkId}
+      parameters:
+      - in: path
+        name: checkId
+        required: true
+        schema:
+          type: string
       responses:
-        '204':
-          description: Check removed
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        '401':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized
+        '403':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Forbidden
+        '404':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Not found
+        '429':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        '500':
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Delete a check
+      tags:
+      - Checks
 components:
   securitySchemes:
-    basicAuth:
-      type: http
+    basicAuthApiKey:
       scheme: basic
-      description: 'Basic HTTP authentication using Base64-encoded `api_key_id:api_key_secret`.
-
-        '
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
+  schemas:
+    AggregateDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+    AggregateDiffDiagnosticsV4:
+      type: object
+      properties:
+        diff:
+          type: number
+        diffPercent:
+          type: number
+        function:
+          type: string
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        sourceValue:
+          type: number
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+        targetValue:
+          type: number
+    AgreementSlimDTO:
+      type: object
+      properties:
+        cloudUrl:
+          type: string
+        name:
+          type: string
+    CheckResultAnomalyDetectionDetailsDTO:
+      type: object
+      properties:
+        predictedValue:
+          type: number
+    CheckResultDiagnosticsV4:
+      type: object
+      properties:
+        aggregate:
+          type: object
+          $ref: '#/components/schemas/AggregateDiagnosticsV4'
+        aggregate_diff:
+          type: object
+          $ref: '#/components/schemas/AggregateDiffDiagnosticsV4'
+        duplicate:
+          type: object
+          $ref: '#/components/schemas/DuplicateDiagnosticsV4'
+        duplicate_diff:
+          type: object
+          $ref: '#/components/schemas/DuplicateDiffDiagnosticsV4'
+        failed_rows:
+          type: object
+          $ref: '#/components/schemas/FailedRowsDiagnosticsV4'
+        freshness:
+          type: object
+          $ref: '#/components/schemas/FreshnessDiagnosticsV4'
+        freshness_diff:
+          type: object
+          $ref: '#/components/schemas/FreshnessDiffDiagnosticsV4'
+        fuzzy_duplicate:
+          type: object
+          $ref: '#/components/schemas/FuzzyDuplicateDiagnosticsV4'
+        group_by:
+          type: object
+          $ref: '#/components/schemas/GroupByDiagnosticsV4'
+        hierarchy:
+          type: object
+          $ref: '#/components/schemas/HierarchyDiagnosticsV4'
+        invalid:
+          type: object
+          $ref: '#/components/schemas/InvalidDiagnosticsV4'
+        llm:
+          type: object
+          $ref: '#/components/schemas/LlmDiagnosticsV4'
+        metric:
+          type: object
+          $ref: '#/components/schemas/MetricDiagnosticsV4'
+        metric_diff:
+          type: object
+          $ref: '#/components/schemas/MetricDiffDiagnosticsV4'
+        missing:
+          type: object
+          $ref: '#/components/schemas/MissingDiagnosticsV4'
+        reference_diff:
+          type: object
+          $ref: '#/components/schemas/ReferenceDiffDiagnosticsV4'
+        row_count:
+          type: object
+          $ref: '#/components/schemas/RowCountDiagnosticsV4'
+        row_count_diff:
+          type: object
+          $ref: '#/components/schemas/RowCountDiffDiagnosticsV4'
+        rows_diff:
+          type: object
+          $ref: '#/components/schemas/RowsDiffDiagnosticsV4'
+        schema:
+          type: object
+          $ref: '#/components/schemas/SchemaDiagnosticsV4'
+    CheckResultValueDTO:
+      type: object
+      properties:
+        anomalyDetectionDetails:
+          type: object
+          $ref: '#/components/schemas/CheckResultAnomalyDetectionDetailsDTO'
+        dataTimestamp:
+          type: string
+          format: date-time
+        diagnostics:
+          type: object
+          $ref: '#/components/schemas/CheckResultDiagnosticsV4'
+        id:
+          type: string
+        measure:
+          type: object
+          $ref: '#/components/schemas/MeasureDTO'
+        value:
+          type: number
+        valueLabel:
+          type: string
+        valueSeries:
+          type: object
+          $ref: '#/components/schemas/CheckResultValueSeriesDTO'
+      required:
+      - id
+    CheckResultValueSeriesDTO:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/CheckResultValueSeriesDTO_ValueSeriesValue'
+    CheckResultValueSeriesDTO_ValueSeriesValue:
+      type: object
+      properties:
+        label:
+          type: string
+        level:
+          type: object
+          $ref: '#/components/schemas/EvaluationStatusDTO'
+        value:
+          type: number
+    ChecksContentDTO:
+      type: object
+      properties:
+        agreements:
+          type: array
+          deprecated: true
+          items:
+            type: object
+            $ref: '#/components/schemas/AgreementSlimDTO'
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringToString'
+        checkType:
+          type: string
+        cloudUrl:
+          type: string
+        column:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        datasets:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetSlimDTO'
+        definition:
+          type: string
+        description:
+          type: string
+        evaluationStatus:
+          type: object
+          $ref: '#/components/schemas/EvaluationStatusDTO'
+        group:
+          type: object
+          $ref: '#/components/schemas/ChecksContentDTO_Group'
+        id:
+          type: string
+        incidents:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/IncidentSlimDTO'
+        lastCheckResultValue:
+          type: object
+          $ref: '#/components/schemas/CheckResultValueDTO'
+        lastCheckRunTime:
+          type: string
+          format: date-time
+          deprecated: true
+        lastUpdated:
+          type: string
+          format: date-time
+          deprecated: true
+        metricType:
+          type: string
+        name:
+          type: string
+        owner:
+          type: object
+          $ref: '#/components/schemas/OwnerDTO'
+          deprecated: true
+      required:
+      - createdAt
+      - datasets
+      - evaluationStatus
+      - id
+      - incidents
+      - name
+    ChecksContentDTO_Group:
+      type: object
+      properties:
+        groupType:
+          type: string
+        identity:
+          type: string
+        name:
+          type: string
+    DatasetSlimDTO:
+      type: object
+      properties:
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        qualifiedName:
+          type: string
+    DuplicateDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsPercent:
+          type: number
+        failedRowsSourceQuery:
+          type: string
+        missingCount:
+          type: integer
+          format: int32
+    DuplicateDiffDiagnosticsV4:
+      type: object
+      properties:
+        duplicateCountDiff:
+          type: integer
+          format: int32
+        duplicateDiffPercent:
+          type: number
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        sourceDuplicateCount:
+          type: integer
+          format: int32
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+        targetDuplicateCount:
+          type: integer
+          format: int32
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    EvaluationStatusDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+      - notEvaluated
+      - excluded
+    FailedRowsDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsPercent:
+          type: number
+        failedRowsSourceQuery:
+          type: string
+    FreshnessDiagnosticsV4:
+      type: object
+      properties:
+        actualTimestamp:
+          type: string
+          format: date-time
+        actualTimestampUtc:
+          type: string
+          format: date-time
+        datasetRowsTested:
+          type: integer
+          format: int32
+        expectedTimestamp:
+          type: string
+          format: date-time
+        expectedTimestampUtc:
+          type: string
+          format: date-time
+    FreshnessDiffDiagnosticsV4:
+      type: object
+      properties:
+        freshnessDiff:
+          type: integer
+          format: int32
+        freshnessDiffUnit:
+          type: object
+          $ref: '#/components/schemas/FreshnessDiffDiagnosticsV4_UnitOfTimeDTO'
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        sourceMaxTimestamp:
+          type: string
+          format: date-time
+        sourceMaxTimestampUtc:
+          type: string
+          format: date-time
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+        targetMaxTimestamp:
+          type: string
+          format: date-time
+        targetMaxTimestampUtc:
+          type: string
+          format: date-time
+    FreshnessDiffDiagnosticsV4_UnitOfTimeDTO:
+      type: string
+      enum:
+      - minutes
+      - hours
+      - days
+    FuzzyDuplicateDiagnosticsV4:
+      type: object
+      properties:
+        candidateRowsScored:
+          type: integer
+          format: int32
+        checkRowsTested:
+          type: integer
+          format: int32
+        clusterCount:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        fuzzyDuplicateCount:
+          type: integer
+          format: int32
+        fuzzyDuplicatePercent:
+          type: number
+        meanConfidence:
+          type: number
+    GroupByDiagnosticsV4:
+      type: object
+      properties:
+        diagnosticsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        groups:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/GroupByDiagnosticsV4_Group'
+    GroupByDiagnosticsV4_Group:
+      type: object
+      properties:
+        group:
+          type: string
+        rowsTested:
+          type: integer
+          format: int64
+        status:
+          type: object
+          $ref: '#/components/schemas/GroupByDiagnosticsV4_GroupByOutcomeDTO'
+        value:
+          type: number
+    GroupByDiagnosticsV4_GroupByOutcomeDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+    HierarchyDiagnosticsV4:
+      type: object
+      properties:
+        brokenPathCount:
+          type: integer
+          format: int32
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        invalidValueCount:
+          type: integer
+          format: int32
+        missingValueCount:
+          type: integer
+          format: int32
+    IncidentSlimDTO:
+      type: object
+      properties:
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        number:
+          type: integer
+          format: int32
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+      required:
+      - cloudUrl
+      - id
+      - name
+      - number
+      - status
+    IncidentStatusDTO:
+      type: string
+      enum:
+      - reported
+      - investigating
+      - fixing
+      - resolved
+    InvalidDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsPercent:
+          type: number
+        failedRowsSourceQuery:
+          type: string
+        missingCount:
+          type: integer
+          format: int32
+    LlmDiagnosticsV4:
+      type: object
+      properties:
+        completionTokens:
+          type: integer
+          format: int64
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        model:
+          type: string
+        promptTokens:
+          type: integer
+          format: int64
+        rowsChecked:
+          type: integer
+          format: int32
+        rowsFailed:
+          type: integer
+          format: int32
+        rowsFailedPercent:
+          type: number
+        tokensSpent:
+          type: integer
+          format: int32
+    MapOfStringToString:
+      type: object
+      additionalProperties: true
+    MeasureDTO:
+      type: string
+      enum:
+      - time
+    MetricDiagnosticsV4:
+      type: object
+      properties:
+        datasetRowsTested:
+          type: integer
+          format: int32
+    MetricDiffDiagnosticsV4:
+      type: object
+      properties:
+        metricDiff:
+          type: number
+        metricDiffPercent:
+          type: number
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        sourceMetric:
+          type: number
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+        targetMetric:
+          type: number
+    MissingDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsPercent:
+          type: number
+        failedRowsSourceQuery:
+          type: string
+    OwnerDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+    PublicApiChecksResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ChecksContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    ReferenceDiffDiagnosticsV4:
+      type: object
+      properties:
+        diffCount:
+          type: integer
+          format: int32
+        diffPercent:
+          type: number
+        exclusiveInSource:
+          type: integer
+          format: int32
+        exclusiveInTarget:
+          type: integer
+          format: int32
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+    RowCountDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+    RowCountDiffDiagnosticsV4:
+      type: object
+      properties:
+        rowCountDiff:
+          type: integer
+          format: int32
+        rowCountDiffPercent:
+          type: number
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+    RowsDiffDiagnosticsV4:
+      type: object
+      properties:
+        changed:
+          type: integer
+          format: int32
+        diffCount:
+          type: integer
+          format: int32
+        diffPercent:
+          type: number
+        exclusiveInSource:
+          type: integer
+          format: int32
+        exclusiveInTarget:
+          type: integer
+          format: int32
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+    SchemaDiagnosticsV4:
+      type: object
+      properties:
+        actual:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/SchemaDiagnosticsV4_Column'
+        expected:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/SchemaDiagnosticsV4_Column'
+    SchemaDiagnosticsV4_Column:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string

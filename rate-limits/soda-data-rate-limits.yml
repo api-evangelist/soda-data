@@ -1,89 +1,173 @@
-specification: API Commons Rate Limits
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+generated: '2026-08-29'
+method: searched
+source: https://docs.soda.io/reference/soda-apis/rest-api/ — each operation's own '## Rate limiting' section,
+  published inside the OpenAPI description Soda serves on its REST API reference pages
 provider: Soda
 providerId: soda-data
-created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - AIOps
-  - Data Quality
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Soda API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: Soda documents a rate limit on EVERY one of the 103 public v4 operations, inside the operation's
+  own OpenAPI description. There are six distinct buckets. This replaces the 2026-05-04 scaffold, whose
+  tier-shaped quotas were never published by Soda.
+limit_count: 6
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
-  serviceUnavailable: 503
+headers:
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  note: GAP — Soda documents the NUMBERS but not the runtime signal. No X-RateLimit-*, RateLimit-* or
+    Retry-After header appears anywhere in the 16 REST reference pages or in any operation's 429 response,
+    which is documented only as `429 Too many requests` with the standard {code,message} error body. An
+    agent can therefore only discover exhaustion by being refused, and has nothing to tell it when to
+    retry.
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Soda
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Soda
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Soda
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Soda
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Soda
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- name: 60 requests / 60 seconds
+  scope: per-api-key
+  metric: requests
+  limit: 60
+  window_seconds: 60
+  operation_count: 38
+  operations:
+  - DELETE/api/v1/datasets/roles/{roleId}
+  - DELETE/api/v1/datasources/roles/{roleId}
+  - DELETE/api/v1/userGroups/{userGroupId}
+  - GET/api/v1/attributes
+  - GET/api/v1/checks
+  - GET/api/v1/contracts
+  - GET/api/v1/contracts/actions/createSkeleton/{operationId}
+  - GET/api/v1/contracts/actions/generate/{operationId}
+  - GET/api/v1/contracts/{contractId}/versions
+  - GET/api/v1/dataStandards
+  - GET/api/v1/dataStandards/activity
+  - GET/api/v1/dataStandards/{dataStandardId}/checks
+  - GET/api/v1/dataStandards/{dataStandardId}/datasets
+  - GET/api/v1/datasets/roles
+  - GET/api/v1/datasources
+  - GET/api/v1/datasources/actions/testConnection/{operationId}
+  - GET/api/v1/datasources/roles
+  - GET/api/v1/datasources/{datasourceId}/onboardDatasets/{operationId}
+  - GET/api/v1/incidents
+  - GET/api/v1/incidents/{incidentId}/rcaReport
+  - GET/api/v1/licensing/spuConsumption
+  - GET/api/v1/notificationRules
+  - GET/api/v1/runners
+  - GET/api/v1/scans/{scanId}
+  - GET/api/v1/scans/{scanId}/logs
+  - GET/api/v1/secrets
+  - GET/api/v1/secretsPublicKey
+  - GET/api/v1/userGroups
+  - GET/api/v1/userGroups/{userGroupId}
+  - GET/api/v1/users
+  - POST/api/v1/datasets/roles
+  - POST/api/v1/datasets/roles/{roleId}
+  - POST/api/v1/datasets/{datasetId}/columnAttributes
+  - POST/api/v1/datasources/roles
+  - POST/api/v1/datasources/roles/{roleId}
+  - POST/api/v1/userGroups
+  - POST/api/v1/userGroups/{userGroupId}
+  - POST/api/v1/users/{userId}/disable
+- name: 100 requests / 60 seconds
+  scope: per-api-key
+  metric: requests
+  limit: 100
+  window_seconds: 60
+  operation_count: 26
+  operations:
+  - DELETE/api/v1/attributes/{attributeId}
+  - DELETE/api/v1/dataStandards/{dataStandardId}
+  - DELETE/api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}
+  - DELETE/api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}
+  - GET/api/v1/datasets/{datasetId}/computeWarehouse
+  - GET/api/v1/datasets/{datasetId}/responsibilities
+  - GET/api/v1/datasources/{datasourceId}/responsibilities
+  - POST/api/v1/attributes
+  - POST/api/v1/attributes/{attributeId}
+  - POST/api/v1/contracts
+  - POST/api/v1/contracts/{contractId}
+  - POST/api/v1/dataStandards
+  - POST/api/v1/dataStandards/actions/previewScope
+  - POST/api/v1/dataStandards/{dataStandardId}
+  - POST/api/v1/dataStandards/{dataStandardId}/actions/evaluateScope
+  - POST/api/v1/dataStandards/{dataStandardId}/actions/status
+  - POST/api/v1/datasets/{datasetId}
+  - POST/api/v1/datasets/{datasetId}/columnMetricMonitors
+  - POST/api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}
+  - POST/api/v1/datasets/{datasetId}/customSqlMonitors
+  - POST/api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}
+  - POST/api/v1/datasets/{datasetId}/responsibilities
+  - POST/api/v1/datasources/{datasourceId}
+  - POST/api/v1/datasources/{datasourceId}/diagnosticsWarehouse
+  - POST/api/v1/datasources/{datasourceId}/responsibilities
+  - POST/api/v1/secrets/{secretId}
+- name: 10 requests / 60 seconds
+  scope: per-api-key
+  metric: requests
+  limit: 10
+  window_seconds: 60
+  operation_count: 25
+  operations:
+  - DELETE/api/v1/datasets/{datasetId}
+  - DELETE/api/v1/datasources/{datasourceId}
+  - DELETE/api/v1/notificationRules/{notificationRuleId}
+  - DELETE/api/v1/runners/{runnerId}
+  - DELETE/api/v1/scans/{scanId}
+  - DELETE/api/v1/secrets/{secretId}
+  - GET/api/v1/discoveredDatasets
+  - POST/api/v1/contracts/actions/createSkeleton
+  - POST/api/v1/contracts/actions/generate
+  - POST/api/v1/contracts/{contractId}/verify
+  - POST/api/v1/dataStandards/actions/execute
+  - POST/api/v1/dataStandards/actions/test
+  - POST/api/v1/datasets/{datasetId}/metricMonitoring/historicalMetricCollection
+  - POST/api/v1/datasources
+  - POST/api/v1/datasources/actions/testConnection
+  - POST/api/v1/datasources/{datasourceId}/discover
+  - POST/api/v1/datasources/{datasourceId}/onboardDatasets
+  - POST/api/v1/incidents
+  - POST/api/v1/incidents/{incidentId}
+  - POST/api/v1/incidents/{incidentId}/rcaReport
+  - POST/api/v1/notificationRules
+  - POST/api/v1/notificationRules/{notificationRuleId}
+  - POST/api/v1/runners
+  - POST/api/v1/secrets
+  - POST/api/v1/users
+- name: 1000 requests / 60 seconds
+  scope: per-api-key
+  metric: requests
+  limit: 1000
+  window_seconds: 60
+  operation_count: 12
+  operations:
+  - DELETE/api/v1/checks/{checkId}
+  - GET/api/v1/contracts/{contractId}
+  - GET/api/v1/dataStandards/{dataStandardId}
+  - GET/api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName}
+  - GET/api/v1/datasets/{datasetId}
+  - GET/api/v1/datasets/{datasetId}/columns
+  - GET/api/v1/datasets/{datasetId}/diagnosticsWarehouse
+  - GET/api/v1/datasets/{datasetId}/metricMonitoring
+  - GET/api/v1/datasets/{datasetId}/profiling
+  - GET/api/v1/datasources/{datasourceId}
+  - GET/api/v1/datasources/{datasourceId}/diagnosticsWarehouse
+  - GET/api/v1/runners/{runnerId}
+- name: 30 requests / 60 seconds
+  scope: per-api-key
+  metric: requests
+  limit: 30
+  window_seconds: 60
+  operation_count: 1
+  operations:
+  - GET/api/v1/datasets
+- name: 10 requests / 10 seconds
+  scope: per-api-key
+  metric: requests
+  limit: 10
+  window_seconds: 10
+  operation_count: 1
+  operations:
+  - GET/api/v1/test-login
+notes:
+- Limits are stated per operation, not per plan tier; the docs do not vary them by Free/Team/Enterprise.
+- 'The tightest bucket is the connectivity check itself: GET /api/v1/test-login is 10 requests/10 seconds.'
+- Bulk read endpoints are the most generous at 1000 requests/60 seconds; AI/scan-triggering endpoints
+  (contract generate, verify, discovery, onboarding) are the tightest at 10 requests/60 seconds.

@@ -1,0 +1,738 @@
+generated: '2026-08-29'
+method: derived
+source: mcp/soda-data-mcp.yml + openapi/_original/soda-data-cloud-api-v4-openapi.yml
+provider: Soda
+providerId: soda-data
+description: Binds every published soda-mcp tool to the Soda Cloud API v4 operation it calls. Both sides
+  are harvested from Soda's own documentation, so every operationId below exists in the captured spec;
+  the mapping itself is derived by name+semantics because the live MCP server cannot be introspected anonymously.
+surfaces:
+  openapi:
+    file: openapi/_original/soda-data-cloud-api-v4-openapi.yml
+    operations: 103
+    gated: false
+    note: Published inline on the public REST API reference pages.
+  mcp:
+    transport: stdio
+    endpoint: null
+    tools: 78
+    gated: true
+    note: Local stdio only, private entitled package — no anonymous tools/list is possible.
+  graphql: null
+coverage:
+  mcp_tools: 78
+  rest_operations: 103
+  bound: 78
+  mcp_only: 0
+  rest_only: 25
+  rest_operation_coverage_pct: 75.7
+crosswalk:
+- tool: list_attributes
+  category: Attributes
+  rest:
+  - GET/api/v1/attributes
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/attributes — List attributes
+- tool: create_attribute
+  category: Attributes
+  rest:
+  - POST/api/v1/attributes
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/attributes — Create an attribute
+- tool: update_attribute
+  category: Attributes
+  rest:
+  - POST/api/v1/attributes/{attributeId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/attributes/{attributeId} — Update an attribute
+- tool: delete_attribute
+  category: Attributes
+  rest:
+  - DELETE/api/v1/attributes/{attributeId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/attributes/{attributeId} — Delete an attribute
+- tool: list_checks
+  category: Checks
+  rest:
+  - GET/api/v1/checks
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/checks — Check information
+- tool: delete_check
+  category: Checks
+  rest:
+  - DELETE/api/v1/checks/{checkId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/checks/{checkId} — Delete a check
+- tool: list_datasets
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets — Dataset information
+- tool: get_dataset
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/{datasetId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId} — Get dataset
+- tool: get_dataset_by_dataset_qualified_name
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/byDatasetQualifiedName/{datasetQualifiedName} — Get dataset by qualified
+    name
+- tool: update_dataset
+  category: Datasets
+  rest:
+  - POST/api/v1/datasets/{datasetId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId} — Update dataset
+- tool: list_dataset_columns
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/{datasetId}/columns
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId}/columns — List the active columns of a dataset with their attribute
+    values
+- tool: set_column_attributes
+  category: Datasets
+  rest:
+  - POST/api/v1/datasets/{datasetId}/columnAttributes
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/columnAttributes — Set column attribute values in bulk
+- tool: delete_dataset
+  category: Datasets
+  rest:
+  - DELETE/api/v1/datasets/{datasetId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/datasets/{datasetId} — Delete dataset
+- tool: list_dataset_roles
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/roles
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/roles — List dataset roles
+- tool: create_dataset_role
+  category: Datasets
+  rest:
+  - POST/api/v1/datasets/roles
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/roles — Create a dataset role
+- tool: update_dataset_role
+  category: Datasets
+  rest:
+  - POST/api/v1/datasets/roles/{roleId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/roles/{roleId} — Update a dataset role
+- tool: delete_dataset_role
+  category: Datasets
+  rest:
+  - DELETE/api/v1/datasets/roles/{roleId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/datasets/roles/{roleId} — Delete a dataset role
+- tool: get_dataset_compute_warehouse
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/{datasetId}/computeWarehouse
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId}/computeWarehouse — Get dataset compute warehouse configuration
+- tool: get_dataset_diagnostics_warehouse
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/{datasetId}/diagnosticsWarehouse
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId}/diagnosticsWarehouse — Get dataset diagnostics warehouse information
+- tool: get_dataset_profiling
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/{datasetId}/profiling
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId}/profiling — Get dataset profiling information
+- tool: list_dataset_responsibilities
+  category: Datasets
+  rest:
+  - GET/api/v1/datasets/{datasetId}/responsibilities
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId}/responsibilities — List dataset responsibilities
+- tool: update_dataset_responsibilities
+  category: Datasets
+  rest:
+  - POST/api/v1/datasets/{datasetId}/responsibilities
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/responsibilities — Update dataset responsibilities
+- tool: get_dataset_metric_monitoring
+  category: Monitors
+  rest:
+  - GET/api/v1/datasets/{datasetId}/metricMonitoring
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasets/{datasetId}/metricMonitoring — Get dataset metric monitoring configuration
+    information
+- tool: create_column_metric_monitor
+  category: Monitors
+  rest:
+  - POST/api/v1/datasets/{datasetId}/columnMetricMonitors
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/columnMetricMonitors — Create a column metric monitor
+- tool: update_column_metric_monitor
+  category: Monitors
+  rest:
+  - POST/api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId} — Update a column metric monitor
+- tool: delete_column_metric_monitor
+  category: Monitors
+  rest:
+  - DELETE/api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/datasets/{datasetId}/columnMetricMonitors/{monitorId} — Delete a column metric
+    monitor
+- tool: create_custom_sql_monitor
+  category: Monitors
+  rest:
+  - POST/api/v1/datasets/{datasetId}/customSqlMonitors
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/customSqlMonitors — Create a custom SQL monitor
+- tool: update_custom_sql_monitor
+  category: Monitors
+  rest:
+  - POST/api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId} — Update a custom SQL monitor
+- tool: delete_custom_sql_monitor
+  category: Monitors
+  rest:
+  - DELETE/api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/datasets/{datasetId}/customSqlMonitors/{monitorId} — Delete a custom SQL monitor
+- tool: run_historical_metric_collection
+  category: Monitors
+  rest:
+  - POST/api/v1/datasets/{datasetId}/metricMonitoring/historicalMetricCollection
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasets/{datasetId}/metricMonitoring/historicalMetricCollection — Run historical
+    metric collection for a dataset
+- tool: list_contracts
+  category: Contracts
+  rest:
+  - GET/api/v1/contracts
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/contracts — List contracts
+- tool: create_contract
+  category: Contracts
+  rest:
+  - POST/api/v1/contracts
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/contracts — Create a contract
+- tool: get_contract
+  category: Contracts
+  rest:
+  - GET/api/v1/contracts/{contractId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/contracts/{contractId} — Get a contract
+- tool: publish_contract
+  category: Contracts
+  rest:
+  - POST/api/v1/contracts/{contractId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/contracts/{contractId} — Publish a contract
+- tool: list_contract_versions
+  category: Contracts
+  rest:
+  - GET/api/v1/contracts/{contractId}/versions
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/contracts/{contractId}/versions — List contract versions
+- tool: verify_contract
+  category: Contracts
+  rest:
+  - POST/api/v1/contracts/{contractId}/verify
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/contracts/{contractId}/verify — Verify a contract
+- tool: create_skeleton_contract
+  category: Contracts
+  rest:
+  - POST/api/v1/contracts/actions/createSkeleton
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/contracts/actions/createSkeleton — Generate skeleton contract
+- tool: get_skeleton_contract_status
+  category: Contracts
+  rest:
+  - GET/api/v1/contracts/actions/createSkeleton/{operationId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/contracts/actions/createSkeleton/{operationId} — Get skeleton contract generation
+    status
+- tool: generate_contracts
+  category: Contracts
+  rest:
+  - POST/api/v1/contracts/actions/generate
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/contracts/actions/generate — Generate contracts
+- tool: get_contract_generation_status
+  category: Contracts
+  rest:
+  - GET/api/v1/contracts/actions/generate/{operationId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/contracts/actions/generate/{operationId} — Get contract generation status
+- tool: list_data_standards
+  category: Data Standards
+  rest:
+  - GET/api/v1/dataStandards
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/dataStandards — List data standards
+- tool: get_data_standards_activity
+  category: Data Standards
+  rest:
+  - GET/api/v1/dataStandards/activity
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/dataStandards/activity — Data standards activity
+- tool: get_data_standard
+  category: Data Standards
+  rest:
+  - GET/api/v1/dataStandards/{dataStandardId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/dataStandards/{dataStandardId} — Get a data standard
+- tool: list_data_standard_checks
+  category: Data Standards
+  rest:
+  - GET/api/v1/dataStandards/{dataStandardId}/checks
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/dataStandards/{dataStandardId}/checks — List data standard checks
+- tool: list_data_standard_datasets
+  category: Data Standards
+  rest:
+  - GET/api/v1/dataStandards/{dataStandardId}/datasets
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/dataStandards/{dataStandardId}/datasets — List data standard datasets
+- tool: evaluate_data_standard_scope
+  category: Data Standards
+  rest:
+  - POST/api/v1/dataStandards/{dataStandardId}/actions/evaluateScope
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/dataStandards/{dataStandardId}/actions/evaluateScope — Evaluate a data standard's
+    scope
+- tool: create_data_standard
+  category: Data Standards
+  rest:
+  - POST/api/v1/dataStandards
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/dataStandards — Create a data standard
+- tool: update_data_standard
+  category: Data Standards
+  rest:
+  - POST/api/v1/dataStandards/{dataStandardId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/dataStandards/{dataStandardId} — Update a data standard
+- tool: update_data_standard_status
+  category: Data Standards
+  rest:
+  - POST/api/v1/dataStandards/{dataStandardId}/actions/status
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/dataStandards/{dataStandardId}/actions/status — Update a data standard's status
+- tool: delete_data_standard
+  category: Data Standards
+  rest:
+  - DELETE/api/v1/dataStandards/{dataStandardId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/dataStandards/{dataStandardId} — Delete a data standard
+- tool: execute_data_standards
+  category: Data Standards
+  rest:
+  - POST/api/v1/dataStandards/actions/execute
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/dataStandards/actions/execute — Execute data standards for a dataset
+- tool: list_datasources
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources — List datasources
+- tool: run_datasource_discovery
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/{datasourceId}/discover
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/{datasourceId}/discover — Trigger datasource discovery
+- tool: create_datasource
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources — Create a datasource
+- tool: get_datasource
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources/{datasourceId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources/{datasourceId} — Get a datasource
+- tool: update_datasource
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/{datasourceId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/{datasourceId} — Update a datasource
+- tool: delete_datasource
+  category: Datasources
+  rest:
+  - DELETE/api/v1/datasources/{datasourceId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/datasources/{datasourceId} — Delete a datasource
+- tool: list_datasource_roles
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources/roles
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources/roles — List datasource roles
+- tool: create_datasource_role
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/roles
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/roles — Create a datasource role
+- tool: update_datasource_role
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/roles/{roleId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/roles/{roleId} — Update a datasource role
+- tool: delete_datasource_role
+  category: Datasources
+  rest:
+  - DELETE/api/v1/datasources/roles/{roleId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/datasources/roles/{roleId} — Delete a datasource role
+- tool: get_datasource_diagnostics_warehouse
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources/{datasourceId}/diagnosticsWarehouse
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources/{datasourceId}/diagnosticsWarehouse — Get datasource diagnostics warehouse
+    configuration
+- tool: update_datasource_diagnostics_warehouse
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/{datasourceId}/diagnosticsWarehouse
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/{datasourceId}/diagnosticsWarehouse — Update datasource diagnostics warehouse
+    configuration
+- tool: list_datasource_responsibilities
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources/{datasourceId}/responsibilities
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources/{datasourceId}/responsibilities — List datasource responsibilities
+- tool: update_datasource_responsibilities
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/{datasourceId}/responsibilities
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/{datasourceId}/responsibilities — Update datasource responsibilities
+- tool: test_datasource_connection
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/actions/testConnection
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/actions/testConnection — Test datasource connection
+- tool: get_datasource_connection_test_status
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources/actions/testConnection/{operationId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources/actions/testConnection/{operationId} — Get status for async connection
+    test
+- tool: onboard_discovered_datasets
+  category: Datasources
+  rest:
+  - POST/api/v1/datasources/{datasourceId}/onboardDatasets
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/datasources/{datasourceId}/onboardDatasets — Onboard discovered datasets
+- tool: get_onboard_discovered_datasets_status
+  category: Datasources
+  rest:
+  - GET/api/v1/datasources/{datasourceId}/onboardDatasets/{operationId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/datasources/{datasourceId}/onboardDatasets/{operationId} — Get status for async dataset
+    onboarding process
+- tool: list_discovered_datasets
+  category: Discovered Datasets
+  rest:
+  - GET/api/v1/discoveredDatasets
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/discoveredDatasets — Discovered datasets
+- tool: list_runners
+  category: Runners
+  rest:
+  - GET/api/v1/runners
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/runners — List runners
+- tool: create_runner
+  category: Runners
+  rest:
+  - POST/api/v1/runners
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/runners — Create a soda runner
+- tool: get_runner
+  category: Runners
+  rest:
+  - GET/api/v1/runners/{runnerId}
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/runners/{runnerId} — Get a runner
+- tool: delete_runner
+  category: Runners
+  rest:
+  - DELETE/api/v1/runners/{runnerId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/runners/{runnerId} — Delete a runner
+- tool: list_secrets
+  category: Secrets
+  rest:
+  - GET/api/v1/secrets
+  binding: '1:1'
+  confidence: high
+  note: GET /api/v1/secrets — List secrets
+- tool: create_secret
+  category: Secrets
+  rest:
+  - POST/api/v1/secrets
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/secrets — Create a secret
+- tool: delete_secret
+  category: Secrets
+  rest:
+  - DELETE/api/v1/secrets/{secretId}
+  binding: '1:1'
+  confidence: high
+  note: DELETE /api/v1/secrets/{secretId} — Delete a secret
+- tool: update_secret
+  category: Secrets
+  rest:
+  - POST/api/v1/secrets/{secretId}
+  binding: '1:1'
+  confidence: high
+  note: POST /api/v1/secrets/{secretId} — Update a secret
+mcp_only: []
+rest_only:
+- operationId: DELETE/api/v1/notificationRules/{notificationRuleId}
+  path: /api/v1/notificationRules/{notificationRuleId}
+  method: DELETE
+  tag: Notification Rules
+  summary: Delete a notification rule
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: DELETE/api/v1/scans/{scanId}
+  path: /api/v1/scans/{scanId}
+  method: DELETE
+  tag: Scans
+  summary: Cancel a scan
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: DELETE/api/v1/userGroups/{userGroupId}
+  path: /api/v1/userGroups/{userGroupId}
+  method: DELETE
+  tag: Users
+  summary: Delete user group
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/incidents
+  path: /api/v1/incidents
+  method: GET
+  tag: Incidents
+  summary: List incidents
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/incidents/{incidentId}/rcaReport
+  path: /api/v1/incidents/{incidentId}/rcaReport
+  method: GET
+  tag: Incidents
+  summary: Get incident RCA report
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/licensing/spuConsumption
+  path: /api/v1/licensing/spuConsumption
+  method: GET
+  tag: Licensing
+  summary: Get SPU consumption
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/notificationRules
+  path: /api/v1/notificationRules
+  method: GET
+  tag: Notification Rules
+  summary: List notification rules
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/scans/{scanId}
+  path: /api/v1/scans/{scanId}
+  method: GET
+  tag: Scans
+  summary: Get scan status
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/scans/{scanId}/logs
+  path: /api/v1/scans/{scanId}/logs
+  method: GET
+  tag: Scans
+  summary: Get scan logs
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/secretsPublicKey
+  path: /api/v1/secretsPublicKey
+  method: GET
+  tag: Secrets
+  summary: Get the encryption public key
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/test-login
+  path: /api/v1/test-login
+  method: GET
+  tag: Utility
+  summary: Test connection
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/userGroups
+  path: /api/v1/userGroups
+  method: GET
+  tag: Users
+  summary: Get user groups
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/userGroups/{userGroupId}
+  path: /api/v1/userGroups/{userGroupId}
+  method: GET
+  tag: Users
+  summary: Get user group
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: GET/api/v1/users
+  path: /api/v1/users
+  method: GET
+  tag: Users
+  summary: Get users
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/dataStandards/actions/previewScope
+  path: /api/v1/dataStandards/actions/previewScope
+  method: POST
+  tag: Data Standards
+  summary: Preview the datasets matching a data standard scope
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/dataStandards/actions/test
+  path: /api/v1/dataStandards/actions/test
+  method: POST
+  tag: Data Standards
+  summary: Test a data standard against a dataset
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/incidents
+  path: /api/v1/incidents
+  method: POST
+  tag: Incidents
+  summary: Create incident
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/incidents/{incidentId}
+  path: /api/v1/incidents/{incidentId}
+  method: POST
+  tag: Incidents
+  summary: Update incident
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/incidents/{incidentId}/rcaReport
+  path: /api/v1/incidents/{incidentId}/rcaReport
+  method: POST
+  tag: Incidents
+  summary: Publish incident RCA report
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/notificationRules
+  path: /api/v1/notificationRules
+  method: POST
+  tag: Notification Rules
+  summary: Create a notification rule
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/notificationRules/{notificationRuleId}
+  path: /api/v1/notificationRules/{notificationRuleId}
+  method: POST
+  tag: Notification Rules
+  summary: Update a notification rule
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/userGroups
+  path: /api/v1/userGroups
+  method: POST
+  tag: Users
+  summary: Create user group
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/userGroups/{userGroupId}
+  path: /api/v1/userGroups/{userGroupId}
+  method: POST
+  tag: Users
+  summary: Update user group
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/users
+  path: /api/v1/users
+  method: POST
+  tag: Users
+  summary: Invite users
+  reason: no MCP tool published for this operation in Soda's public tool catalogue
+- operationId: POST/api/v1/users/{userId}/disable
+  path: /api/v1/users/{userId}/disable
+  method: POST
+  tag: Users
+  summary: Disable user
+  reason: no MCP tool published for this operation in Soda's public tool catalogue

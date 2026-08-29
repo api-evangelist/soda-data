@@ -6,10 +6,10 @@
 #   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
 openapi: 3.1.0
 info:
-  title: Soda Cloud API v4 — Attributes
+  title: Soda Cloud API v4 — Runners
   version: v1
-  description: The Attributes surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested
-    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Runners surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested verbatim
+    from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -22,28 +22,21 @@ security:
 - basicAuthApiKey: []
 - cookieToken: []
 tags:
-- name: Attributes
-  description: Soda Cloud API Attribute Endpoints
+- name: Runners
+  description: Soda Cloud API Runner Endpoints
 paths:
-  /api/v1/attributes:
+  /api/v1/runners:
     get:
-      description: 'This endpoint enables you to list the attributes available in your organization''s
-        Soda Cloud account.
-
-
-        Optionally filter by resource type using the `resourceType` query parameter.
+      description: 'This endpoint allows you to list runners in your organization.
 
 
         This GET is a paginated API that uses the following parameters to request specific details:
 
 
-        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 1000.
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 10.
 
 
         - `page`: Supply an integer value. The default value is 0.
-
-
-        - `resourceType`: Optional. Filter by resource type (`dataset`, `check`, or `column`).
 
 
         ## Authentication
@@ -56,34 +49,23 @@ paths:
         token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
-        ## Authorization
-
-
-        Any Soda Cloud user in your organization may execute this query.
-
-
         ## Tags
 
 
-        `Attributes`
+        `Runners`
 
 
         ## Rate limiting
 
 
         60 requests/60 seconds'
-      operationId: GET/api/v1/attributes
+      operationId: GET/api/v1/runners
       parameters:
       - in: query
         name: page
         schema:
           type: integer
           format: int32
-      - in: query
-        name: resourceType
-        schema:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
       - in: query
         name: size
         schema:
@@ -95,7 +77,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiListAttributesResponse'
+                $ref: '#/components/schemas/PublicApiListRunnersResponse'
           description: Successful response
         '400':
           content:
@@ -118,13 +100,6 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Forbidden
-        '404':
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/ErrorResponse'
-          description: Not found
         '429':
           content:
             application/json:
@@ -139,18 +114,22 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: List attributes
+      summary: List runners
       tags:
-      - Attributes
+      - Runners
     post:
-      description: 'This endpoint enables you to create a new attribute in your organization''s Soda Cloud
-        account.
+      description: 'Creates an API key for a new self-hosted runner deployment.
 
 
-        Attributes are scoped to a resource type (dataset, check, or column). Once an attribute is created,
-        it can be set on the associated resource type. Attributes can be used to configure notification
-        rules, dashboards, filters, etc. For example sending email alerts when checks marked as critical
-        fail.
+        Returns the API key credentials (id and secret) to configure the runner. The credentials are only
+        returned at creation time and cannot be retrieved later, so make sure to store them securely.
+
+
+        After creation the runner does not immediately become visible in Soda Cloud. The runner needs
+        to registers itself using the API key credentials before it becomes available.
+
+
+        See [deployment instructions](https://go.soda.io/agent) for setting up the runner.
 
 
         ## Authentication
@@ -166,34 +145,27 @@ paths:
         ## Authorization
 
 
-        Users must have global role permission MANAGE_ATTRIBUTES to execute this call.
+        Users must have global role permission MANAGE_DATASOURCES_AND_AGENTS to execute this call.
 
 
         ## Tags
 
 
-        `Attributes`
+        `Runners`
 
 
         ## Rate limiting
 
 
-        100 requests/60 seconds'
-      operationId: POST/api/v1/attributes
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/components/schemas/PublicApiCreateAttributeRequestDTO'
-        required: true
+        10 requests/60 seconds'
+      operationId: POST/api/v1/runners
       responses:
         '200':
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiCreateAttributeResponse'
+                $ref: '#/components/schemas/PublicApiCreateRunnerResponse'
           description: Successful response
         '400':
           content:
@@ -230,20 +202,12 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: Create an attribute
+      summary: Create a soda runner
       tags:
-      - Attributes
-  /api/v1/attributes/{attributeId}:
-    post:
-      description: 'This endpoint enables you to update an existing attribute in your organization''s
-        Soda Cloud account.
-
-
-        Only label, description, and allowedValues (for select types) can be updated.
-
-
-        When updating allowedValues, existing attribute values on resources are left in place, even if
-        they are no longer in the allowed set.
+      - Runners
+  /api/v1/runners/{runnerId}:
+    get:
+      description: 'This endpoint allows you to retrieve a specific runner by its ID.
 
 
         ## Authentication
@@ -256,43 +220,30 @@ paths:
         token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
-        ## Authorization
-
-
-        Users must have global role permission MANAGE_ATTRIBUTES to execute this call.
-
-
         ## Tags
 
 
-        `Attributes`
+        `Runners`
 
 
         ## Rate limiting
 
 
-        100 requests/60 seconds'
-      operationId: POST/api/v1/attributes/{attributeId}
+        1000 requests/60 seconds'
+      operationId: GET/api/v1/runners/{runnerId}
       parameters:
       - in: path
-        name: attributeId
+        name: runnerId
         required: true
         schema:
           type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/components/schemas/PublicApiUpdateAttributeRequestDTO'
-        required: true
       responses:
         '200':
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiUpdateAttributeResponse'
+                $ref: '#/components/schemas/PublicApiGetRunnerResponse'
           description: Successful response
         '400':
           content:
@@ -336,47 +287,21 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: Update an attribute
+      summary: Get a runner
       tags:
-      - Attributes
+      - Runners
     delete:
-      description: 'This endpoint enables you to delete an existing attribute from your organization''s
-        Soda Cloud account.
-
-
-        The attribute will be removed from any resources where it is set.
-
-
-        ## Authentication
-
-
-        User authentication required: `true`
-
-
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
-
-
-        ## Authorization
-
-
-        Users must have global role permission MANAGE_ATTRIBUTES to execute this call.
-
-
-        ## Tags
-
-
-        `Attributes`
-
-
-        ## Rate limiting
-
-
-        100 requests/60 seconds'
-      operationId: DELETE/api/v1/attributes/{attributeId}
+      description: "This endpoint allows you to delete a specific self-hosted runner by its ID. If the\
+        \ runner is still in use, the request will fail with a `400 Bad Request` response. \n\nSoda-hosted\
+        \ and virtual runners cannot be deleted through this endpoint.\n\n## Authentication\n\nUser authentication\
+        \ required: `true`\n\nThis endpoint accepts authentication via API keys in the `Basic` authentication\
+        \ header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically\
+        \ on each request.\n\n## Authorization\n\nUsers must have global role permission MANAGE_DATASOURCES_AND_AGENTS\
+        \ to execute this call.\n\n## Tags\n\n`Runners`\n\n## Rate limiting\n\n10 requests/60 seconds"
+      operationId: DELETE/api/v1/runners/{runnerId}
       parameters:
       - in: path
-        name: attributeId
+        name: runnerId
         required: true
         schema:
           type: string
@@ -386,7 +311,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/PublicApiDeleteAttributeResponse'
+                $ref: '#/components/schemas/PublicApiDeleteRunnerResponse'
           description: Successful response
         '400':
           content:
@@ -430,9 +355,9 @@ paths:
                 type: object
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
-      summary: Delete an attribute
+      summary: Delete a runner
       tags:
-      - Attributes
+      - Runners
 components:
   securitySchemes:
     basicAuthApiKey:
@@ -443,48 +368,6 @@ components:
       name: token
       type: apiKey
   schemas:
-    AttributeContentDTO:
-      type: object
-      properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/AttributeTypeDTO'
-      required:
-      - id
-      - label
-      - name
-      - resourceType
-      - type
-    AttributeResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - check
-      - column
-    AttributeTypeDTO:
-      type: string
-      enum:
-      - text
-      - number
-      - checkbox
-      - datetime
-      - singleSelect
-      - multiSelect
     ErrorResponse:
       type: object
       properties:
@@ -492,53 +375,29 @@ components:
           type: string
         message:
           type: string
-    PublicApiCreateAttributeRequestDTO:
+    PublicApiCreateRunnerResponse:
       type: object
       properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
+        apiKeyId:
           type: string
-        label:
+        apiKeySecret:
           type: string
-        name:
-          type: string
-        resourceType:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/AttributeTypeDTO'
-      required:
-      - label
-      - name
-      - resourceType
-      - type
-    PublicApiCreateAttributeResponse:
+    PublicApiDeleteRunnerResponse:
+      type: object
+    PublicApiGetRunnerResponse:
       type: object
       properties:
-        attribute:
+        runner:
           type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
-    PublicApiDeleteAttributeResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    PublicApiListAttributesResponse:
+          $ref: '#/components/schemas/PublicApiRunnerDTO'
+    PublicApiListRunnersResponse:
       type: object
       properties:
         content:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/AttributeContentDTO'
+            $ref: '#/components/schemas/PublicApiRunnerDTO'
         first:
           type: boolean
         last:
@@ -563,22 +422,38 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiUpdateAttributeRequestDTO:
+    PublicApiRunnerDTO:
       type: object
       properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
+        id:
           type: string
+        isOnline:
+          type: boolean
         label:
           type: string
-    PublicApiUpdateAttributeResponse:
+        lastSeenTimestamp:
+          type: string
+          format: date-time
+        name:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/PublicApiRunnerTypeDTO'
+        versions:
+          type: object
+          $ref: '#/components/schemas/PublicApiRunnerVersionsDTO'
+    PublicApiRunnerTypeDTO:
+      type: string
+      enum:
+      - SELF_HOSTED
+      - SODA_HOSTED
+    PublicApiRunnerVersionsDTO:
       type: object
       properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
+        agent:
+          type: string
+          deprecated: true
+        library:
+          type: string
+        runner:
+          type: string

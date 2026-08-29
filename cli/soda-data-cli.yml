@@ -1,0 +1,131 @@
+generated: '2026-08-29'
+method: searched
+source: https://docs.soda.io/reference/soda-cli-reference.md, https://docs.soda.io/reference/cli-reference.md, https://github.com/sodadata/soda-cli
+provider: Soda
+providerId: soda-data
+description: >-
+  Soda ships TWO first-party command-line tools with different jobs, and the docs are explicit that
+  they are not the same product. sodacli (Go) manages the whole Soda Cloud platform over the v4 API;
+  soda (Python, part of soda-core) does local contract authoring and verification. They compose —
+  `sodacli contract verify --local` runs `soda` underneath.
+clis:
+- name: sodacli
+  title: Soda CLI
+  language: Go
+  distribution: single dependency-free binary
+  repository: https://github.com/sodadata/soda-cli
+  docs: https://docs.soda.io/reference/soda-cli-reference.md
+  version: v0.4.0
+  released: '2026-04-17'
+  install:
+  - method: homebrew
+    command: brew tap sodadata/tap && brew install sodacli
+  - method: script
+    command: curl -sSL https://raw.githubusercontent.com/sodadata/soda-cli/main/install.sh | sh
+  - method: windows
+    command: Download the .zip from GitHub Releases, extract sodacli.exe, add to PATH
+  - method: source
+    command: git clone https://github.com/sodadata/soda-cli && cd soda-cli/go && go build -o sodacli .
+    requires: Go 1.22+
+  auth: sodacli auth login (interactive; prompts for host, API key ID, secret) — --host cloud.us.soda.io for the US region
+  agent_posture: >-
+    Explicitly designed for non-human callers: "Every command is built to work the same way for a
+    person typing in a terminal and for an AI agent or automation calling it programmatically: flags,
+    exit codes and outputs are all machine- and human-readable." --no-interactive, --output json and
+    structured exit codes are documented for CI/CD; output auto-switches to JSON when piped.
+  output_formats:
+  - table (default, coloured)
+  - json
+  - csv
+  command_groups:
+  - group: auth
+    commands:
+    - sodacli auth login
+    - sodacli auth status
+    - sodacli auth switch <profile>
+  - group: datasource
+    commands:
+    - sodacli datasource list
+    - sodacli datasource get <id>
+    - sodacli datasource create <config.yml>
+    - sodacli datasource onboard <config-or-id>
+    - sodacli datasource update <id>
+    - sodacli datasource test-connection <config.yml>
+    - sodacli datasource diagnostics <id>
+    - sodacli datasource delete <id>
+  - group: dataset
+    commands:
+    - sodacli dataset list
+    - sodacli dataset get <id>
+    - sodacli dataset update <id>
+    - sodacli dataset attributes <id>
+    - sodacli dataset profiling <id>
+    - sodacli dataset time-partition <id>
+    - sodacli dataset diagnostics <id>
+    - sodacli dataset permissions list <id>
+    - sodacli dataset permissions assign <id>
+  - group: contract
+    commands:
+    - sodacli contract list
+    - sodacli contract create --dataset <dqn>
+    - sodacli contract pull <dqn>
+    - sodacli contract push <file>
+    - sodacli contract diff <file>
+    - sodacli contract lint <file...>
+    - sodacli contract verify <file|dqn>
+  - group: monitor
+    commands:
+    - sodacli monitor list --dataset <id>
+    - sodacli monitor config <dataset-id>
+    - sodacli monitor add --dataset <id>
+    - sodacli monitor update <monitor-id>
+    - sodacli monitor delete <monitor-id>
+  - group: results
+    commands:
+    - sodacli results list
+  - group: job
+    commands:
+    - sodacli job status <scan-id>
+    - sodacli job logs <scan-id>
+  - group: iam
+    commands:
+    - sodacli iam user list
+    - sodacli iam user invite --email <email>
+    - sodacli iam group create --name <name>
+    - sodacli iam group update <id>
+    - sodacli iam role list
+  - group: runner
+    commands:
+    - sodacli runner list
+    - sodacli runner get <id>
+    - sodacli runner create --name <name>
+    - sodacli runner delete <id>
+  - group: secret
+    commands:
+    - sodacli secret list
+    - sodacli secret get <id>
+    - sodacli secret create --name <name>
+    - sodacli secret update <id>
+    - sodacli secret delete <id>
+  ci_cd: documented, with a GitHub Actions example
+  telemetry: documented section in the reference
+  note: >-
+    The reference publishes the common surface and points at the repo or `sodacli <command> --help`
+    for the complete command set, so the groups above are Soda's documented subset, not an exhaustive
+    enumeration.
+- name: soda
+  title: Soda Core CLI
+  language: Python
+  distribution: PyPI (soda-core)
+  package: soda-core
+  version: 4.22.0
+  released: '2026-08-25'
+  repository: https://github.com/sodadata/soda-core
+  docs: https://docs.soda.io/reference/cli-reference.md
+  scope: Local contract authoring, verification and data source testing, with fine-grained check selection. Local execution only.
+  install:
+  - method: pip
+    command: pip install soda-core
+summary:
+  cli_count: 2
+  agent_ready: true
