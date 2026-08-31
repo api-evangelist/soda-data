@@ -145,6 +145,8 @@ apis:
   humanURL: https://docs.soda.io/reference/soda-apis/rest-api/datasources
   baseURL: https://cloud.soda.io
   tags:
+  - Data Sources
+  tags_raw:
   - Datasources
   properties:
   - type: OpenAPI
@@ -257,6 +259,8 @@ apis:
   humanURL: https://docs.soda.io/reference/soda-apis/rest-api/users
   baseURL: https://cloud.soda.io
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI

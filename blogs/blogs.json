@@ -7,8 +7,15 @@
       "title": "",
       "saved": 0,
       "method": "none"
+    },
+    {
+      "source": "https://docs.soda.io/soda-documentation/soda-v3/learning-resources/support",
+      "feed_url": "https://docs.soda.io/soda-documentation/soda-v3/learning-resources/support",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "fetched": "2026-08-22T20:20:02Z",
+  "fetched": "2026-08-30T22:33:40Z",
   "post_count": 8
 }
