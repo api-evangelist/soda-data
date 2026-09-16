@@ -50,27 +50,6 @@ created: '2026-03-27'
 modified: '2026-08-29'
 specificationVersion: '0.23'
 apis:
-- aid: soda-data:soda-data
-  name: Soda Cloud API v4
-  description: The Soda Cloud public REST API (v4). 103 operations across 15 resources — datasources,
-    datasets, discovered datasets, data contracts, checks, data standards, monitors, scans, incidents,
-    notification rules, runners, secrets, users and licensing — for managing data quality programmatically.
-    HTTP Basic auth with a Soda Cloud API key pair; separate EU and US tenancies.
-  humanURL: https://docs.soda.io/reference/soda-apis/rest-api
-  baseURL: https://cloud.soda.io
-  tags:
-  - Data Quality
-  - Data Observability
-  - AIOps
-  properties:
-  - type: OpenAPI
-    url: openapi/_original/soda-data-cloud-api-v4-openapi.yml
-  - type: Documentation
-    url: https://docs.soda.io/reference/soda-apis/rest-api
-  - type: APIReference
-    url: https://docs.soda.io/reference/soda-apis
-  - type: Authentication
-    url: https://docs.soda.io/reference/soda-apis/generate-api-keys
 - aid: soda-data:soda-data-attributes-api
   name: Soda Attributes API
   description: The Attributes surface of the Soda Cloud v4 API — 4 operation(s) across 2 path(s).
@@ -159,7 +138,8 @@ apis:
     url: https://docs.soda.io/reference/soda-apis/rest-api/datasources
 - aid: soda-data:soda-data-discovered-datasets-api
   name: Soda Discovered Datasets API
-  description: The Discovered Datasets surface of the Soda Cloud v4 API — 1 operation(s) across 1 path(s).
+  description: >-
+    The Discovered Datasets surface of the Soda Cloud v4 API — 1 operation(s) across 1 path(s).
   humanURL: https://docs.soda.io/reference/soda-apis/rest-api/discovered-datasets
   baseURL: https://cloud.soda.io
   tags:
@@ -201,7 +181,8 @@ apis:
     url: https://docs.soda.io/reference/soda-apis/rest-api/licensing
 - aid: soda-data:soda-data-notification-rules-api
   name: Soda Notification Rules API
-  description: The Notification Rules surface of the Soda Cloud v4 API — 4 operation(s) across 2 path(s).
+  description: >-
+    The Notification Rules surface of the Soda Cloud v4 API — 4 operation(s) across 2 path(s).
   humanURL: https://docs.soda.io/reference/soda-apis/rest-api/notification-rules
   baseURL: https://cloud.soda.io
   tags:
