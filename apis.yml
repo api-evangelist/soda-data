@@ -120,22 +120,6 @@ apis:
     url: overlays/soda-data-datasets-overlay.yaml
   - type: Documentation
     url: https://docs.soda.io/reference/soda-apis/rest-api/datasets
-- aid: soda-data:soda-data-datasources-api
-  name: Soda Datasources API
-  description: The Datasources surface of the Soda Cloud v4 API — 18 operation(s) across 11 path(s).
-  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/datasources
-  baseURL: https://cloud.soda.io
-  tags:
-  - Data Sources
-  tags_raw:
-  - Datasources
-  properties:
-  - type: OpenAPI
-    url: openapi/soda-data-datasources-api-openapi.yml
-  - type: Overlay
-    url: overlays/soda-data-datasources-overlay.yaml
-  - type: Documentation
-    url: https://docs.soda.io/reference/soda-apis/rest-api/datasources
 - aid: soda-data:soda-data-discovered-datasets-api
   name: Soda Discovered Datasets API
   description: >-
@@ -266,7 +250,21 @@ apis:
     url: overlays/soda-data-utility-overlay.yaml
   - type: Documentation
     url: https://docs.soda.io/reference/soda-apis/rest-api/utility
+- aid: soda-data:soda-data-data-sources-api
+  name: Soda Data Sources API
+  description: Soda Cloud API Datasource Endpoints
+  humanURL: https://docs.soda.io/reference/soda-apis/rest-api/attributes
+  baseURL: https://cloud.soda.io
+  tags:
+  - Data Sources
+  properties:
+  - type: OpenAPI
+    url: openapi/soda-data-data-sources-api-openapi.yml
+  - type: Documentation
+    url: https://docs.soda.io/reference/soda-apis/rest-api/datasources
 common:
+- type: Overlay
+  url: overlays/soda-data-datasources-overlay.yaml
 - type: Website
   url: https://www.soda.io
 - type: DeveloperPortal
