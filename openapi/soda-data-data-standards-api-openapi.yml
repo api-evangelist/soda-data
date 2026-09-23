@@ -1,15 +1,8 @@
-# generated: '2026-08-29'
-# method: searched
-# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
-#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
-#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
-#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Soda Cloud API v4 — Data Standards
+  title: Soda Cloud API v4 Data Standards API
   version: v1
-  description: The Data Standards surface of the Soda Cloud v4 public REST API — 13 operation(s). Harvested
-    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Soda Cloud REST API (v4 public API). Assembled verbatim from the OpenAPI 3.1.0 documents Soda publishes inside each REST API reference page at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -39,12 +32,10 @@ paths:
         - `page`: Supply an integer value. The default value is 0.
 
 
-        - `search`: Optionally, use this parameter to perform a fuzzy search on the data standard name
-        and label.
+        - `search`: Optionally, use this parameter to perform a fuzzy search on the data standard name and label.
 
 
-        - `status`: Optionally, use this parameter to list only data standards with a given status (`draft`,
-        `active`, `paused`, or `invalid`).
+        - `status`: Optionally, use this parameter to list only data standards with a given status (`draft`, `active`, `paused`, or `invalid`).
 
 
         - `sort`: Optionally, sort the results by `name` (default) or `label`.
@@ -56,8 +47,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -143,12 +133,10 @@ paths:
       tags:
       - Data Standards
     post:
-      description: 'This endpoint allows you to create a new data standard from YAML contents, a structured
-        scope, status, owners and an optional schedule.
+      description: 'This endpoint allows you to create a new data standard from YAML contents, a structured scope, status, owners and an optional schedule.
 
 
-        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request
-        is rejected with a 400 error.
+        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request is rejected with a 400 error.
 
 
         ## Authorization
@@ -163,8 +151,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -246,13 +233,10 @@ paths:
       - Data Standards
   /api/v1/dataStandards/actions/execute:
     post:
-      description: 'This endpoint triggers a scan that runs the active data standards linked to the specified
-        dataset.
+      description: 'This endpoint triggers a scan that runs the active data standards linked to the specified dataset.
 
 
-        The response, when successful, is `201` and contains the header `X-Soda-Scan-Id` and a `Location`
-        header which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter
-        of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
+        The response, when successful, is `201` and contains the header `X-Soda-Scan-Id` and a `Location` header which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
 
 
         ## Authorization
@@ -267,8 +251,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -350,14 +333,10 @@ paths:
       - Data Standards
   /api/v1/dataStandards/actions/previewScope:
     post:
-      description: 'This endpoint evaluates a candidate scope and returns the datasets that would match
-        it, without creating or modifying any data standard.
+      description: 'This endpoint evaluates a candidate scope and returns the datasets that would match it, without creating or modifying any data standard.
 
 
-        The `scope` uses the same structured rule grammar as the create-data-standard endpoint. An omitted
-        or empty scope matches **all** datasets, mirroring how a data standard without a scope applies
-        to every dataset. Results are paged with `page` (0-based, default 0) and `size` (between 1 and
-        1000, default 10).
+        The `scope` uses the same structured rule grammar as the create-data-standard endpoint. An omitted or empty scope matches **all** datasets, mirroring how a data standard without a scope applies to every dataset. Results are paged with `page` (0-based, default 0) and `size` (between 1 and 1000, default 10).
 
 
         ## Authorization
@@ -372,8 +351,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -448,26 +426,19 @@ paths:
       - Data Standards
   /api/v1/dataStandards/actions/test:
     post:
-      description: 'This endpoint runs the checks of an unsaved data standard against one dataset''s live
-        data, without creating or modifying any data standard. The tested standard does not appear in
-        your data standards and no checks or check results are persisted; the outcome is only visible
-        on the triggered scan.
+      description: 'This endpoint runs the checks of an unsaved data standard against one dataset''s live data, without creating or modifying any data standard. The tested standard does not appear in your data standards and no checks or check results are persisted; the outcome is only visible on the triggered scan.
 
 
-        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request
-        is rejected with a 400 error.
+        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request is rejected with a 400 error.
 
 
-        The response, when successful, is `201` and contains the header `X-Soda-Scan-Id` and a `Location`
-        header which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter
-        of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
+        The response, when successful, is `201` and contains the header `X-Soda-Scan-Id` and a `Location` header which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
 
 
         ## Authorization
 
 
-        Only users with **Manage data standards** permission who can view the dataset''s datasource can
-        test a data standard.
+        Only users with **Manage data standards** permission who can view the dataset''s datasource can test a data standard.
 
 
         ## Authentication
@@ -476,8 +447,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -559,8 +529,7 @@ paths:
       - Data Standards
   /api/v1/dataStandards/activity:
     get:
-      description: 'This endpoint returns an organization-wide rollup of data standards activity, including
-        counts of active and total standards, matched datasets, and check results.
+      description: 'This endpoint returns an organization-wide rollup of data standards activity, including counts of active and total standards, matched datasets, and check results.
 
 
         ## Authentication
@@ -569,8 +538,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -632,8 +600,7 @@ paths:
       - Data Standards
   /api/v1/dataStandards/{dataStandardId}:
     get:
-      description: 'This endpoint allows you to retrieve a specific data standard, including its YAML
-        contents and scope.
+      description: 'This endpoint allows you to retrieve a specific data standard, including its YAML contents and scope.
 
 
         ## Authentication
@@ -642,8 +609,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -717,12 +683,10 @@ paths:
       tags:
       - Data Standards
     post:
-      description: 'This endpoint allows you to replace an existing data standard''s YAML contents, scope,
-        status, owners and schedule.
+      description: 'This endpoint allows you to replace an existing data standard''s YAML contents, scope, status, owners and schedule.
 
 
-        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request
-        is rejected with a 400 error.
+        The `contents` field must contain valid data standard YAML. If the YAML is malformed, the request is rejected with a 400 error.
 
 
         ## Authorization
@@ -737,8 +701,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -825,8 +788,7 @@ paths:
       tags:
       - Data Standards
     delete:
-      description: 'Schedules a data standard for deletion. Deletion is processed asynchronously: the
-        standard and its dataset associations, owners and YAML file are removed in the background.
+      description: 'Schedules a data standard for deletion. Deletion is processed asynchronously: the standard and its dataset associations, owners and YAML file are removed in the background.
 
 
         ## Authorization
@@ -841,8 +803,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -923,8 +884,7 @@ paths:
       - Data Standards
   /api/v1/dataStandards/{dataStandardId}/actions/evaluateScope:
     post:
-      description: 'This endpoint re-evaluates a data standard''s scope and returns the ids of the datasets
-        that currently match it.
+      description: 'This endpoint re-evaluates a data standard''s scope and returns the ids of the datasets that currently match it.
 
 
         ## Authorization
@@ -939,8 +899,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -1021,8 +980,7 @@ paths:
       - Data Standards
   /api/v1/dataStandards/{dataStandardId}/actions/status:
     post:
-      description: 'This endpoint transitions a data standard to a new status without modifying its contents,
-        scope, owners or schedule.
+      description: 'This endpoint transitions a data standard to a new status without modifying its contents, scope, owners or schedule.
 
 
         Allowed transitions are validated; an invalid transition is rejected with a 400 error.
@@ -1040,8 +998,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -1147,8 +1104,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -1251,8 +1207,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -1336,23 +1291,95 @@ paths:
       tags:
       - Data Standards
 components:
-  securitySchemes:
-    basicAuthApiKey:
-      scheme: basic
-      type: http
-    cookieToken:
-      in: cookie
-      name: token
-      type: apiKey
   schemas:
-    CheckResultLevelDTO:
+    PublicApiCreateDataStandardResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    PublicApiListDataStandardChecksResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardCheckContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    DataStandardStatusDTO:
       type: string
       enum:
-      - info
-      - warning
-      - critical
-      - not_evaluated
-      - excluded
+      - draft
+      - active
+      - paused
+      - invalid
+    PublicApiPreviewDataStandardScopeResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeMatchingDatasetContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    DataStandardScheduleDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    PublicApiGetDataStandardResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
     CheckTypeDTO:
       type: string
       enum:
@@ -1376,72 +1403,6 @@ components:
       - hierarchy
       - fuzzy_duplicate
       - reference_diff
-    DataStandardActivityContentDTO:
-      type: object
-      properties:
-        activeCount:
-          type: integer
-          format: int32
-        checkResults:
-          type: object
-          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
-        datasetCount:
-          type: integer
-          format: int32
-        totalCount:
-          type: integer
-          format: int32
-      required:
-      - activeCount
-      - checkResults
-      - datasetCount
-      - totalCount
-    DataStandardCheckContentDTO:
-      type: object
-      properties:
-        checkType:
-          type: object
-          $ref: '#/components/schemas/CheckTypeDTO'
-        compliance:
-          type: number
-        datasetCount:
-          type: integer
-          format: int32
-        failingCount:
-          type: integer
-          format: int32
-        lastScanTime:
-          type: string
-          format: date-time
-        name:
-          type: string
-        notEvaluatedCount:
-          type: integer
-          format: int32
-        passingCount:
-          type: integer
-          format: int32
-        warningCount:
-          type: integer
-          format: int32
-        worstLevel:
-          type: object
-          $ref: '#/components/schemas/CheckResultLevelDTO'
-    DataStandardCheckResultsDTO:
-      type: object
-      properties:
-        failingCount:
-          type: integer
-          format: int32
-        notEvaluatedCount:
-          type: integer
-          format: int32
-        passingCount:
-          type: integer
-          format: int32
-        warningCount:
-          type: integer
-          format: int32
     DataStandardContentDTO:
       type: object
       properties:
@@ -1494,106 +1455,64 @@ components:
           $ref: '#/components/schemas/DataStandardStatusDTO'
       required:
       - id
-    DataStandardDatasetContentDTO:
+    DataStandardCheckContentDTO:
       type: object
       properties:
-        checkResults:
+        checkType:
           type: object
-          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
-        cloudUrl:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        lastScanId:
-          type: string
+          $ref: '#/components/schemas/CheckTypeDTO'
+        compliance:
+          type: number
+        datasetCount:
+          type: integer
+          format: int32
+        failingCount:
+          type: integer
+          format: int32
         lastScanTime:
           type: string
           format: date-time
         name:
           type: string
-        owners:
+        notEvaluatedCount:
+          type: integer
+          format: int32
+        passingCount:
+          type: integer
+          format: int32
+        warningCount:
+          type: integer
+          format: int32
+        worstLevel:
+          type: object
+          $ref: '#/components/schemas/CheckResultLevelDTO'
+    PublicApiEvaluateDataStandardScopeResponse:
+      type: object
+      properties:
+        dataStandardId:
+          type: string
+        datasetIds:
           type: array
           items:
-            type: object
-            $ref: '#/components/schemas/DatasetOwnerDTO'
-        qualifiedName:
-          type: string
-      required:
-      - id
-      - name
-    DataStandardOwnerRequestDTO:
+            type: string
+    PublicApiUpdateDataStandardStatusResponse:
       type: object
       properties:
-        type:
+        dataStandard:
           type: object
-          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - type
-    DataStandardScheduleDTO:
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    PublicApiExecuteDataStandardsRequestDTO:
       type: object
       properties:
-        enabled:
-          type: boolean
-    DataStandardScopeAttributeFilterDTO:
-      type: object
-      properties:
-        attributeName:
-          type: string
-        booleanValue:
-          type: boolean
-        date:
-          type: string
-          format: date-time
-        filters:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/DataStandardScopeAttributeFilterTypeDTO'
-        value:
+        datasetId:
           type: string
       required:
-      - type
-    DataStandardScopeAttributeFilterTypeDTO:
+      - datasetId
+    DataStandardSortFieldDTO:
       type: string
       enum:
-      - equals
-      - contains
-      - and
-      - or
-    DataStandardScopeDTO:
-      type: object
-      properties:
-        rules:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardScopeRuleDTO'
-    DataStandardScopeMatchingDatasetContentDTO:
-      type: object
-      properties:
-        datasourceId:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        qualifiedName:
-          type: string
-      required:
-      - datasourceId
-      - id
       - name
+      - label
     DataStandardScopeRuleDTO:
       type: object
       properties:
@@ -1606,53 +1525,37 @@ components:
           type: string
         schema:
           type: string
-    DataStandardSortFieldDTO:
+    CheckResultLevelDTO:
       type: string
       enum:
-      - name
-      - label
-    DataStandardStatusDTO:
-      type: string
-      enum:
-      - draft
-      - active
-      - paused
-      - invalid
-    DatasetOwnerDTO:
-      type: object
-      properties:
-        type:
-          type: object
-          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
-        user:
-          type: object
-          $ref: '#/components/schemas/UserContentDTO'
-        userGroup:
-          type: object
-          $ref: '#/components/schemas/UserGroupContentBasicDTO'
-      required:
-      - type
-    DatasetOwnerTypeDTO:
-      type: string
-      enum:
-      - user
-      - userGroup
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
+      - info
+      - warning
+      - critical
+      - not_evaluated
+      - excluded
     MapOfStringTo_object:
       type: object
       additionalProperties: true
-    PublicApiCreateDataStandardResponse:
+    DataStandardScopeDTO:
       type: object
       properties:
-        dataStandard:
+        rules:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeRuleDTO'
+    PublicApiPreviewDataStandardScopeRequestDTO:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        scope:
           type: object
-          $ref: '#/components/schemas/DataStandardContentDTO'
+          $ref: '#/components/schemas/DataStandardScopeDTO'
+        size:
+          type: integer
+          format: int32
     PublicApiDataStandardRequestDTO:
       type: object
       properties:
@@ -1686,82 +1589,28 @@ components:
       - name
       - owners
       - status
-    PublicApiDataStandardsActivityResponse:
+    ErrorResponse:
       type: object
       properties:
-        activity:
-          type: object
-          $ref: '#/components/schemas/DataStandardActivityContentDTO'
-    PublicApiDeleteDataStandardResponse:
-      type: object
-      properties:
+        code:
+          type: string
         message:
           type: string
-      required:
-      - message
-    PublicApiEvaluateDataStandardScopeResponse:
+    DataStandardCheckResultsDTO:
       type: object
       properties:
-        dataStandardId:
-          type: string
-        datasetIds:
-          type: array
-          items:
-            type: string
-    PublicApiExecuteDataStandardsRequestDTO:
-      type: object
-      properties:
-        datasetId:
-          type: string
-      required:
-      - datasetId
-    PublicApiExecuteDataStandardsResponse:
-      type: object
-      properties:
-        dataStandardIds:
-          type: array
-          items:
-            type: string
-        scanId:
-          type: string
-    PublicApiGetDataStandardResponse:
-      type: object
-      properties:
-        dataStandard:
-          type: object
-          $ref: '#/components/schemas/DataStandardContentDTO'
-    PublicApiListDataStandardChecksResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardCheckContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
+        failingCount:
           type: integer
           format: int32
-        size:
+        notEvaluatedCount:
           type: integer
           format: int32
-        totalElements:
+        passingCount:
           type: integer
           format: int32
-        totalPages:
+        warningCount:
           type: integer
           format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
     PublicApiListDataStandardDatasetsResponse:
       type: object
       properties:
@@ -1794,6 +1643,50 @@ components:
       - size
       - totalElements
       - totalPages
+    DataStandardDatasetContentDTO:
+      type: object
+      properties:
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        lastScanId:
+          type: string
+        lastScanTime:
+          type: string
+          format: date-time
+        name:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetOwnerDTO'
+        qualifiedName:
+          type: string
+      required:
+      - id
+      - name
+    PublicApiExecuteDataStandardsResponse:
+      type: object
+      properties:
+        dataStandardIds:
+          type: array
+          items:
+            type: string
+        scanId:
+          type: string
+    PublicApiUpdateDataStandardResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
     PublicApiListDataStandardsResponse:
       type: object
       properties:
@@ -1826,85 +1719,16 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiPreviewDataStandardScopeRequestDTO:
+    UserGroupContentBasicDTO:
       type: object
       properties:
-        page:
-          type: integer
-          format: int32
-        scope:
-          type: object
-          $ref: '#/components/schemas/DataStandardScopeDTO'
-        size:
-          type: integer
-          format: int32
-    PublicApiPreviewDataStandardScopeResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardScopeMatchingDatasetContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
-    PublicApiTestDataStandardRequestDTO:
-      type: object
-      properties:
-        contents:
+        name:
           type: string
-        datasetId:
+        userGroupId:
           type: string
       required:
-      - contents
-      - datasetId
-    PublicApiTestDataStandardResponse:
-      type: object
-      properties:
-        scanId:
-          type: string
-    PublicApiUpdateDataStandardResponse:
-      type: object
-      properties:
-        dataStandard:
-          type: object
-          $ref: '#/components/schemas/DataStandardContentDTO'
-    PublicApiUpdateDataStandardStatusRequestDTO:
-      type: object
-      properties:
-        status:
-          type: object
-          $ref: '#/components/schemas/DataStandardStatusDTO'
-      required:
-      - status
-    PublicApiUpdateDataStandardStatusResponse:
-      type: object
-      properties:
-        dataStandard:
-          type: object
-          $ref: '#/components/schemas/DataStandardContentDTO'
+      - name
+      - userGroupId
     UserContentDTO:
       type: object
       properties:
@@ -1921,13 +1745,144 @@ components:
       required:
       - email
       - userId
-    UserGroupContentBasicDTO:
+    DatasetOwnerDTO:
       type: object
       properties:
-        name:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        user:
+          type: object
+          $ref: '#/components/schemas/UserContentDTO'
+        userGroup:
+          type: object
+          $ref: '#/components/schemas/UserGroupContentBasicDTO'
+      required:
+      - type
+    DataStandardScopeAttributeFilterTypeDTO:
+      type: string
+      enum:
+      - equals
+      - contains
+      - and
+      - or
+    PublicApiTestDataStandardRequestDTO:
+      type: object
+      properties:
+        contents:
           type: string
-        userGroupId:
+        datasetId:
           type: string
       required:
+      - contents
+      - datasetId
+    DataStandardActivityContentDTO:
+      type: object
+      properties:
+        activeCount:
+          type: integer
+          format: int32
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        datasetCount:
+          type: integer
+          format: int32
+        totalCount:
+          type: integer
+          format: int32
+      required:
+      - activeCount
+      - checkResults
+      - datasetCount
+      - totalCount
+    DataStandardScopeMatchingDatasetContentDTO:
+      type: object
+      properties:
+        datasourceId:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        name:
+          type: string
+        qualifiedName:
+          type: string
+      required:
+      - datasourceId
+      - id
       - name
-      - userGroupId
+    DatasetOwnerTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    DataStandardOwnerRequestDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - type
+    PublicApiDataStandardsActivityResponse:
+      type: object
+      properties:
+        activity:
+          type: object
+          $ref: '#/components/schemas/DataStandardActivityContentDTO'
+    DataStandardScopeAttributeFilterDTO:
+      type: object
+      properties:
+        attributeName:
+          type: string
+        booleanValue:
+          type: boolean
+        date:
+          type: string
+          format: date-time
+        filters:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeAttributeFilterTypeDTO'
+        value:
+          type: string
+      required:
+      - type
+    PublicApiUpdateDataStandardStatusRequestDTO:
+      type: object
+      properties:
+        status:
+          type: object
+          $ref: '#/components/schemas/DataStandardStatusDTO'
+      required:
+      - status
+    PublicApiDeleteDataStandardResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    PublicApiTestDataStandardResponse:
+      type: object
+      properties:
+        scanId:
+          type: string
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey

@@ -1,29 +1,51 @@
 {
   "provider": "soda-data",
   "sources": [
-    "soda-data-attributes-api-openapi.yml",
-    "soda-data-authentication-api-openapi.yml",
-    "soda-data-checks-api-openapi.yml",
-    "soda-data-contracts-api-openapi.yml",
-    "soda-data-datasets-api-openapi.yml"
+    "_original/soda-data-cloud-api-v4-openapi.yml"
   ],
   "outputs": [
     "soda-data-attributes-api-openapi.yml",
-    "soda-data-authentication-api-openapi.yml",
     "soda-data-checks-api-openapi.yml",
     "soda-data-contracts-api-openapi.yml",
-    "soda-data-datasets-api-openapi.yml"
+    "soda-data-data-standards-api-openapi.yml",
+    "soda-data-datasets-api-openapi.yml",
+    "soda-data-datasources-api-openapi.yml",
+    "soda-data-discovered-datasets-api-openapi.yml",
+    "soda-data-incidents-api-openapi.yml",
+    "soda-data-licensing-api-openapi.yml",
+    "soda-data-notification-rules-api-openapi.yml",
+    "soda-data-runners-api-openapi.yml",
+    "soda-data-scans-api-openapi.yml",
+    "soda-data-secrets-api-openapi.yml",
+    "soda-data-users-api-openapi.yml",
+    "soda-data-utility-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
-    "soda-data-attributes-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "soda-data-authentication-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "soda-data-checks-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "soda-data-contracts-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "soda-data-datasets-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "soda-data-cloud-api-v4-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: soda-data-data-sources-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 15 total)"
   ],
-  "skipped": []
+  "skipped": [
+    "soda-data-attributes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-checks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-contracts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-data-sources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-data-standards-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-discovered-datasets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-incidents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-licensing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-notification-rules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-runners-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-scans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-secrets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "soda-data-utility-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

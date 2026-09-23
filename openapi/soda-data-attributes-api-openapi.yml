@@ -1,15 +1,8 @@
-# generated: '2026-08-29'
-# method: searched
-# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
-#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
-#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
-#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Soda Cloud API v4 — Attributes
+  title: Soda Cloud API v4 Attributes API
   version: v1
-  description: The Attributes surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested
-    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Soda Cloud REST API (v4 public API). Assembled verbatim from the OpenAPI 3.1.0 documents Soda publishes inside each REST API reference page at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -27,8 +20,7 @@ tags:
 paths:
   /api/v1/attributes:
     get:
-      description: 'This endpoint enables you to list the attributes available in your organization''s
-        Soda Cloud account.
+      description: 'This endpoint enables you to list the attributes available in your organization''s Soda Cloud account.
 
 
         Optionally filter by resource type using the `resourceType` query parameter.
@@ -52,8 +44,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -143,14 +134,10 @@ paths:
       tags:
       - Attributes
     post:
-      description: 'This endpoint enables you to create a new attribute in your organization''s Soda Cloud
-        account.
+      description: 'This endpoint enables you to create a new attribute in your organization''s Soda Cloud account.
 
 
-        Attributes are scoped to a resource type (dataset, check, or column). Once an attribute is created,
-        it can be set on the associated resource type. Attributes can be used to configure notification
-        rules, dashboards, filters, etc. For example sending email alerts when checks marked as critical
-        fail.
+        Attributes are scoped to a resource type (dataset, check, or column). Once an attribute is created, it can be set on the associated resource type. Attributes can be used to configure notification rules, dashboards, filters, etc. For example sending email alerts when checks marked as critical fail.
 
 
         ## Authentication
@@ -159,8 +146,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -235,15 +221,13 @@ paths:
       - Attributes
   /api/v1/attributes/{attributeId}:
     post:
-      description: 'This endpoint enables you to update an existing attribute in your organization''s
-        Soda Cloud account.
+      description: 'This endpoint enables you to update an existing attribute in your organization''s Soda Cloud account.
 
 
         Only label, description, and allowedValues (for select types) can be updated.
 
 
-        When updating allowedValues, existing attribute values on resources are left in place, even if
-        they are no longer in the allowed set.
+        When updating allowedValues, existing attribute values on resources are left in place, even if they are no longer in the allowed set.
 
 
         ## Authentication
@@ -252,8 +236,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -340,8 +323,7 @@ paths:
       tags:
       - Attributes
     delete:
-      description: 'This endpoint enables you to delete an existing attribute from your organization''s
-        Soda Cloud account.
+      description: 'This endpoint enables you to delete an existing attribute from your organization''s Soda Cloud account.
 
 
         The attribute will be removed from any resources where it is set.
@@ -353,8 +335,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -434,64 +415,30 @@ paths:
       tags:
       - Attributes
 components:
-  securitySchemes:
-    basicAuthApiKey:
-      scheme: basic
-      type: http
-    cookieToken:
-      in: cookie
-      name: token
-      type: apiKey
   schemas:
-    AttributeContentDTO:
+    PublicApiDeleteAttributeResponse:
       type: object
       properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/AttributeTypeDTO'
-      required:
-      - id
-      - label
-      - name
-      - resourceType
-      - type
-    AttributeResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - check
-      - column
-    AttributeTypeDTO:
-      type: string
-      enum:
-      - text
-      - number
-      - checkbox
-      - datetime
-      - singleSelect
-      - multiSelect
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
         message:
           type: string
+      required:
+      - message
+    PublicApiUpdateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
+    PublicApiCreateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
     PublicApiCreateAttributeRequestDTO:
       type: object
       properties:
@@ -516,21 +463,23 @@ components:
       - name
       - resourceType
       - type
-    PublicApiCreateAttributeResponse:
+    AttributeResourceTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - check
+      - column
+    PublicApiUpdateAttributeRequestDTO:
       type: object
       properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
-    PublicApiDeleteAttributeResponse:
-      type: object
-      properties:
-        message:
+        allowedValues:
+          type: array
+          items:
+            type: string
+        description:
           type: string
-      required:
-      - message
+        label:
+          type: string
     PublicApiListAttributesResponse:
       type: object
       properties:
@@ -563,7 +512,7 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiUpdateAttributeRequestDTO:
+    AttributeContentDTO:
       type: object
       properties:
         allowedValues:
@@ -572,13 +521,45 @@ components:
             type: string
         description:
           type: string
+        id:
+          type: string
         label:
           type: string
-    PublicApiUpdateAttributeResponse:
+        name:
+          type: string
+        resourceType:
+          type: object
+          $ref: '#/components/schemas/AttributeResourceTypeDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/AttributeTypeDTO'
+      required:
+      - id
+      - label
+      - name
+      - resourceType
+      - type
+    ErrorResponse:
       type: object
       properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
+        code:
+          type: string
+        message:
+          type: string
+    AttributeTypeDTO:
+      type: string
+      enum:
+      - text
+      - number
+      - checkbox
+      - datetime
+      - singleSelect
+      - multiSelect
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey

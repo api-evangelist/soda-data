@@ -1,15 +1,8 @@
-# generated: '2026-08-29'
-# method: searched
-# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
-#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
-#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
-#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Soda Cloud API v4 — Contracts
+  title: Soda Cloud API v4 Contracts API
   version: v1
-  description: The Contracts surface of the Soda Cloud v4 public REST API — 10 operation(s). Harvested
-    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Soda Cloud REST API (v4 public API). Assembled verbatim from the OpenAPI 3.1.0 documents Soda publishes inside each REST API reference page at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -42,16 +35,13 @@ paths:
         - `datasetId`: Optionally, use this parameter to list only the contracts for a specific dataset.
 
 
-        - `datasetQualifiedName`: Optionally, use this parameter instead of `datasetId` to identify the
-        dataset by its qualified name. Do not supply both `datasetId` and `datasetQualifiedName`.
+        - `datasetQualifiedName`: Optionally, use this parameter instead of `datasetId` to identify the dataset by its qualified name. Do not supply both `datasetId` and `datasetQualifiedName`.
 
 
         ## Authorization
 
 
-        When filtering by dataset, only users with **View dataset** permission on the specified dataset
-        can list its contracts. When no dataset filter is supplied, all contracts in the organization
-        are returned.
+        When filtering by dataset, only users with **View dataset** permission on the specified dataset can list its contracts. When no dataset filter is supplied, all contracts in the organization are returned.
 
 
         ## Authentication
@@ -60,8 +50,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -148,14 +137,10 @@ paths:
       tags:
       - Contracts
     post:
-      description: 'This endpoint allows you to create a new contract on a dataset. The contract is initialized
-        with a template containing the dataset identifier and an empty columns list. Use the publish endpoint
-        to replace this with your full contract YAML.
+      description: 'This endpoint allows you to create a new contract on a dataset. The contract is initialized with a template containing the dataset identifier and an empty columns list. Use the publish endpoint to replace this with your full contract YAML.
 
 
-        Provide either `datasetId` or `datasetQualifiedName` in the request body to identify the target
-        dataset. Exactly one must be supplied. If both are supplied, the request is rejected with a 400
-        error.
+        Provide either `datasetId` or `datasetQualifiedName` in the request body to identify the target dataset. Exactly one must be supplied. If both are supplied, the request is rejected with a 400 error.
 
 
         ## Authorization
@@ -170,8 +155,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -253,12 +237,10 @@ paths:
         The dataset must be connected to a Soda Runner and must not already have a published contract.
 
 
-        Provide either `datasetId` (UUID) or `datasetQualifiedName` (e.g. `my_datasource/my_schema/my_table`).
-        Exactly one must be supplied.
+        Provide either `datasetId` (UUID) or `datasetQualifiedName` (e.g. `my_datasource/my_schema/my_table`). Exactly one must be supplied.
 
 
-        Returns `202 Accepted` with a `Location` header pointing to the status endpoint. Use the status
-        endpoint to monitor the progress of the skeleton generation.
+        Returns `202 Accepted` with a `Location` header pointing to the status endpoint. Use the status endpoint to monitor the progress of the skeleton generation.
 
 
         ## Authentication
@@ -267,8 +249,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -343,12 +324,10 @@ paths:
       - Contracts
   /api/v1/contracts/actions/createSkeleton/{operationId}:
     get:
-      description: 'Returns the status of a skeleton contract generation operation that was triggered
-        via the **Generate skeleton contract** endpoint.
+      description: 'Returns the status of a skeleton contract generation operation that was triggered via the **Generate skeleton contract** endpoint.
 
 
-        The `operationId` is the last path segment of the `Location` header returned by the **Generate
-        skeleton contract** response.
+        The `operationId` is the last path segment of the `Location` header returned by the **Generate skeleton contract** response.
 
 
         The response includes the operation state, dataset information, and creation timestamp.
@@ -360,8 +339,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -436,21 +414,16 @@ paths:
       - Contracts
   /api/v1/contracts/actions/generate:
     post:
-      description: 'Triggers AI-powered contract generation for one or more datasets. The contract generation
-        runs asynchronously.
+      description: 'Triggers AI-powered contract generation for one or more datasets. The contract generation runs asynchronously.
 
 
-        Each dataset must be connected to a Soda Runner and must not already have a contract. If any dataset
-        is not eligible, the request is rejected with a `400` response listing the ineligible datasets
-        and reasons.
+        Each dataset must be connected to a Soda Runner and must not already have a contract. If any dataset is not eligible, the request is rejected with a `400` response listing the ineligible datasets and reasons.
 
 
-        Provide `datasetIds` (list of UUIDs) and/or `datasetQualifiedNames` (list of qualified names,
-        e.g. `my_datasource/my_schema/my_table`). Both lists are additive. At least one must be non-empty.
+        Provide `datasetIds` (list of UUIDs) and/or `datasetQualifiedNames` (list of qualified names, e.g. `my_datasource/my_schema/my_table`). Both lists are additive. At least one must be non-empty.
 
 
-        Returns `202 Accepted` with a `Location` header pointing to the status endpoint. Use the status
-        endpoint to monitor the progress of the contract generation.
+        Returns `202 Accepted` with a `Location` header pointing to the status endpoint. Use the status endpoint to monitor the progress of the contract generation.
 
 
         ## Authentication
@@ -459,8 +432,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -535,17 +507,13 @@ paths:
       - Contracts
   /api/v1/contracts/actions/generate/{operationId}:
     get:
-      description: 'Returns the status of a contract generation operation that was triggered via the **Generate
-        contracts** endpoint.
+      description: 'Returns the status of a contract generation operation that was triggered via the **Generate contracts** endpoint.
 
 
-        The `operationId` is the last path segment of the `Location` header returned by the **Generate
-        contracts** response.
+        The `operationId` is the last path segment of the `Location` header returned by the **Generate contracts** response.
 
 
-        While the operation is ongoing, only the operation state is returned (`datasets` will be `null`).
-        Once the operation reaches a terminal state (completed, failed, or canceled), the full per-dataset
-        scan details are included.
+        While the operation is ongoing, only the operation state is returned (`datasets` will be `null`). Once the operation reaches a terminal state (completed, failed, or canceled), the full per-dataset scan details are included.
 
 
         ## Authentication
@@ -554,8 +522,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -645,8 +612,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -723,12 +689,10 @@ paths:
       description: 'This endpoint allows you to publish new YAML content for an existing contract.
 
 
-        The `contents` field must contain valid Soda contract YAML. If the YAML is malformed or does not
-        conform to the contract schema, the request is rejected with a 400 error.
+        The `contents` field must contain valid Soda contract YAML. If the YAML is malformed or does not conform to the contract schema, the request is rejected with a 400 error.
 
 
-        The `dataset` in the YAML must name the dataset that `contractId` belongs to. Contents naming
-        a different dataset are rejected with a 400 error.
+        The `dataset` in the YAML must name the dataset that `contractId` belongs to. Contents naming a different dataset are rejected with a 400 error.
 
 
         ## Authorization
@@ -743,8 +707,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -829,13 +792,10 @@ paths:
       description: 'This endpoint triggers a contract verification scan for the specified contract.
 
 
-        The response, when successful, is `201` and contains headers `Location` and `X-Soda-Scan-Id` which
-        identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter of the
-        **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
+        The response, when successful, is `201` and contains headers `Location` and `X-Soda-Scan-Id` which identify the triggered scan. Use the value of `X-Soda-Scan-Id` in the `scanId` parameter of the **Get scan status**, **Get scan logs**, and **Cancel a scan** endpoints.
 
 
-        Optionally, you can provide `checkPaths` to limit verification to specific checks within the contract.
-        Note: `checkPaths` may not be available for all organizations.
+        Optionally, you can provide `checkPaths` to limit verification to specific checks within the contract. Note: `checkPaths` may not be available for all organizations.
 
 
         ## Authorization
@@ -850,8 +810,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -947,8 +906,7 @@ paths:
         - `page`: Supply an integer value. The default value is 0.
 
 
-        - `createdBefore`: Optionally, supply a UTC datetime value (ISO 8601, e.g. `2024-01-15T10:30:00`)
-        to only return versions created strictly before this timestamp. Use this for consistent pagination.
+        - `createdBefore`: Optionally, supply a UTC datetime value (ISO 8601, e.g. `2024-01-15T10:30:00`) to only return versions created strictly before this timestamp. Use this for consistent pagination.
 
 
         ## Authentication
@@ -957,8 +915,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -1047,32 +1004,7 @@ paths:
       tags:
       - Contracts
 components:
-  securitySchemes:
-    basicAuthApiKey:
-      scheme: basic
-      type: http
-    cookieToken:
-      in: cookie
-      name: token
-      type: apiKey
   schemas:
-    ContractContentDTO:
-      type: object
-      properties:
-        contents:
-          type: string
-        created:
-          type: string
-          format: date-time
-        datasetId:
-          type: string
-        datasetQualifiedName:
-          type: string
-        id:
-          type: string
-        lastUpdated:
-          type: string
-          format: date-time
     ContractVersionDTO:
       type: object
       properties:
@@ -1089,86 +1021,6 @@ components:
           type: string
         id:
           type: string
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    GenerateContractOperationStateDTO:
-      type: string
-      enum:
-      - ongoing
-      - completed
-      - failed
-      - canceled
-    PublicApiCreateContractRequestDTO:
-      type: object
-      properties:
-        contents:
-          type: string
-        datasetId:
-          type: string
-        datasetQualifiedName:
-          type: string
-      required:
-      - contents
-    PublicApiCreateContractResponse:
-      type: object
-      properties:
-        contract:
-          type: object
-          $ref: '#/components/schemas/ContractContentDTO'
-    PublicApiCreateSkeletonContractRequestDTO:
-      type: object
-      properties:
-        datasetId:
-          type: string
-        datasetQualifiedName:
-          type: string
-    PublicApiCreateSkeletonContractStatusResponse:
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-        datasetId:
-          type: string
-        datasetQualifiedName:
-          type: string
-        operationId:
-          type: string
-        state:
-          type: object
-          $ref: '#/components/schemas/SkeletonContractOperationStateDTO'
-    PublicApiGenerateContractRequestDTO:
-      type: object
-      properties:
-        datasetIds:
-          type: array
-          items:
-            type: string
-        datasetQualifiedNames:
-          type: array
-          items:
-            type: string
-    PublicApiGenerateContractStatusResponse:
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-        datasets:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiGenerateContractStatusResponse_DatasetGenerationStatus'
-        operationId:
-          type: string
-        state:
-          type: object
-          $ref: '#/components/schemas/GenerateContractOperationStateDTO'
     PublicApiGenerateContractStatusResponse_DatasetGenerationStatus:
       type: object
       properties:
@@ -1183,12 +1035,6 @@ components:
         scanState:
           type: object
           $ref: '#/components/schemas/ScanStateDTO'
-    PublicApiGetContractResponse:
-      type: object
-      properties:
-        contract:
-          type: object
-          $ref: '#/components/schemas/ContractContentDTO'
     PublicApiListContractVersionsResponse:
       type: object
       properties:
@@ -1221,6 +1067,122 @@ components:
       - size
       - totalElements
       - totalPages
+    SkeletonContractOperationStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+      - canceled
+    GenerateContractOperationStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+      - canceled
+    PublicApiVerifyContractRequestDTO:
+      type: object
+      properties:
+        checkPaths:
+          type: array
+          items:
+            type: string
+    PublicApiGenerateContractStatusResponse:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        datasets:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiGenerateContractStatusResponse_DatasetGenerationStatus'
+        operationId:
+          type: string
+        state:
+          type: object
+          $ref: '#/components/schemas/GenerateContractOperationStateDTO'
+    PublicApiPublishContractRequestDTO:
+      type: object
+      properties:
+        contents:
+          type: string
+      required:
+      - contents
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiCreateSkeletonContractRequestDTO:
+      type: object
+      properties:
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+    PublicApiCreateContractRequestDTO:
+      type: object
+      properties:
+        contents:
+          type: string
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+      required:
+      - contents
+    PublicApiCreateSkeletonContractStatusResponse:
+      type: object
+      properties:
+        created:
+          type: string
+          format: date-time
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+        operationId:
+          type: string
+        state:
+          type: object
+          $ref: '#/components/schemas/SkeletonContractOperationStateDTO'
+    PublicApiGenerateContractRequestDTO:
+      type: object
+      properties:
+        datasetIds:
+          type: array
+          items:
+            type: string
+        datasetQualifiedNames:
+          type: array
+          items:
+            type: string
+    PublicApiPublishContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+    ScanStateDTO:
+      type: string
+      enum:
+      - queuing
+      - executing
+      - started
+      - cancelationRequested
+      - timeOutRequested
+      - canceled
+      - timedOut
+      - failed
+      - completedWithErrors
+      - completedWithFailures
+      - completedWithWarnings
+      - completed
     PublicApiListContractsResponse:
       type: object
       properties:
@@ -1253,45 +1215,40 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiPublishContractRequestDTO:
-      type: object
-      properties:
-        contents:
-          type: string
-      required:
-      - contents
-    PublicApiPublishContractResponse:
+    PublicApiGetContractResponse:
       type: object
       properties:
         contract:
           type: object
           $ref: '#/components/schemas/ContractContentDTO'
-    PublicApiVerifyContractRequestDTO:
+    ContractContentDTO:
       type: object
       properties:
-        checkPaths:
-          type: array
-          items:
-            type: string
-    ScanStateDTO:
-      type: string
-      enum:
-      - queuing
-      - executing
-      - started
-      - cancelationRequested
-      - timeOutRequested
-      - canceled
-      - timedOut
-      - failed
-      - completedWithErrors
-      - completedWithFailures
-      - completedWithWarnings
-      - completed
-    SkeletonContractOperationStateDTO:
-      type: string
-      enum:
-      - ongoing
-      - completed
-      - failed
-      - canceled
+        contents:
+          type: string
+        created:
+          type: string
+          format: date-time
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+        id:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+    PublicApiCreateContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey

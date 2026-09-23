@@ -1,15 +1,8 @@
-# generated: '2026-08-29'
-# method: searched
-# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
-#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
-#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
-#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Soda Cloud API v4 — Runners
+  title: Soda Cloud API v4 Runners API
   version: v1
-  description: The Runners surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested verbatim
-    from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Soda Cloud REST API (v4 public API). Assembled verbatim from the OpenAPI 3.1.0 documents Soda publishes inside each REST API reference page at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -45,8 +38,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -121,15 +113,13 @@ paths:
       description: 'Creates an API key for a new self-hosted runner deployment.
 
 
-        Returns the API key credentials (id and secret) to configure the runner. The credentials are only
-        returned at creation time and cannot be retrieved later, so make sure to store them securely.
+        Returns the API key credentials (id and secret) to configure the runner. The credentials are only returned at creation time and cannot be retrieved later, so make sure to store them securely.
 
 
-        After creation the runner does not immediately become visible in Soda Cloud. The runner needs
-        to registers itself using the API key credentials before it becomes available.
+        After creation the runner does not immediately become visible in Soda Cloud. The runner needs to registers itself using the API key credentials before it becomes available.
 
 
-        See [deployment instructions](https://go.soda.io/agent) for setting up the runner.
+        See deployment instructions for setting up the runner.
 
 
         ## Authentication
@@ -138,8 +128,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -216,8 +205,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -291,13 +279,37 @@ paths:
       tags:
       - Runners
     delete:
-      description: "This endpoint allows you to delete a specific self-hosted runner by its ID. If the\
-        \ runner is still in use, the request will fail with a `400 Bad Request` response. \n\nSoda-hosted\
-        \ and virtual runners cannot be deleted through this endpoint.\n\n## Authentication\n\nUser authentication\
-        \ required: `true`\n\nThis endpoint accepts authentication via API keys in the `Basic` authentication\
-        \ header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically\
-        \ on each request.\n\n## Authorization\n\nUsers must have global role permission MANAGE_DATASOURCES_AND_AGENTS\
-        \ to execute this call.\n\n## Tags\n\n`Runners`\n\n## Rate limiting\n\n10 requests/60 seconds"
+      description: 'This endpoint allows you to delete a specific self-hosted runner by its ID. If the runner is still in use, the request will fail with a `400 Bad Request` response.
+
+
+        Soda-hosted and virtual runners cannot be deleted through this endpoint.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Users must have global role permission MANAGE_DATASOURCES_AND_AGENTS to execute this call.
+
+
+        ## Tags
+
+
+        `Runners`
+
+
+        ## Rate limiting
+
+
+        10 requests/60 seconds'
       operationId: DELETE/api/v1/runners/{runnerId}
       parameters:
       - in: path
@@ -359,31 +371,7 @@ paths:
       tags:
       - Runners
 components:
-  securitySchemes:
-    basicAuthApiKey:
-      scheme: basic
-      type: http
-    cookieToken:
-      in: cookie
-      name: token
-      type: apiKey
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    PublicApiCreateRunnerResponse:
-      type: object
-      properties:
-        apiKeyId:
-          type: string
-        apiKeySecret:
-          type: string
-    PublicApiDeleteRunnerResponse:
-      type: object
     PublicApiGetRunnerResponse:
       type: object
       properties:
@@ -422,6 +410,15 @@ components:
       - size
       - totalElements
       - totalPages
+    PublicApiCreateRunnerResponse:
+      type: object
+      properties:
+        apiKeyId:
+          type: string
+        apiKeySecret:
+          type: string
+    PublicApiDeleteRunnerResponse:
+      type: object
     PublicApiRunnerDTO:
       type: object
       properties:
@@ -442,11 +439,6 @@ components:
         versions:
           type: object
           $ref: '#/components/schemas/PublicApiRunnerVersionsDTO'
-    PublicApiRunnerTypeDTO:
-      type: string
-      enum:
-      - SELF_HOSTED
-      - SODA_HOSTED
     PublicApiRunnerVersionsDTO:
       type: object
       properties:
@@ -457,3 +449,23 @@ components:
           type: string
         runner:
           type: string
+    PublicApiRunnerTypeDTO:
+      type: string
+      enum:
+      - SELF_HOSTED
+      - SODA_HOSTED
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey

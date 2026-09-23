@@ -1,15 +1,8 @@
-# generated: '2026-08-29'
-# method: searched
-# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
-#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
-#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
-#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Soda Cloud API v4 — Notification Rules
+  title: Soda Cloud API v4 Notification Rules API
   version: v1
-  description: The Notification Rules surface of the Soda Cloud v4 public REST API — 4 operation(s). Harvested
-    verbatim from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Soda Cloud REST API (v4 public API). Assembled verbatim from the OpenAPI 3.1.0 documents Soda publishes inside each REST API reference page at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -45,8 +38,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Tags
@@ -121,8 +113,7 @@ paths:
       description: 'Creates a notification rule with the provided filter and recipients.
 
 
-        The filter is a simplified expression tree (and/or/not/equals/contains/in) over check and monitor
-        attributes; recipients can be users, user groups, emails, integrations, or roles.
+        The filter is a simplified expression tree (and/or/not/equals/contains/in) over check and monitor attributes; recipients can be users, user groups, emails, integrations, or roles.
 
 
         ## Authentication
@@ -131,8 +122,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -207,8 +197,7 @@ paths:
       - Notification Rules
   /api/v1/notificationRules/{notificationRuleId}:
     post:
-      description: 'Updates a notification rule. This is a full replacement: the rule''s name, type, filter,
-        recipients, status, and customization are all set from the request body.
+      description: 'Updates a notification rule. This is a full replacement: the rule''s name, type, filter, recipients, status, and customization are all set from the request body.
 
 
         ## Authentication
@@ -217,8 +206,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -314,8 +302,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -395,185 +382,12 @@ paths:
       tags:
       - Notification Rules
 components:
-  securitySchemes:
-    basicAuthApiKey:
-      scheme: basic
-      type: http
-    cookieToken:
-      in: cookie
-      name: token
-      type: apiKey
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    NotificationCustomizationDTO:
-      type: object
-      properties:
-        message:
-          type: string
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationCustomizationTypeDTO'
-      required:
-      - type
-    NotificationCustomizationTypeDTO:
-      type: string
-      enum:
-      - rich
-      - minimal
-    NotificationFilterDTO:
-      type: object
-      properties:
-        expression:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterDTO'
-        expressions:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/NotificationFilterDTO'
-        field:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterFieldDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterTypeDTO'
-        value:
-          type: string
-        values:
-          type: array
-          items:
-            type: string
-      required:
-      - type
-    NotificationFilterFieldDTO:
-      type: object
-      properties:
-        attributeName:
-          type: string
-        field:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterFieldTypeDTO'
-      required:
-      - field
-    NotificationFilterFieldTypeDTO:
-      type: string
-      enum:
-      - datasourceId
-      - datasourceLabel
-      - datasetId
-      - datasetLabel
-      - datasetOwnerId
-      - datasetTags
-      - checkId
-      - checkName
-      - checkOwnerId
-      - columnId
-      - metricType
-      - datasetResourceAttribute
-      - checkResourceAttribute
-    NotificationFilterTypeDTO:
-      type: string
-      enum:
-      - equals
-      - contains
-      - in
-      - and
-      - or
-      - not
-    NotificationLevelDTO:
-      type: string
-      enum:
-      - info
-      - warning
-      - critical
-      - not_evaluated
-    NotificationRecipientDTO:
-      type: object
-      properties:
-        customRoleId:
-          type: string
-        email:
-          type: string
-        integrationChannel:
-          type: string
-        integrationId:
-          type: string
-        role:
-          type: object
-          $ref: '#/components/schemas/NotificationRecipientRoleDTO'
-        triggers:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/NotificationRecipientTriggerDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationRecipientTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - triggers
-      - type
-    NotificationRecipientRoleDTO:
-      type: string
-      enum:
-      - datasetOwner
-      - monitorOwner
-    NotificationRecipientTriggerDTO:
-      type: object
-      properties:
-        level:
-          type: object
-          $ref: '#/components/schemas/NotificationLevelDTO'
-        scanState:
-          type: object
-          $ref: '#/components/schemas/NotificationScanStateDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationTriggerTypeDTO'
-      required:
-      - type
-    NotificationRecipientTypeDTO:
-      type: string
-      enum:
-      - email
-      - user
-      - userGroup
-      - integration
-      - resourceRole
-      - customRole
-    NotificationRuleStatusDTO:
-      type: string
-      enum:
-      - active
-      - paused
-    NotificationScanStateDTO:
-      type: string
-      enum:
-      - failed
-      - timedOut
-      - canceled
-      - completedWithErrors
     NotificationTriggerTypeDTO:
       type: string
       enum:
       - testResultLevel
       - scanState
-    PublicApiDeleteNotificationRuleResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
     PublicApiListNotificationRulesResponse:
       type: object
       properties:
@@ -606,6 +420,16 @@ components:
       - size
       - totalElements
       - totalPages
+    NotificationFilterFieldDTO:
+      type: object
+      properties:
+        attributeName:
+          type: string
+        field:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterFieldTypeDTO'
+      required:
+      - field
     PublicApiNotificationRuleDTO:
       type: object
       properties:
@@ -643,6 +467,34 @@ components:
         updatedAt:
           type: string
           format: date-time
+    NotificationRecipientTriggerDTO:
+      type: object
+      properties:
+        level:
+          type: object
+          $ref: '#/components/schemas/NotificationLevelDTO'
+        scanState:
+          type: object
+          $ref: '#/components/schemas/NotificationScanStateDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationTriggerTypeDTO'
+      required:
+      - type
+    NotificationRecipientTypeDTO:
+      type: string
+      enum:
+      - email
+      - user
+      - userGroup
+      - integration
+      - resourceRole
+      - customRole
+    NotificationRuleStatusDTO:
+      type: string
+      enum:
+      - active
+      - paused
     PublicApiNotificationRuleRequestDTO:
       type: object
       properties:
@@ -674,3 +526,138 @@ components:
       enum:
       - check
       - monitor
+    NotificationRecipientDTO:
+      type: object
+      properties:
+        customRoleId:
+          type: string
+        email:
+          type: string
+        integrationChannel:
+          type: string
+        integrationId:
+          type: string
+        role:
+          type: object
+          $ref: '#/components/schemas/NotificationRecipientRoleDTO'
+        triggers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationRecipientTriggerDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationRecipientTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - triggers
+      - type
+    NotificationCustomizationTypeDTO:
+      type: string
+      enum:
+      - rich
+      - minimal
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    NotificationCustomizationDTO:
+      type: object
+      properties:
+        message:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationCustomizationTypeDTO'
+      required:
+      - type
+    NotificationScanStateDTO:
+      type: string
+      enum:
+      - failed
+      - timedOut
+      - canceled
+      - completedWithErrors
+    PublicApiDeleteNotificationRuleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    NotificationFilterDTO:
+      type: object
+      properties:
+        expression:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterDTO'
+        expressions:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationFilterDTO'
+        field:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterFieldDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterTypeDTO'
+        value:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
+      required:
+      - type
+    NotificationFilterFieldTypeDTO:
+      type: string
+      enum:
+      - datasourceId
+      - datasourceLabel
+      - datasetId
+      - datasetLabel
+      - datasetOwnerId
+      - datasetTags
+      - checkId
+      - checkName
+      - checkOwnerId
+      - columnId
+      - metricType
+      - datasetResourceAttribute
+      - checkResourceAttribute
+    NotificationLevelDTO:
+      type: string
+      enum:
+      - info
+      - warning
+      - critical
+      - not_evaluated
+    NotificationRecipientRoleDTO:
+      type: string
+      enum:
+      - datasetOwner
+      - monitorOwner
+    NotificationFilterTypeDTO:
+      type: string
+      enum:
+      - equals
+      - contains
+      - in
+      - and
+      - or
+      - not
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey

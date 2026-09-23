@@ -1,15 +1,8 @@
-# generated: '2026-08-29'
-# method: searched
-# source: https://docs.soda.io/reference/soda-apis/rest-api/ — assembled from the OpenAPI 3.1.0
-#   documents Soda publishes inline on each REST API reference page (16 pages, 103 operations,
-#   zero conflicting definitions). Ownership: info.title 'Soda Cloud API v4', servers
-#   https://cloud.soda.io + https://cloud.us.soda.io — Soda's own hosts.
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Soda Cloud API v4 — Users
+  title: Soda Cloud API v4 Users API
   version: v1
-  description: The Users surface of the Soda Cloud v4 public REST API — 8 operation(s). Harvested verbatim
-    from the OpenAPI documents Soda publishes at https://docs.soda.io/reference/soda-apis/rest-api/.
+  description: The Soda Cloud REST API (v4 public API). Assembled verbatim from the OpenAPI 3.1.0 documents Soda publishes inside each REST API reference page at https://docs.soda.io/reference/soda-apis/rest-api/.
   contact:
     name: Soda
     url: https://www.soda.io
@@ -27,18 +20,49 @@ tags:
 paths:
   /api/v1/userGroups:
     get:
-      description: "This endpoint enables you to gather information about the user groups in your organization's\
-        \ Soda Cloud account, including lists of members.\n\nThis GET is a paginated API that uses the\
-        \ following parameters to request specific details:\n\n- `size`: Supply an integer value between\
-        \ 10 and 1000, inclusive. The default value is 1000.\n\n- `page`: Supply an integer value. The\
-        \ default value is 0.\n\n- `search`: Optionally, use this parameter to perform a fuzzy search\
-        \ on the user group name. \n\nIf not specified, the query gathers information for all user groups\
-        \ in the account and sorts the results by user group name in ascending order.\n\n## Authentication\n\
-        \nUser authentication required: `true`\n\nThis endpoint accepts authentication via API keys in\
-        \ the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie\
-        \ sessions extend automatically on each request.\n\n## Authorization\n\nAny Soda Cloud user in\
-        \ your organization may execute this query.\n\n## Tags\n\n`Users`\n\n## Rate limiting\n\n60 requests/60\
-        \ seconds"
+      description: 'This endpoint enables you to gather information about the user groups in your organization''s Soda Cloud account, including lists of members.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 10 and 1000, inclusive. The default value is 1000.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `search`: Optionally, use this parameter to perform a fuzzy search on the user group name.
+
+
+        If not specified, the query gathers information for all user groups in the account and sorts the results by user group name in ascending order.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
       operationId: GET/api/v1/userGroups
       parameters:
       - in: query
@@ -109,19 +133,16 @@ paths:
       tags:
       - Users
     post:
-      description: 'This endpoint enables you to create a new user group in your organization''s Soda
-        Cloud account.
+      description: 'This endpoint enables you to create a new user group in your organization''s Soda Cloud account.
 
 
-        The Response of this call, when successful, is `201` and contains headers `Location` which is
-        a reference to the newly created User Group.
+        The Response of this call, when successful, is `201` and contains headers `Location` which is a reference to the newly created User Group.
 
 
         ## Authorization
 
 
-        Only users with **Manage organization settings** permission can update user groups.**See [Manage
-        global roles](https://go.soda.io/roles-global) for more information.**
+        Only users with **Manage organization settings** permission can update user groups.**See Manage global roles for more information.**
 
 
         ## Authentication
@@ -130,8 +151,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -212,8 +232,7 @@ paths:
       - Users
   /api/v1/userGroups/{userGroupId}:
     get:
-      description: 'This endpoint enables you to gather information about a single user group in your
-        organization''s Soda Cloud account, including lists of members.
+      description: 'This endpoint enables you to gather information about a single user group in your organization''s Soda Cloud account, including lists of members.
 
 
         This GET is a non-paginated API that returns a single organization based on its ID.
@@ -225,8 +244,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -306,8 +324,7 @@ paths:
       tags:
       - Users
     post:
-      description: 'This endpoint enables you to update an existing user group in your organization''s
-        Soda Cloud account.
+      description: 'This endpoint enables you to update an existing user group in your organization''s Soda Cloud account.
 
 
         The Response of this call, when successful, is `200` and contains updated User Group details.
@@ -316,8 +333,7 @@ paths:
         ## Authorization
 
 
-        Only users with **Manage organization settings** permission can update user groups.**See [Manage
-        global roles](https://go.soda.io/roles-global) for more information.**
+        Only users with **Manage organization settings** permission can update user groups.**See Manage global roles for more information.**
 
 
         ## Authentication
@@ -326,8 +342,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -414,8 +429,7 @@ paths:
       tags:
       - Users
     delete:
-      description: 'This endpoint enables you to delete an existing user group from your organization''s
-        Soda Cloud account.
+      description: 'This endpoint enables you to delete an existing user group from your organization''s Soda Cloud account.
 
 
         In case of success, the response returns a `200` (OK) response.
@@ -427,8 +441,7 @@ paths:
         ## Authorization
 
 
-        Only users with **Manage organization settings** permission can update user groups.**See [Manage
-        global roles](https://go.soda.io/roles-global) for more information.**
+        Only users with **Manage organization settings** permission can update user groups.**See Manage global roles for more information.**
 
 
         ## Authentication
@@ -437,8 +450,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -519,17 +531,49 @@ paths:
       - Users
   /api/v1/users:
     get:
-      description: "This endpoint enables you to gather information about the users in your organization's\
-        \ Soda Cloud account.\n\nThis GET is a paginated API that uses the following parameters to request\
-        \ specific details:\n\n- `size`: Supply an integer value between 1 and 1000, inclusive. The default\
-        \ value is 1000.\n\n- `page`: Supply an integer value. The default value is 0.\n\n- `search`:\
-        \ Optionally, use this parameter to perform a fuzzy search on the user first name, last name,\
-        \ or email address. \n\nIf not specified, the query gathers information for all users in the account\
-        \ and sorts the results by user name in ascending order.\n\n## Authentication\n\nUser authentication\
-        \ required: `true`\n\nThis endpoint accepts authentication via API keys in the `Basic` authentication\
-        \ header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically\
-        \ on each request.\n\n## Authorization\n\nAny Soda Cloud user in your organization may execute\
-        \ this query.\n\n## Tags\n\n`Users`\n\n## Rate limiting\n\n60 requests/60 seconds"
+      description: 'This endpoint enables you to gather information about the users in your organization''s Soda Cloud account.
+
+
+        This GET is a paginated API that uses the following parameters to request specific details:
+
+
+        - `size`: Supply an integer value between 1 and 1000, inclusive. The default value is 1000.
+
+
+        - `page`: Supply an integer value. The default value is 0.
+
+
+        - `search`: Optionally, use this parameter to perform a fuzzy search on the user first name, last name, or email address.
+
+
+        If not specified, the query gathers information for all users in the account and sorts the results by user name in ascending order.
+
+
+        ## Authentication
+
+
+        User authentication required: `true`
+
+
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+
+
+        ## Authorization
+
+
+        Any Soda Cloud user in your organization may execute this query.
+
+
+        ## Tags
+
+
+        `Users`
+
+
+        ## Rate limiting
+
+
+        60 requests/60 seconds'
       operationId: GET/api/v1/users
       parameters:
       - in: query
@@ -603,17 +647,13 @@ paths:
       description: 'This endpoint enables you to invite users to your organization''s Soda Cloud account.
 
 
-        Invited users will receive an email with a link to set their password and join your organization
-        in Soda Cloud. Once they complete the setup, they will have access to Soda Cloud based on the
-        roles and permissions you assign.
+        Invited users will receive an email with a link to set their password and join your organization in Soda Cloud. Once they complete the setup, they will have access to Soda Cloud based on the roles and permissions you assign.
 
 
-        If your organization is using SSO, invited users will receive an invitation email with a link
-        to Soda Cloud. When they log in using SSO, they are immediately added to the Soda Cloud organization.
+        If your organization is using SSO, invited users will receive an invitation email with a link to Soda Cloud. When they log in using SSO, they are immediately added to the Soda Cloud organization.
 
 
-        You can invite up to 10 users per request. The response contains lists of successful and failed
-        invitations.
+        You can invite up to 10 users per request. The response contains lists of successful and failed invitations.
 
 
         ## Authentication
@@ -622,8 +662,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -701,12 +740,10 @@ paths:
       description: 'This endpoint disables a user in your organization''s Soda Cloud account.
 
 
-        Disabling a user deactivates their membership in the organization. The user is not deleted and
-        can be reactivated later.
+        Disabling a user deactivates their membership in the organization. The user is not deleted and can be reactivated later.
 
 
-        Users in SSO-enabled organizations cannot be disabled via this endpoint, as they are managed by
-        the identity provider.
+        Users in SSO-enabled organizations cannot be disabled via this endpoint, as they are managed by the identity provider.
 
 
         ## Authentication
@@ -715,8 +752,7 @@ paths:
         User authentication required: `true`
 
 
-        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated
-        token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
+        This endpoint accepts authentication via API keys in the `Basic` authentication header, or a pre-authenticated token in HTTP cookie `token`. Cookie sessions extend automatically on each request.
 
 
         ## Authorization
@@ -796,29 +832,9 @@ paths:
       tags:
       - Users
 components:
-  securitySchemes:
-    basicAuthApiKey:
-      scheme: basic
-      type: http
-    cookieToken:
-      in: cookie
-      name: token
-      type: apiKey
   schemas:
-    ErrorResponse:
+    PublicApiDisableUserResponse:
       type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    FailedInvitationDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        error:
-          type: string
     PublicApiCreateUserGroupRequestDTO:
       type: object
       properties:
@@ -830,70 +846,6 @@ components:
             type: string
       required:
       - name
-    PublicApiDeleteUserGroupResponse:
-      type: object
-    PublicApiDisableUserResponse:
-      type: object
-    PublicApiInviteUserRequestDTO:
-      type: object
-      properties:
-        emails:
-          type: array
-          items:
-            type: string
-      required:
-      - emails
-    PublicApiInviteUserResponse:
-      type: object
-      properties:
-        failedInvitations:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/FailedInvitationDTO'
-        validInvitations:
-          type: array
-          items:
-            type: string
-    PublicApiUpdateUserGroupRequestDTO:
-      type: object
-      properties:
-        userIds:
-          type: array
-          items:
-            type: string
-    PublicApiUserGroupsResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/UserGroupContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
     PublicApiUsersResponse:
       type: object
       properties:
@@ -926,22 +878,38 @@ components:
       - size
       - totalElements
       - totalPages
-    UserContentDTO:
+    PublicApiUserGroupsResponse:
       type: object
       properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        fullName:
-          type: string
-        lastName:
-          type: string
-        userId:
-          type: string
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/UserGroupContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
       required:
-      - email
-      - userId
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
     UserGroupContentDTO:
       type: object
       properties:
@@ -958,3 +926,71 @@ components:
       - name
       - userGroupId
       - users
+    PublicApiInviteUserResponse:
+      type: object
+      properties:
+        failedInvitations:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/FailedInvitationDTO'
+        validInvitations:
+          type: array
+          items:
+            type: string
+    PublicApiDeleteUserGroupResponse:
+      type: object
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
+    PublicApiUpdateUserGroupRequestDTO:
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+    PublicApiInviteUserRequestDTO:
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: string
+      required:
+      - emails
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    FailedInvitationDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        error:
+          type: string
+  securitySchemes:
+    basicAuthApiKey:
+      scheme: basic
+      type: http
+    cookieToken:
+      in: cookie
+      name: token
+      type: apiKey
