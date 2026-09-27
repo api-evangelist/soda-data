@@ -1005,6 +1005,17 @@ paths:
       - Contracts
 components:
   schemas:
+    PublicApiGenerateContractRequestDTO:
+      type: object
+      properties:
+        datasetIds:
+          type: array
+          items:
+            type: string
+        datasetQualifiedNames:
+          type: array
+          items:
+            type: string
     ContractVersionDTO:
       type: object
       properties:
@@ -1021,6 +1032,39 @@ components:
           type: string
         id:
           type: string
+    PublicApiPublishContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+    PublicApiGetContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
+    ScanStateDTO:
+      type: string
+      enum:
+      - queuing
+      - executing
+      - started
+      - cancelationRequested
+      - timeOutRequested
+      - canceled
+      - timedOut
+      - failed
+      - completedWithErrors
+      - completedWithFailures
+      - completedWithWarnings
+      - completed
+    PublicApiCreateContractResponse:
+      type: object
+      properties:
+        contract:
+          type: object
+          $ref: '#/components/schemas/ContractContentDTO'
     PublicApiGenerateContractStatusResponse_DatasetGenerationStatus:
       type: object
       properties:
@@ -1067,72 +1111,10 @@ components:
       - size
       - totalElements
       - totalPages
-    SkeletonContractOperationStateDTO:
-      type: string
-      enum:
-      - ongoing
-      - completed
-      - failed
-      - canceled
-    GenerateContractOperationStateDTO:
-      type: string
-      enum:
-      - ongoing
-      - completed
-      - failed
-      - canceled
-    PublicApiVerifyContractRequestDTO:
-      type: object
-      properties:
-        checkPaths:
-          type: array
-          items:
-            type: string
-    PublicApiGenerateContractStatusResponse:
-      type: object
-      properties:
-        created:
-          type: string
-          format: date-time
-        datasets:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiGenerateContractStatusResponse_DatasetGenerationStatus'
-        operationId:
-          type: string
-        state:
-          type: object
-          $ref: '#/components/schemas/GenerateContractOperationStateDTO'
     PublicApiPublishContractRequestDTO:
       type: object
       properties:
         contents:
-          type: string
-      required:
-      - contents
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    PublicApiCreateSkeletonContractRequestDTO:
-      type: object
-      properties:
-        datasetId:
-          type: string
-        datasetQualifiedName:
-          type: string
-    PublicApiCreateContractRequestDTO:
-      type: object
-      properties:
-        contents:
-          type: string
-        datasetId:
-          type: string
-        datasetQualifiedName:
           type: string
       required:
       - contents
@@ -1151,38 +1133,45 @@ components:
         state:
           type: object
           $ref: '#/components/schemas/SkeletonContractOperationStateDTO'
-    PublicApiGenerateContractRequestDTO:
+    PublicApiCreateContractRequestDTO:
       type: object
       properties:
-        datasetIds:
-          type: array
-          items:
-            type: string
-        datasetQualifiedNames:
-          type: array
-          items:
-            type: string
-    PublicApiPublishContractResponse:
-      type: object
-      properties:
-        contract:
-          type: object
-          $ref: '#/components/schemas/ContractContentDTO'
-    ScanStateDTO:
+        contents:
+          type: string
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
+      required:
+      - contents
+    SkeletonContractOperationStateDTO:
       type: string
       enum:
-      - queuing
-      - executing
-      - started
-      - cancelationRequested
-      - timeOutRequested
-      - canceled
-      - timedOut
-      - failed
-      - completedWithErrors
-      - completedWithFailures
-      - completedWithWarnings
+      - ongoing
       - completed
+      - failed
+      - canceled
+    PublicApiVerifyContractRequestDTO:
+      type: object
+      properties:
+        checkPaths:
+          type: array
+          items:
+            type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiCreateSkeletonContractRequestDTO:
+      type: object
+      properties:
+        datasetId:
+          type: string
+        datasetQualifiedName:
+          type: string
     PublicApiListContractsResponse:
       type: object
       properties:
@@ -1215,12 +1204,13 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiGetContractResponse:
-      type: object
-      properties:
-        contract:
-          type: object
-          $ref: '#/components/schemas/ContractContentDTO'
+    GenerateContractOperationStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+      - canceled
     ContractContentDTO:
       type: object
       properties:
@@ -1238,12 +1228,22 @@ components:
         lastUpdated:
           type: string
           format: date-time
-    PublicApiCreateContractResponse:
+    PublicApiGenerateContractStatusResponse:
       type: object
       properties:
-        contract:
+        created:
+          type: string
+          format: date-time
+        datasets:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiGenerateContractStatusResponse_DatasetGenerationStatus'
+        operationId:
+          type: string
+        state:
           type: object
-          $ref: '#/components/schemas/ContractContentDTO'
+          $ref: '#/components/schemas/GenerateContractOperationStateDTO'
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

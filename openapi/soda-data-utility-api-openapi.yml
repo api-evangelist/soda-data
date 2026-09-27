@@ -104,17 +104,17 @@ paths:
       - Utility
 components:
   schemas:
+    PublicApiTestLoginResponse:
+      type: object
+      properties:
+        organisationName:
+          type: string
     ErrorResponse:
       type: object
       properties:
         code:
           type: string
         message:
-          type: string
-    PublicApiTestLoginResponse:
-      type: object
-      properties:
-        organisationName:
           type: string
   securitySchemes:
     basicAuthApiKey:

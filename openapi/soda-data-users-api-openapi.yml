@@ -833,19 +833,18 @@ paths:
       - Users
 components:
   schemas:
-    PublicApiDisableUserResponse:
-      type: object
-    PublicApiCreateUserGroupRequestDTO:
+    PublicApiInviteUserResponse:
       type: object
       properties:
-        name:
-          type: string
-        userIds:
+        failedInvitations:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/FailedInvitationDTO'
+        validInvitations:
           type: array
           items:
             type: string
-      required:
-      - name
     PublicApiUsersResponse:
       type: object
       properties:
@@ -878,6 +877,58 @@ components:
       - size
       - totalElements
       - totalPages
+    PublicApiDisableUserResponse:
+      type: object
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiCreateUserGroupRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userIds:
+          type: array
+          items:
+            type: string
+      required:
+      - name
+    PublicApiUpdateUserGroupRequestDTO:
+      type: object
+      properties:
+        userIds:
+          type: array
+          items:
+            type: string
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
+    PublicApiDeleteUserGroupResponse:
+      type: object
+    FailedInvitationDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        error:
+          type: string
     PublicApiUserGroupsResponse:
       type: object
       properties:
@@ -926,43 +977,6 @@ components:
       - name
       - userGroupId
       - users
-    PublicApiInviteUserResponse:
-      type: object
-      properties:
-        failedInvitations:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/FailedInvitationDTO'
-        validInvitations:
-          type: array
-          items:
-            type: string
-    PublicApiDeleteUserGroupResponse:
-      type: object
-    UserContentDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        fullName:
-          type: string
-        lastName:
-          type: string
-        userId:
-          type: string
-      required:
-      - email
-      - userId
-    PublicApiUpdateUserGroupRequestDTO:
-      type: object
-      properties:
-        userIds:
-          type: array
-          items:
-            type: string
     PublicApiInviteUserRequestDTO:
       type: object
       properties:
@@ -972,20 +986,6 @@ components:
             type: string
       required:
       - emails
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    FailedInvitationDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        error:
-          type: string
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

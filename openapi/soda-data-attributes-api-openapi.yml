@@ -416,29 +416,22 @@ paths:
       - Attributes
 components:
   schemas:
-    PublicApiDeleteAttributeResponse:
+    ErrorResponse:
       type: object
       properties:
+        code:
+          type: string
         message:
           type: string
-      required:
-      - message
-    PublicApiUpdateAttributeResponse:
-      type: object
-      properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
-    PublicApiCreateAttributeResponse:
-      type: object
-      properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
+    AttributeTypeDTO:
+      type: string
+      enum:
+      - text
+      - number
+      - checkbox
+      - datetime
+      - singleSelect
+      - multiSelect
     PublicApiCreateAttributeRequestDTO:
       type: object
       properties:
@@ -463,12 +456,21 @@ components:
       - name
       - resourceType
       - type
-    AttributeResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - check
-      - column
+    PublicApiUpdateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
+    PublicApiDeleteAttributeResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
     PublicApiUpdateAttributeRequestDTO:
       type: object
       properties:
@@ -480,6 +482,12 @@ components:
           type: string
         label:
           type: string
+    AttributeResourceTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - check
+      - column
     PublicApiListAttributesResponse:
       type: object
       properties:
@@ -512,6 +520,14 @@ components:
       - size
       - totalElements
       - totalPages
+    PublicApiCreateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
     AttributeContentDTO:
       type: object
       properties:
@@ -539,22 +555,6 @@ components:
       - name
       - resourceType
       - type
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    AttributeTypeDTO:
-      type: string
-      enum:
-      - text
-      - number
-      - checkbox
-      - datetime
-      - singleSelect
-      - multiSelect
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

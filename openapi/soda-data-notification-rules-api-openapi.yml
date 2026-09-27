@@ -383,11 +383,32 @@ paths:
       - Notification Rules
 components:
   schemas:
-    NotificationTriggerTypeDTO:
+    NotificationFilterFieldDTO:
+      type: object
+      properties:
+        attributeName:
+          type: string
+        field:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterFieldTypeDTO'
+      required:
+      - field
+    NotificationFilterFieldTypeDTO:
       type: string
       enum:
-      - testResultLevel
-      - scanState
+      - datasourceId
+      - datasourceLabel
+      - datasetId
+      - datasetLabel
+      - datasetOwnerId
+      - datasetTags
+      - checkId
+      - checkName
+      - checkOwnerId
+      - columnId
+      - metricType
+      - datasetResourceAttribute
+      - checkResourceAttribute
     PublicApiListNotificationRulesResponse:
       type: object
       properties:
@@ -420,16 +441,166 @@ components:
       - size
       - totalElements
       - totalPages
-    NotificationFilterFieldDTO:
+    NotificationCustomizationDTO:
       type: object
       properties:
-        attributeName:
+        message:
           type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationCustomizationTypeDTO'
+      required:
+      - type
+    NotificationFilterDTO:
+      type: object
+      properties:
+        expression:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterDTO'
+        expressions:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationFilterDTO'
         field:
           type: object
-          $ref: '#/components/schemas/NotificationFilterFieldTypeDTO'
+          $ref: '#/components/schemas/NotificationFilterFieldDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterTypeDTO'
+        value:
+          type: string
+        values:
+          type: array
+          items:
+            type: string
       required:
-      - field
+      - type
+    NotificationLevelDTO:
+      type: string
+      enum:
+      - info
+      - warning
+      - critical
+      - not_evaluated
+    PublicApiDeleteNotificationRuleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    NotificationRecipientTriggerDTO:
+      type: object
+      properties:
+        level:
+          type: object
+          $ref: '#/components/schemas/NotificationLevelDTO'
+        scanState:
+          type: object
+          $ref: '#/components/schemas/NotificationScanStateDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationTriggerTypeDTO'
+      required:
+      - type
+    PublicApiNotificationRuleRequestDTO:
+      type: object
+      properties:
+        customization:
+          type: object
+          $ref: '#/components/schemas/NotificationCustomizationDTO'
+        filter:
+          type: object
+          $ref: '#/components/schemas/NotificationFilterDTO'
+        name:
+          type: string
+        recipients:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationRecipientDTO'
+        ruleType:
+          type: object
+          $ref: '#/components/schemas/PublicApiRuleTypeDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/NotificationRuleStatusDTO'
+      required:
+      - name
+      - recipients
+      - ruleType
+    NotificationFilterTypeDTO:
+      type: string
+      enum:
+      - equals
+      - contains
+      - in
+      - and
+      - or
+      - not
+    NotificationRuleStatusDTO:
+      type: string
+      enum:
+      - active
+      - paused
+    NotificationRecipientTypeDTO:
+      type: string
+      enum:
+      - email
+      - user
+      - userGroup
+      - integration
+      - resourceRole
+      - customRole
+    NotificationTriggerTypeDTO:
+      type: string
+      enum:
+      - testResultLevel
+      - scanState
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    NotificationScanStateDTO:
+      type: string
+      enum:
+      - failed
+      - timedOut
+      - canceled
+      - completedWithErrors
+    NotificationRecipientDTO:
+      type: object
+      properties:
+        customRoleId:
+          type: string
+        email:
+          type: string
+        integrationChannel:
+          type: string
+        integrationId:
+          type: string
+        role:
+          type: object
+          $ref: '#/components/schemas/NotificationRecipientRoleDTO'
+        triggers:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/NotificationRecipientTriggerDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/NotificationRecipientTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - triggers
+      - type
     PublicApiNotificationRuleDTO:
       type: object
       properties:
@@ -467,192 +638,21 @@ components:
         updatedAt:
           type: string
           format: date-time
-    NotificationRecipientTriggerDTO:
-      type: object
-      properties:
-        level:
-          type: object
-          $ref: '#/components/schemas/NotificationLevelDTO'
-        scanState:
-          type: object
-          $ref: '#/components/schemas/NotificationScanStateDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationTriggerTypeDTO'
-      required:
-      - type
-    NotificationRecipientTypeDTO:
-      type: string
-      enum:
-      - email
-      - user
-      - userGroup
-      - integration
-      - resourceRole
-      - customRole
-    NotificationRuleStatusDTO:
-      type: string
-      enum:
-      - active
-      - paused
-    PublicApiNotificationRuleRequestDTO:
-      type: object
-      properties:
-        customization:
-          type: object
-          $ref: '#/components/schemas/NotificationCustomizationDTO'
-        filter:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterDTO'
-        name:
-          type: string
-        recipients:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/NotificationRecipientDTO'
-        ruleType:
-          type: object
-          $ref: '#/components/schemas/PublicApiRuleTypeDTO'
-        status:
-          type: object
-          $ref: '#/components/schemas/NotificationRuleStatusDTO'
-      required:
-      - name
-      - recipients
-      - ruleType
-    PublicApiRuleTypeDTO:
-      type: string
-      enum:
-      - check
-      - monitor
-    NotificationRecipientDTO:
-      type: object
-      properties:
-        customRoleId:
-          type: string
-        email:
-          type: string
-        integrationChannel:
-          type: string
-        integrationId:
-          type: string
-        role:
-          type: object
-          $ref: '#/components/schemas/NotificationRecipientRoleDTO'
-        triggers:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/NotificationRecipientTriggerDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationRecipientTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - triggers
-      - type
     NotificationCustomizationTypeDTO:
       type: string
       enum:
       - rich
       - minimal
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    NotificationCustomizationDTO:
-      type: object
-      properties:
-        message:
-          type: string
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationCustomizationTypeDTO'
-      required:
-      - type
-    NotificationScanStateDTO:
-      type: string
-      enum:
-      - failed
-      - timedOut
-      - canceled
-      - completedWithErrors
-    PublicApiDeleteNotificationRuleResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    NotificationFilterDTO:
-      type: object
-      properties:
-        expression:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterDTO'
-        expressions:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/NotificationFilterDTO'
-        field:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterFieldDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/NotificationFilterTypeDTO'
-        value:
-          type: string
-        values:
-          type: array
-          items:
-            type: string
-      required:
-      - type
-    NotificationFilterFieldTypeDTO:
-      type: string
-      enum:
-      - datasourceId
-      - datasourceLabel
-      - datasetId
-      - datasetLabel
-      - datasetOwnerId
-      - datasetTags
-      - checkId
-      - checkName
-      - checkOwnerId
-      - columnId
-      - metricType
-      - datasetResourceAttribute
-      - checkResourceAttribute
-    NotificationLevelDTO:
-      type: string
-      enum:
-      - info
-      - warning
-      - critical
-      - not_evaluated
     NotificationRecipientRoleDTO:
       type: string
       enum:
       - datasetOwner
       - monitorOwner
-    NotificationFilterTypeDTO:
+    PublicApiRuleTypeDTO:
       type: string
       enum:
-      - equals
-      - contains
-      - in
-      - and
-      - or
-      - not
+      - check
+      - monitor
   securitySchemes:
     basicAuthApiKey:
       scheme: basic
