@@ -416,22 +416,6 @@ paths:
       - Attributes
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    AttributeTypeDTO:
-      type: string
-      enum:
-      - text
-      - number
-      - checkbox
-      - datetime
-      - singleSelect
-      - multiSelect
     PublicApiCreateAttributeRequestDTO:
       type: object
       properties:
@@ -456,14 +440,28 @@ components:
       - name
       - resourceType
       - type
-    PublicApiUpdateAttributeResponse:
+    AttributeTypeDTO:
+      type: string
+      enum:
+      - text
+      - number
+      - checkbox
+      - datetime
+      - singleSelect
+      - multiSelect
+    AttributeResourceTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - check
+      - column
+    ErrorResponse:
       type: object
       properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
+        code:
+          type: string
+        message:
+          type: string
     PublicApiDeleteAttributeResponse:
       type: object
       properties:
@@ -471,23 +469,6 @@ components:
           type: string
       required:
       - message
-    PublicApiUpdateAttributeRequestDTO:
-      type: object
-      properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-        label:
-          type: string
-    AttributeResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - check
-      - column
     PublicApiListAttributesResponse:
       type: object
       properties:
@@ -520,6 +501,17 @@ components:
       - size
       - totalElements
       - totalPages
+    PublicApiUpdateAttributeRequestDTO:
+      type: object
+      properties:
+        allowedValues:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        label:
+          type: string
     PublicApiCreateAttributeResponse:
       type: object
       properties:
@@ -555,6 +547,14 @@ components:
       - name
       - resourceType
       - type
+    PublicApiUpdateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

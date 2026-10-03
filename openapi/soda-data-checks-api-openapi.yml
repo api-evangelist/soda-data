@@ -231,47 +231,71 @@ paths:
       - Checks
 components:
   schemas:
-    GroupByDiagnosticsV4_GroupByOutcomeDTO:
-      type: string
-      enum:
-      - pass
-      - warn
-      - fail
-    GroupByDiagnosticsV4:
+    MapOfStringToString:
+      type: object
+      additionalProperties: true
+    IncidentSlimDTO:
       type: object
       properties:
-        diagnosticsCount:
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        number:
+          type: integer
+          format: int32
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+      required:
+      - cloudUrl
+      - id
+      - name
+      - number
+      - status
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    DuplicateDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
           type: integer
           format: int32
         failedRowsDataQuery:
           type: string
         failedRowsKeysQuery:
           type: string
+        failedRowsPercent:
+          type: number
         failedRowsSourceQuery:
           type: string
-        groups:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/GroupByDiagnosticsV4_Group'
-    EvaluationStatusDTO:
-      type: string
-      enum:
-      - pass
-      - warn
-      - fail
-      - notEvaluated
-      - excluded
-    CheckResultValueSeriesDTO_ValueSeriesValue:
+        missingCount:
+          type: integer
+          format: int32
+    DatasetSlimDTO:
       type: object
       properties:
-        label:
+        cloudUrl:
           type: string
-        level:
-          type: object
-          $ref: '#/components/schemas/EvaluationStatusDTO'
-        value:
-          type: number
+        id:
+          type: string
+        name:
+          type: string
+        qualifiedName:
+          type: string
     OwnerDTO:
       type: object
       properties:
@@ -283,21 +307,20 @@ components:
           type: string
         lastName:
           type: string
-    IncidentStatusDTO:
-      type: string
-      enum:
-      - reported
-      - investigating
-      - fixing
-      - resolved
-    RowCountDiffDiagnosticsV4:
+    ReferenceDiffDiagnosticsV4:
       type: object
       properties:
-        rowCountDiff:
+        diffCount:
           type: integer
           format: int32
-        rowCountDiffPercent:
+        diffPercent:
           type: number
+        exclusiveInSource:
+          type: integer
+          format: int32
+        exclusiveInTarget:
+          type: integer
+          format: int32
         sourceCheckRowsTested:
           type: integer
           format: int32
@@ -333,6 +356,41 @@ components:
           format: int32
         targetMetric:
           type: number
+    AgreementSlimDTO:
+      type: object
+      properties:
+        cloudUrl:
+          type: string
+        name:
+          type: string
+    MeasureDTO:
+      type: string
+      enum:
+      - time
+    IncidentStatusDTO:
+      type: string
+      enum:
+      - reported
+      - investigating
+      - fixing
+      - resolved
+    SchemaDiagnosticsV4_Column:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    CheckResultValueSeriesDTO_ValueSeriesValue:
+      type: object
+      properties:
+        label:
+          type: string
+        level:
+          type: object
+          $ref: '#/components/schemas/EvaluationStatusDTO'
+        value:
+          type: number
     CheckResultValueDTO:
       type: object
       properties:
@@ -359,210 +417,13 @@ components:
           $ref: '#/components/schemas/CheckResultValueSeriesDTO'
       required:
       - id
-    FreshnessDiagnosticsV4:
-      type: object
-      properties:
-        actualTimestamp:
-          type: string
-          format: date-time
-        actualTimestampUtc:
-          type: string
-          format: date-time
-        datasetRowsTested:
-          type: integer
-          format: int32
-        expectedTimestamp:
-          type: string
-          format: date-time
-        expectedTimestampUtc:
-          type: string
-          format: date-time
-    AggregateDiagnosticsV4:
-      type: object
-      properties:
-        checkRowsTested:
-          type: integer
-          format: int32
-        datasetRowsTested:
-          type: integer
-          format: int32
-    HierarchyDiagnosticsV4:
-      type: object
-      properties:
-        brokenPathCount:
-          type: integer
-          format: int32
-        checkRowsTested:
-          type: integer
-          format: int32
-        datasetRowsTested:
-          type: integer
-          format: int32
-        failedRowsCount:
-          type: integer
-          format: int32
-        failedRowsDataQuery:
-          type: string
-        failedRowsKeysQuery:
-          type: string
-        failedRowsSourceQuery:
-          type: string
-        invalidValueCount:
-          type: integer
-          format: int32
-        missingValueCount:
-          type: integer
-          format: int32
-    MissingDiagnosticsV4:
-      type: object
-      properties:
-        checkRowsTested:
-          type: integer
-          format: int32
-        datasetRowsTested:
-          type: integer
-          format: int32
-        failedRowsCount:
-          type: integer
-          format: int32
-        failedRowsDataQuery:
-          type: string
-        failedRowsKeysQuery:
-          type: string
-        failedRowsPercent:
-          type: number
-        failedRowsSourceQuery:
-          type: string
-    FreshnessDiffDiagnosticsV4_UnitOfTimeDTO:
+    GroupByDiagnosticsV4_GroupByOutcomeDTO:
       type: string
       enum:
-      - minutes
-      - hours
-      - days
-    CheckResultAnomalyDetectionDetailsDTO:
-      type: object
-      properties:
-        predictedValue:
-          type: number
-    MeasureDTO:
-      type: string
-      enum:
-      - time
-    LlmDiagnosticsV4:
-      type: object
-      properties:
-        completionTokens:
-          type: integer
-          format: int64
-        failedRowsCount:
-          type: integer
-          format: int32
-        failedRowsDataQuery:
-          type: string
-        failedRowsKeysQuery:
-          type: string
-        failedRowsSourceQuery:
-          type: string
-        model:
-          type: string
-        promptTokens:
-          type: integer
-          format: int64
-        rowsChecked:
-          type: integer
-          format: int32
-        rowsFailed:
-          type: integer
-          format: int32
-        rowsFailedPercent:
-          type: number
-        tokensSpent:
-          type: integer
-          format: int32
-    PublicApiChecksResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ChecksContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
-    ChecksContentDTO_Group:
-      type: object
-      properties:
-        groupType:
-          type: string
-        identity:
-          type: string
-        name:
-          type: string
-    CheckResultValueSeriesDTO:
-      type: object
-      properties:
-        values:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/CheckResultValueSeriesDTO_ValueSeriesValue'
-    IncidentSlimDTO:
-      type: object
-      properties:
-        cloudUrl:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        number:
-          type: integer
-          format: int32
-        status:
-          type: object
-          $ref: '#/components/schemas/IncidentStatusDTO'
-      required:
-      - cloudUrl
-      - id
-      - name
-      - number
-      - status
-    SchemaDiagnosticsV4:
-      type: object
-      properties:
-        actual:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/SchemaDiagnosticsV4_Column'
-        expected:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/SchemaDiagnosticsV4_Column'
-    FailedRowsDiagnosticsV4:
+      - pass
+      - warn
+      - fail
+    RowCountDiagnosticsV4:
       type: object
       properties:
         checkRowsTested:
@@ -571,57 +432,14 @@ components:
         datasetRowsTested:
           type: integer
           format: int32
-        failedRowsCount:
-          type: integer
-          format: int32
-        failedRowsDataQuery:
-          type: string
-        failedRowsKeysQuery:
-          type: string
-        failedRowsPercent:
-          type: number
-        failedRowsSourceQuery:
-          type: string
-    MapOfStringToString:
-      type: object
-      additionalProperties: true
-    DuplicateDiagnosticsV4:
+    RowCountDiffDiagnosticsV4:
       type: object
       properties:
-        checkRowsTested:
+        rowCountDiff:
           type: integer
           format: int32
-        datasetRowsTested:
-          type: integer
-          format: int32
-        failedRowsCount:
-          type: integer
-          format: int32
-        failedRowsDataQuery:
-          type: string
-        failedRowsKeysQuery:
-          type: string
-        failedRowsPercent:
+        rowCountDiffPercent:
           type: number
-        failedRowsSourceQuery:
-          type: string
-        missingCount:
-          type: integer
-          format: int32
-    ReferenceDiffDiagnosticsV4:
-      type: object
-      properties:
-        diffCount:
-          type: integer
-          format: int32
-        diffPercent:
-          type: number
-        exclusiveInSource:
-          type: integer
-          format: int32
-        exclusiveInTarget:
-          type: integer
-          format: int32
         sourceCheckRowsTested:
           type: integer
           format: int32
@@ -632,6 +450,40 @@ components:
           type: integer
           format: int32
         targetDatasetRowsTested:
+          type: integer
+          format: int32
+    EvaluationStatusDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+      - notEvaluated
+      - excluded
+    DuplicateDiffDiagnosticsV4:
+      type: object
+      properties:
+        duplicateCountDiff:
+          type: integer
+          format: int32
+        duplicateDiffPercent:
+          type: number
+        sourceCheckRowsTested:
+          type: integer
+          format: int32
+        sourceDatasetRowsTested:
+          type: integer
+          format: int32
+        sourceDuplicateCount:
+          type: integer
+          format: int32
+        targetCheckRowsTested:
+          type: integer
+          format: int32
+        targetDatasetRowsTested:
+          type: integer
+          format: int32
+        targetDuplicateCount:
           type: integer
           format: int32
     CheckResultDiagnosticsV4:
@@ -697,35 +549,155 @@ components:
         schema:
           type: object
           $ref: '#/components/schemas/SchemaDiagnosticsV4'
-    RowsDiffDiagnosticsV4:
+    GroupByDiagnosticsV4:
       type: object
       properties:
-        changed:
+        diagnosticsCount:
           type: integer
           format: int32
-        diffCount:
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        groups:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/GroupByDiagnosticsV4_Group'
+    FuzzyDuplicateDiagnosticsV4:
+      type: object
+      properties:
+        candidateRowsScored:
           type: integer
           format: int32
+        checkRowsTested:
+          type: integer
+          format: int32
+        clusterCount:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        fuzzyDuplicateCount:
+          type: integer
+          format: int32
+        fuzzyDuplicatePercent:
+          type: number
+        meanConfidence:
+          type: number
+    PublicApiChecksResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ChecksContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    AggregateDiffDiagnosticsV4:
+      type: object
+      properties:
+        diff:
+          type: number
         diffPercent:
           type: number
-        exclusiveInSource:
-          type: integer
-          format: int32
-        exclusiveInTarget:
-          type: integer
-          format: int32
+        function:
+          type: string
         sourceCheckRowsTested:
           type: integer
           format: int32
         sourceDatasetRowsTested:
           type: integer
           format: int32
+        sourceValue:
+          type: number
         targetCheckRowsTested:
           type: integer
           format: int32
         targetDatasetRowsTested:
           type: integer
           format: int32
+        targetValue:
+          type: number
+    CheckResultAnomalyDetectionDetailsDTO:
+      type: object
+      properties:
+        predictedValue:
+          type: number
+    FreshnessDiagnosticsV4:
+      type: object
+      properties:
+        actualTimestamp:
+          type: string
+          format: date-time
+        actualTimestampUtc:
+          type: string
+          format: date-time
+        datasetRowsTested:
+          type: integer
+          format: int32
+        expectedTimestamp:
+          type: string
+          format: date-time
+        expectedTimestampUtc:
+          type: string
+          format: date-time
+    CheckResultValueSeriesDTO:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/CheckResultValueSeriesDTO_ValueSeriesValue'
+    GroupByDiagnosticsV4_Group:
+      type: object
+      properties:
+        group:
+          type: string
+        rowsTested:
+          type: integer
+          format: int64
+        status:
+          type: object
+          $ref: '#/components/schemas/GroupByDiagnosticsV4_GroupByOutcomeDTO'
+        value:
+          type: number
     FreshnessDiffDiagnosticsV4:
       type: object
       properties:
@@ -759,30 +731,73 @@ components:
         targetMaxTimestampUtc:
           type: string
           format: date-time
-    SchemaDiagnosticsV4_Column:
+    LlmDiagnosticsV4:
       type: object
       properties:
-        name:
-          type: string
-        type:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    FuzzyDuplicateDiagnosticsV4:
-      type: object
-      properties:
-        candidateRowsScored:
+        completionTokens:
+          type: integer
+          format: int64
+        failedRowsCount:
           type: integer
           format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsSourceQuery:
+          type: string
+        model:
+          type: string
+        promptTokens:
+          type: integer
+          format: int64
+        rowsChecked:
+          type: integer
+          format: int32
+        rowsFailed:
+          type: integer
+          format: int32
+        rowsFailedPercent:
+          type: number
+        tokensSpent:
+          type: integer
+          format: int32
+    MissingDiagnosticsV4:
+      type: object
+      properties:
         checkRowsTested:
           type: integer
           format: int32
-        clusterCount:
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsPercent:
+          type: number
+        failedRowsSourceQuery:
+          type: string
+    AggregateDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+    HierarchyDiagnosticsV4:
+      type: object
+      properties:
+        brokenPathCount:
+          type: integer
+          format: int32
+        checkRowsTested:
           type: integer
           format: int32
         datasetRowsTested:
@@ -797,60 +812,18 @@ components:
           type: string
         failedRowsSourceQuery:
           type: string
-        fuzzyDuplicateCount:
+        invalidValueCount:
           type: integer
           format: int32
-        fuzzyDuplicatePercent:
-          type: number
-        meanConfidence:
-          type: number
-    AggregateDiffDiagnosticsV4:
-      type: object
-      properties:
-        diff:
-          type: number
-        diffPercent:
-          type: number
-        function:
-          type: string
-        sourceCheckRowsTested:
+        missingValueCount:
           type: integer
           format: int32
-        sourceDatasetRowsTested:
-          type: integer
-          format: int32
-        sourceValue:
-          type: number
-        targetCheckRowsTested:
-          type: integer
-          format: int32
-        targetDatasetRowsTested:
-          type: integer
-          format: int32
-        targetValue:
-          type: number
-    AgreementSlimDTO:
-      type: object
-      properties:
-        cloudUrl:
-          type: string
-        name:
-          type: string
-    MetricDiagnosticsV4:
-      type: object
-      properties:
-        datasetRowsTested:
-          type: integer
-          format: int32
-    RowCountDiagnosticsV4:
-      type: object
-      properties:
-        checkRowsTested:
-          type: integer
-          format: int32
-        datasetRowsTested:
-          type: integer
-          format: int32
+    FreshnessDiffDiagnosticsV4_UnitOfTimeDTO:
+      type: string
+      enum:
+      - minutes
+      - hours
+      - days
     ChecksContentDTO:
       type: object
       properties:
@@ -920,19 +893,6 @@ components:
       - id
       - incidents
       - name
-    GroupByDiagnosticsV4_Group:
-      type: object
-      properties:
-        group:
-          type: string
-        rowsTested:
-          type: integer
-          format: int64
-        status:
-          type: object
-          $ref: '#/components/schemas/GroupByDiagnosticsV4_GroupByOutcomeDTO'
-        value:
-          type: number
     InvalidDiagnosticsV4:
       type: object
       properties:
@@ -956,32 +916,27 @@ components:
         missingCount:
           type: integer
           format: int32
-    DatasetSlimDTO:
+    RowsDiffDiagnosticsV4:
       type: object
       properties:
-        cloudUrl:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        qualifiedName:
-          type: string
-    DuplicateDiffDiagnosticsV4:
-      type: object
-      properties:
-        duplicateCountDiff:
+        changed:
           type: integer
           format: int32
-        duplicateDiffPercent:
+        diffCount:
+          type: integer
+          format: int32
+        diffPercent:
           type: number
+        exclusiveInSource:
+          type: integer
+          format: int32
+        exclusiveInTarget:
+          type: integer
+          format: int32
         sourceCheckRowsTested:
           type: integer
           format: int32
         sourceDatasetRowsTested:
-          type: integer
-          format: int32
-        sourceDuplicateCount:
           type: integer
           format: int32
         targetCheckRowsTested:
@@ -990,9 +945,54 @@ components:
         targetDatasetRowsTested:
           type: integer
           format: int32
-        targetDuplicateCount:
+    MetricDiagnosticsV4:
+      type: object
+      properties:
+        datasetRowsTested:
           type: integer
           format: int32
+    ChecksContentDTO_Group:
+      type: object
+      properties:
+        groupType:
+          type: string
+        identity:
+          type: string
+        name:
+          type: string
+    SchemaDiagnosticsV4:
+      type: object
+      properties:
+        actual:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/SchemaDiagnosticsV4_Column'
+        expected:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/SchemaDiagnosticsV4_Column'
+    FailedRowsDiagnosticsV4:
+      type: object
+      properties:
+        checkRowsTested:
+          type: integer
+          format: int32
+        datasetRowsTested:
+          type: integer
+          format: int32
+        failedRowsCount:
+          type: integer
+          format: int32
+        failedRowsDataQuery:
+          type: string
+        failedRowsKeysQuery:
+          type: string
+        failedRowsPercent:
+          type: number
+        failedRowsSourceQuery:
+          type: string
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

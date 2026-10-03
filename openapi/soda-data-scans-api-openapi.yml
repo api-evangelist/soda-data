@@ -379,6 +379,33 @@ paths:
       - Scans
 components:
   schemas:
+    PublicApiScanDefinitionSlim:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - name
+    PublicApiPostProcessingStageDTO:
+      type: object
+      properties:
+        ended:
+          type: string
+          format: date-time
+        name:
+          type: object
+          $ref: '#/components/schemas/PublicApiPostProcessingStageTypeDTO'
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/PublicApiPostProcessingStageStateDTO'
+      required:
+      - name
     ErrorResponse:
       type: object
       properties:
@@ -445,6 +472,12 @@ components:
       - created
       - id
       - state
+    PublicApiPostProcessingStageStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
     EvaluationStatusDTO:
       type: string
       enum:
@@ -453,41 +486,13 @@ components:
       - fail
       - notEvaluated
       - excluded
-    PublicApiPostProcessingStageDTO:
-      type: object
-      properties:
-        ended:
-          type: string
-          format: date-time
-        name:
-          type: object
-          $ref: '#/components/schemas/PublicApiPostProcessingStageTypeDTO'
-        started:
-          type: string
-          format: date-time
-        state:
-          type: object
-          $ref: '#/components/schemas/PublicApiPostProcessingStageStateDTO'
-      required:
-      - name
-    PublicApiScanDefinitionSlim:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-      required:
-      - id
-      - name
-    PublicApiCheckSlimDTO:
-      type: object
-      properties:
-        evaluationStatus:
-          type: object
-          $ref: '#/components/schemas/EvaluationStatusDTO'
-        id:
-          type: string
+    LogLevelDTO:
+      type: string
+      enum:
+      - debug
+      - info
+      - warning
+      - error
     ScanStateDTO:
       type: string
       enum:
@@ -503,13 +508,33 @@ components:
       - completedWithFailures
       - completedWithWarnings
       - completed
-    LogLevelDTO:
-      type: string
-      enum:
-      - debug
-      - info
-      - warning
-      - error
+    PublicApiCheckSlimDTO:
+      type: object
+      properties:
+        evaluationStatus:
+          type: object
+          $ref: '#/components/schemas/EvaluationStatusDTO'
+        id:
+          type: string
+    LogsContentDTO:
+      type: object
+      properties:
+        index:
+          type: integer
+          format: int32
+        level:
+          type: object
+          $ref: '#/components/schemas/LogLevelDTO'
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - index
+      - level
+      - message
+      - timestamp
     PublicApiScanLogsResponse:
       type: object
       properties:
@@ -546,31 +571,6 @@ components:
       type: string
       enum:
       - diagnosticWarehouse
-    PublicApiPostProcessingStageStateDTO:
-      type: string
-      enum:
-      - ongoing
-      - completed
-      - failed
-    LogsContentDTO:
-      type: object
-      properties:
-        index:
-          type: integer
-          format: int32
-        level:
-          type: object
-          $ref: '#/components/schemas/LogLevelDTO'
-        message:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-      required:
-      - index
-      - level
-      - message
-      - timestamp
   securitySchemes:
     basicAuthApiKey:
       scheme: basic
