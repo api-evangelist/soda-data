@@ -404,38 +404,11 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiCreateRunnerResponse:
-      type: object
-      properties:
-        apiKeyId:
-          type: string
-        apiKeySecret:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    PublicApiRunnerVersionsDTO:
-      type: object
-      properties:
-        agent:
-          type: string
-          deprecated: true
-        library:
-          type: string
-        runner:
-          type: string
-    PublicApiDeleteRunnerResponse:
-      type: object
-    PublicApiGetRunnerResponse:
-      type: object
-      properties:
-        runner:
-          type: object
-          $ref: '#/components/schemas/PublicApiRunnerDTO'
+    PublicApiRunnerTypeDTO:
+      type: string
+      enum:
+      - SELF_HOSTED
+      - SODA_HOSTED
     PublicApiRunnerDTO:
       type: object
       properties:
@@ -456,11 +429,38 @@ components:
         versions:
           type: object
           $ref: '#/components/schemas/PublicApiRunnerVersionsDTO'
-    PublicApiRunnerTypeDTO:
-      type: string
-      enum:
-      - SELF_HOSTED
-      - SODA_HOSTED
+    PublicApiGetRunnerResponse:
+      type: object
+      properties:
+        runner:
+          type: object
+          $ref: '#/components/schemas/PublicApiRunnerDTO'
+    PublicApiRunnerVersionsDTO:
+      type: object
+      properties:
+        agent:
+          type: string
+          deprecated: true
+        library:
+          type: string
+        runner:
+          type: string
+    PublicApiCreateRunnerResponse:
+      type: object
+      properties:
+        apiKeyId:
+          type: string
+        apiKeySecret:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiDeleteRunnerResponse:
+      type: object
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

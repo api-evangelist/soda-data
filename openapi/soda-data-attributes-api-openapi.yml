@@ -416,6 +416,26 @@ paths:
       - Attributes
 components:
   schemas:
+    AttributeTypeDTO:
+      type: string
+      enum:
+      - text
+      - number
+      - checkbox
+      - datetime
+      - singleSelect
+      - multiSelect
+    PublicApiUpdateAttributeRequestDTO:
+      type: object
+      properties:
+        allowedValues:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        label:
+          type: string
     PublicApiCreateAttributeRequestDTO:
       type: object
       properties:
@@ -440,28 +460,49 @@ components:
       - name
       - resourceType
       - type
-    AttributeTypeDTO:
-      type: string
-      enum:
-      - text
-      - number
-      - checkbox
-      - datetime
-      - singleSelect
-      - multiSelect
-    AttributeResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - check
-      - column
-    ErrorResponse:
+    AttributeContentDTO:
       type: object
       properties:
-        code:
+        allowedValues:
+          type: array
+          items:
+            type: string
+        description:
           type: string
-        message:
+        id:
           type: string
+        label:
+          type: string
+        name:
+          type: string
+        resourceType:
+          type: object
+          $ref: '#/components/schemas/AttributeResourceTypeDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/AttributeTypeDTO'
+      required:
+      - id
+      - label
+      - name
+      - resourceType
+      - type
+    PublicApiCreateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
+    PublicApiUpdateAttributeResponse:
+      type: object
+      properties:
+        attribute:
+          type: object
+          $ref: '#/components/schemas/AttributeContentDTO'
+      required:
+      - attribute
     PublicApiDeleteAttributeResponse:
       type: object
       properties:
@@ -501,60 +542,19 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiUpdateAttributeRequestDTO:
+    AttributeResourceTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - check
+      - column
+    ErrorResponse:
       type: object
       properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
+        code:
           type: string
-        label:
+        message:
           type: string
-    PublicApiCreateAttributeResponse:
-      type: object
-      properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
-    AttributeContentDTO:
-      type: object
-      properties:
-        allowedValues:
-          type: array
-          items:
-            type: string
-        description:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        resourceType:
-          type: object
-          $ref: '#/components/schemas/AttributeResourceTypeDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/AttributeTypeDTO'
-      required:
-      - id
-      - label
-      - name
-      - resourceType
-      - type
-    PublicApiUpdateAttributeResponse:
-      type: object
-      properties:
-        attribute:
-          type: object
-          $ref: '#/components/schemas/AttributeContentDTO'
-      required:
-      - attribute
   securitySchemes:
     basicAuthApiKey:
       scheme: basic
