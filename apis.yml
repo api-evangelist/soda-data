@@ -263,6 +263,9 @@ apis:
   - type: Documentation
     url: https://docs.soda.io/reference/soda-apis/rest-api/datasources
 common:
+- type: CapabilityMap
+  url: capabilities/soda-data-capability-edges.yml
+  name: Soda Business Capability Map
 - type: Overlay
   url: overlays/soda-data-datasources-overlay.yaml
 - type: Website

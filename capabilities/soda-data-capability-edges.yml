@@ -1,0 +1,78 @@
+slug: soda-data
+provider: Soda
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: Checks
+  spec_file: soda-data-checks-api-openapi.yml
+  capability_id: BC-610.30
+  capability_id_l1: BC-610
+  capability_name: Data Quality Management
+  confidence: 0.85
+  evidence: '"Check information", "Delete a check"; schemas "CheckResultDiagnosticsV4", "RowCountDiffDiagnosticsV4",
+    "DuplicateDiagnosticsV4"'
+  reason: Checks and their result diagnostics (row counts, duplicates, schema diffs) are precisely data
+    quality monitoring and profiling.
+- tag: Data Standards
+  spec_file: soda-data-data-standards-api-openapi.yml
+  capability_id: BC-610.10
+  capability_id_l1: BC-610
+  capability_name: Data Governance Management
+  confidence: 0.75
+  evidence: '"List data standards", "Evaluate a data standard''s scope", "List data standard checks";
+    vendor: "organization-wide data standards"'
+  reason: Defining, scoping and enforcing organisation-wide data standards across datasets is data governance
+    (policies and standards), executed through quality checks.
+- tag: Scans
+  spec_file: soda-data-scans-api-openapi.yml
+  capability_id: BC-610.30
+  capability_id_l1: BC-610
+  capability_name: Data Quality Management
+  confidence: 0.75
+  evidence: GET /api/v1/scans/{scanId}  Get scan status; GET /api/v1/scans/{scanId}/logs  Get scan logs;
+    PublicApiCheckSlimDTO, EvaluationStatusDTO
+  reason: Scans are executions of the data contract's checks against a dataset, with check evaluation
+    status returned — this is data quality monitoring/execution. Some ambiguity remains since the endpoints
+    only expose status, cancellation and logs of a run rather than the quality results themselves.
+- tag: Users
+  spec_file: soda-data-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /api/v1/users  Invite users; POST /api/v1/users/{userId}/disable  Disable user; POST
+    /api/v1/userGroups  Create user group
+  reason: Invite, group membership and disable operations are joiner-mover-leaver style user and group
+    administration, i.e. identity and access management for the platform. Could alternatively be read
+    as tenant user lifecycle (BC-4230.50), but there is no SSO/SCIM federation evidence, so IAM is the
+    better-grounded choice.
+- tag: Contracts
+  spec_file: soda-data-contracts-api-openapi.yml
+  capability_id: BC-610.30
+  capability_id_l1: BC-610
+  capability_name: Data Quality Management
+  confidence: 0.7
+  evidence: '"the data contract — a declarative YAML source of truth that defines the checks a dataset
+    must pass"; operations "Publish a contract", "Verify a contract"'
+  reason: Data contracts here codify and verify dataset quality checks, so data quality management fits;
+    some overlap with data governance keeps confidence moderate.
+- tag: Datasets
+  spec_file: soda-data-datasets-api-openapi.yml
+  capability_id: BC-610.30
+  capability_id_l1: BC-610
+  capability_name: Data Quality Management
+  confidence: 0.7
+  evidence: '"Create a column metric monitor", "Set column attribute values in bulk", schemas "DatasetColumnProfilingContentDTO",
+    "FailedRowsCollectionStrategyDTO"'
+  reason: Dataset stewardship with column profiling, metric monitors and failed-row capture is data quality
+    monitoring/profiling; dataset roles add a governance flavour, so moderate confidence.
