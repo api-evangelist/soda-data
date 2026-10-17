@@ -1292,113 +1292,43 @@ paths:
       - Data Standards
 components:
   schemas:
-    DataStandardScopeDTO:
-      type: object
-      properties:
-        rules:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardScopeRuleDTO'
-    DataStandardScopeAttributeFilterTypeDTO:
-      type: string
-      enum:
-      - equals
-      - contains
-      - and
-      - or
-    PublicApiDataStandardsActivityResponse:
-      type: object
-      properties:
-        activity:
-          type: object
-          $ref: '#/components/schemas/DataStandardActivityContentDTO'
-    PublicApiTestDataStandardResponse:
-      type: object
-      properties:
-        scanId:
-          type: string
-    UserContentDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        fullName:
-          type: string
-        lastName:
-          type: string
-        userId:
-          type: string
-      required:
-      - email
-      - userId
     DataStandardScheduleDTO:
       type: object
       properties:
         enabled:
           type: boolean
-    PublicApiExecuteDataStandardsResponse:
+    PublicApiListDataStandardDatasetsResponse:
       type: object
       properties:
-        dataStandardIds:
+        content:
           type: array
           items:
-            type: string
-        scanId:
-          type: string
-    DataStandardActivityContentDTO:
-      type: object
-      properties:
-        activeCount:
+            type: object
+            $ref: '#/components/schemas/DataStandardDatasetContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
           type: integer
           format: int32
-        checkResults:
-          type: object
-          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
-        datasetCount:
+        size:
           type: integer
           format: int32
-        totalCount:
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
           type: integer
           format: int32
       required:
-      - activeCount
-      - checkResults
-      - datasetCount
-      - totalCount
-    DataStandardScopeMatchingDatasetContentDTO:
-      type: object
-      properties:
-        datasourceId:
-          type: string
-        id:
-          type: string
-        label:
-          type: string
-        name:
-          type: string
-        qualifiedName:
-          type: string
-      required:
-      - datasourceId
-      - id
-      - name
-    PublicApiExecuteDataStandardsRequestDTO:
-      type: object
-      properties:
-        datasetId:
-          type: string
-      required:
-      - datasetId
-    PublicApiDeleteDataStandardResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
     PublicApiPreviewDataStandardScopeRequestDTO:
       type: object
       properties:
@@ -1411,6 +1341,82 @@ components:
         size:
           type: integer
           format: int32
+    DataStandardScopeAttributeFilterDTO:
+      type: object
+      properties:
+        attributeName:
+          type: string
+        booleanValue:
+          type: boolean
+        date:
+          type: string
+          format: date-time
+        filters:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeAttributeFilterTypeDTO'
+        value:
+          type: string
+      required:
+      - type
+    DataStandardCheckResultsDTO:
+      type: object
+      properties:
+        failingCount:
+          type: integer
+          format: int32
+        notEvaluatedCount:
+          type: integer
+          format: int32
+        passingCount:
+          type: integer
+          format: int32
+        warningCount:
+          type: integer
+          format: int32
+    CheckTypeDTO:
+      type: string
+      enum:
+      - missing
+      - invalid
+      - row_count
+      - aggregate
+      - schema
+      - duplicate
+      - freshness
+      - failed_rows
+      - metric
+      - group_by
+      - row_count_diff
+      - aggregate_diff
+      - freshness_diff
+      - metric_diff
+      - rows_diff
+      - duplicate_diff
+      - llm
+      - hierarchy
+      - fuzzy_duplicate
+      - reference_diff
+    PublicApiExecuteDataStandardsResponse:
+      type: object
+      properties:
+        dataStandardIds:
+          type: array
+          items:
+            type: string
+        scanId:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     DatasetOwnerDTO:
       type: object
       properties:
@@ -1425,34 +1431,16 @@ components:
           $ref: '#/components/schemas/UserGroupContentBasicDTO'
       required:
       - type
-    PublicApiCreateDataStandardResponse:
+    UserGroupContentBasicDTO:
       type: object
       properties:
-        dataStandard:
-          type: object
-          $ref: '#/components/schemas/DataStandardContentDTO'
-    DataStandardScopeRuleDTO:
-      type: object
-      properties:
-        attributesFilter:
-          type: object
-          $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
-        datasourceId:
-          type: string
         name:
           type: string
-        schema:
+        userGroupId:
           type: string
-    DataStandardSortFieldDTO:
-      type: string
-      enum:
+      required:
       - name
-      - label
-    DatasetOwnerTypeDTO:
-      type: string
-      enum:
-      - user
-      - userGroup
+      - userGroupId
     DataStandardCheckContentDTO:
       type: object
       properties:
@@ -1484,25 +1472,30 @@ components:
         worstLevel:
           type: object
           $ref: '#/components/schemas/CheckResultLevelDTO'
-    DataStandardStatusDTO:
-      type: string
-      enum:
-      - draft
-      - active
-      - paused
-      - invalid
-    DataStandardOwnerRequestDTO:
+    UserContentDTO:
       type: object
       properties:
-        type:
-          type: object
-          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
-        userGroupId:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
           type: string
         userId:
           type: string
       required:
-      - type
+      - email
+      - userId
+    DataStandardScopeDTO:
+      type: object
+      properties:
+        rules:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DataStandardScopeRuleDTO'
     PublicApiListDataStandardChecksResponse:
       type: object
       properties:
@@ -1535,123 +1528,49 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiUpdateDataStandardStatusRequestDTO:
+    DataStandardScopeMatchingDatasetContentDTO:
       type: object
       properties:
-        status:
-          type: object
-          $ref: '#/components/schemas/DataStandardStatusDTO'
-      required:
-      - status
-    UserGroupContentBasicDTO:
-      type: object
-      properties:
-        name:
-          type: string
-        userGroupId:
-          type: string
-      required:
-      - name
-      - userGroupId
-    DataStandardScopeAttributeFilterDTO:
-      type: object
-      properties:
-        attributeName:
-          type: string
-        booleanValue:
-          type: boolean
-        date:
-          type: string
-          format: date-time
-        filters:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/DataStandardScopeAttributeFilterTypeDTO'
-        value:
-          type: string
-      required:
-      - type
-    MapOfStringTo_object:
-      type: object
-      additionalProperties: true
-    DataStandardDatasetContentDTO:
-      type: object
-      properties:
-        checkResults:
-          type: object
-          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
-        cloudUrl:
+        datasourceId:
           type: string
         id:
           type: string
         label:
           type: string
-        lastScanId:
-          type: string
-        lastScanTime:
-          type: string
-          format: date-time
         name:
           type: string
-        owners:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DatasetOwnerDTO'
         qualifiedName:
           type: string
       required:
+      - datasourceId
       - id
       - name
-    PublicApiPreviewDataStandardScopeResponse:
+    PublicApiDataStandardsActivityResponse:
       type: object
       properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DataStandardScopeMatchingDatasetContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
-    PublicApiUpdateDataStandardResponse:
+        activity:
+          type: object
+          $ref: '#/components/schemas/DataStandardActivityContentDTO'
+    PublicApiCreateDataStandardResponse:
       type: object
       properties:
         dataStandard:
           type: object
           $ref: '#/components/schemas/DataStandardContentDTO'
-    ErrorResponse:
+    PublicApiDeleteDataStandardResponse:
       type: object
       properties:
-        code:
-          type: string
         message:
           type: string
+      required:
+      - message
+    PublicApiExecuteDataStandardsRequestDTO:
+      type: object
+      properties:
+        datasetId:
+          type: string
+      required:
+      - datasetId
     PublicApiDataStandardRequestDTO:
       type: object
       properties:
@@ -1685,43 +1604,55 @@ components:
       - name
       - owners
       - status
-    PublicApiUpdateDataStandardStatusResponse:
+    PublicApiUpdateDataStandardResponse:
       type: object
       properties:
         dataStandard:
           type: object
           $ref: '#/components/schemas/DataStandardContentDTO'
-    CheckResultLevelDTO:
+    MapOfStringTo_object:
+      type: object
+      additionalProperties: true
+    DataStandardScopeRuleDTO:
+      type: object
+      properties:
+        attributesFilter:
+          type: object
+          $ref: '#/components/schemas/DataStandardScopeAttributeFilterDTO'
+        datasourceId:
+          type: string
+        name:
+          type: string
+        schema:
+          type: string
+    PublicApiTestDataStandardResponse:
+      type: object
+      properties:
+        scanId:
+          type: string
+    DataStandardScopeAttributeFilterTypeDTO:
       type: string
       enum:
-      - info
-      - warning
-      - critical
-      - not_evaluated
-      - excluded
-    PublicApiEvaluateDataStandardScopeResponse:
+      - equals
+      - contains
+      - and
+      - or
+    PublicApiUpdateDataStandardStatusRequestDTO:
       type: object
       properties:
-        dataStandardId:
-          type: string
-        datasetIds:
-          type: array
-          items:
-            type: string
-    PublicApiGetDataStandardResponse:
-      type: object
-      properties:
-        dataStandard:
+        status:
           type: object
-          $ref: '#/components/schemas/DataStandardContentDTO'
-    PublicApiListDataStandardsResponse:
+          $ref: '#/components/schemas/DataStandardStatusDTO'
+      required:
+      - status
+    PublicApiPreviewDataStandardScopeResponse:
       type: object
       properties:
         content:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/DataStandardContentDTO'
+            $ref: '#/components/schemas/DataStandardScopeMatchingDatasetContentDTO'
         first:
           type: boolean
         last:
@@ -1746,21 +1677,17 @@ components:
       - size
       - totalElements
       - totalPages
-    DataStandardCheckResultsDTO:
+    PublicApiGetDataStandardResponse:
       type: object
       properties:
-        failingCount:
-          type: integer
-          format: int32
-        notEvaluatedCount:
-          type: integer
-          format: int32
-        passingCount:
-          type: integer
-          format: int32
-        warningCount:
-          type: integer
-          format: int32
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    DataStandardSortFieldDTO:
+      type: string
+      enum:
+      - name
+      - label
     DataStandardContentDTO:
       type: object
       properties:
@@ -1813,29 +1740,66 @@ components:
           $ref: '#/components/schemas/DataStandardStatusDTO'
       required:
       - id
-    CheckTypeDTO:
+    CheckResultLevelDTO:
       type: string
       enum:
-      - missing
-      - invalid
-      - row_count
-      - aggregate
-      - schema
-      - duplicate
-      - freshness
-      - failed_rows
-      - metric
-      - group_by
-      - row_count_diff
-      - aggregate_diff
-      - freshness_diff
-      - metric_diff
-      - rows_diff
-      - duplicate_diff
-      - llm
-      - hierarchy
-      - fuzzy_duplicate
-      - reference_diff
+      - info
+      - warning
+      - critical
+      - not_evaluated
+      - excluded
+    PublicApiUpdateDataStandardStatusResponse:
+      type: object
+      properties:
+        dataStandard:
+          type: object
+          $ref: '#/components/schemas/DataStandardContentDTO'
+    PublicApiEvaluateDataStandardScopeResponse:
+      type: object
+      properties:
+        dataStandardId:
+          type: string
+        datasetIds:
+          type: array
+          items:
+            type: string
+    DatasetOwnerTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    DataStandardOwnerRequestDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - type
+    DataStandardActivityContentDTO:
+      type: object
+      properties:
+        activeCount:
+          type: integer
+          format: int32
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        datasetCount:
+          type: integer
+          format: int32
+        totalCount:
+          type: integer
+          format: int32
+      required:
+      - activeCount
+      - checkResults
+      - datasetCount
+      - totalCount
     PublicApiTestDataStandardRequestDTO:
       type: object
       properties:
@@ -1846,14 +1810,50 @@ components:
       required:
       - contents
       - datasetId
-    PublicApiListDataStandardDatasetsResponse:
+    DataStandardStatusDTO:
+      type: string
+      enum:
+      - draft
+      - active
+      - paused
+      - invalid
+    DataStandardDatasetContentDTO:
+      type: object
+      properties:
+        checkResults:
+          type: object
+          $ref: '#/components/schemas/DataStandardCheckResultsDTO'
+        cloudUrl:
+          type: string
+        id:
+          type: string
+        label:
+          type: string
+        lastScanId:
+          type: string
+        lastScanTime:
+          type: string
+          format: date-time
+        name:
+          type: string
+        owners:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetOwnerDTO'
+        qualifiedName:
+          type: string
+      required:
+      - id
+      - name
+    PublicApiListDataStandardsResponse:
       type: object
       properties:
         content:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/DataStandardDatasetContentDTO'
+            $ref: '#/components/schemas/DataStandardContentDTO'
         first:
           type: boolean
         last:

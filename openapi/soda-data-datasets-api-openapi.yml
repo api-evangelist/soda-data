@@ -2350,6 +2350,344 @@ paths:
       - Datasets
 components:
   schemas:
+    GroupByColumnConfigurationDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        excludedValues:
+          type: array
+          items:
+            type: string
+      required:
+      - columnName
+    ThresholdConditionDTO:
+      type: string
+      enum:
+      - greaterThan
+      - lessThan
+    PublicApiUpdateCustomSqlMonitorResponse:
+      type: object
+      properties:
+        customSqlMetricMonitor:
+          type: object
+          $ref: '#/components/schemas/CustomMetricMonitorDTO'
+      required:
+      - customSqlMetricMonitor
+    PublicApiUpdateDatasetResponsibilitiesRequestDTO:
+      type: object
+      properties:
+        responsibilities:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetResponsibilityContentRequestDTO'
+      required:
+      - responsibilities
+    UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO_WarehouseConfigurationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    ColumnMetricContentDTO:
+      type: object
+      properties:
+        average:
+          type: number
+        averageLength:
+          type: number
+        distinctCount:
+          type: integer
+          format: int64
+        extremeValues:
+          type: object
+          $ref: '#/components/schemas/ExtremeValuesContentDTO'
+        frequentValues:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ValueCountContentDTO'
+        histogram:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/HistogramBinContentDTO'
+        maximum:
+          type: object
+          $ref: '#/components/schemas/_object'
+        maximumLength:
+          type: integer
+          format: int32
+        maximumTimestamp:
+          type: string
+          format: date-time
+        median:
+          type: number
+        minimum:
+          type: object
+          $ref: '#/components/schemas/_object'
+        minimumLength:
+          type: integer
+          format: int32
+        minimumTimestamp:
+          type: string
+          format: date-time
+        missingCount:
+          type: integer
+          format: int64
+        standardDeviation:
+          type: number
+        sum:
+          type: number
+        variance:
+          type: number
+    UserGroupContentBasicDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userGroupId:
+          type: string
+      required:
+      - name
+      - userGroupId
+    DatasetDiagnosticsWarehouseFailedRowsConfigurationRequest:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        maxRowCount:
+          type: integer
+          format: int32
+        schema:
+          type: string
+          deprecated: true
+        storageStrategy:
+          type: object
+          $ref: '#/components/schemas/DiagnosticsWarehouseFailedRowsStorageStrategyDTO'
+        uniqueKeyColumnNames:
+          type: array
+          items:
+            type: string
+    ExtremeValuesContentDTO:
+      type: object
+      properties:
+        maximum:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/_object'
+        minimum:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/_object'
+    ColumnMetricMonitorDTO:
+      type: object
+      properties:
+        checkId:
+          type: string
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
+        metricType:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorMetricTypeDTO'
+      required:
+      - checkId
+      - columnName
+      - configuration
+      - metricType
+    FailedRowsCollectionStrategyDTO:
+      type: object
+      properties:
+        maxRowCountOverride:
+          type: integer
+          format: int32
+        threshold:
+          type: number
+        thresholdCondition:
+          type: object
+          $ref: '#/components/schemas/ThresholdConditionDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyTypeDTO'
+      required:
+      - threshold
+      - thresholdCondition
+    MapOfStringTo_object:
+      type: object
+      additionalProperties: true
+    UpdateDatasetMetricMonitoringConfigurationRequestDTO:
+      type: object
+      properties:
+        datasetMetricMonitorsConfiguration:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetMetricMonitorConfigurationDTO'
+        enabled:
+          type: boolean
+        historicalMetricCollectionScanStartDate:
+          type: string
+          format: date-time
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+    DataQualityStatusDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+    ColumnTypeDTO:
+      type: string
+      enum:
+      - unknown
+      - string
+      - integer
+      - float
+      - time
+      - boolean
+      - date
+      - dateTime
+    UnitOfTimeDTO:
+      type: string
+      enum:
+      - hours
+      - days
+      - weeks
+    DatasetPartitionColumnContentDTO:
+      type: object
+      properties:
+        columnType:
+          type: object
+          $ref: '#/components/schemas/ColumnTypeDTO'
+        name:
+          type: string
+      required:
+      - columnType
+      - name
+    DatasetMetricMonitorConfigurationDTO:
+      type: object
+      properties:
+        configuration:
+          type: object
+          $ref: '#/components/schemas/DatasetMonitorConfigurationDTO'
+        metricType:
+          type: object
+          $ref: '#/components/schemas/DatasetMonitorMetricTypeDTO'
+      required:
+      - configuration
+      - metricType
+    UpdateDatasetProfilingConfigurationRequestDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        profilingSamplingStrategy:
+          type: object
+          $ref: '#/components/schemas/ProfilingSamplingStrategyConfigurationDTO'
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+    DiagnosticsWarehouseFailedRowsStorageStrategyDTO:
+      type: string
+      enum:
+      - fullFailedRows
+      - uniqueKeys
+      - scansAndResultsOnly
+    PublicApiSetColumnAttributesRequestDTO:
+      type: object
+      properties:
+        columnAttributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringToMapOfStringTo_object'
+      required:
+      - columnAttributes
+    PublicApiUpdateColumnMetricMonitorResponse:
+      type: object
+      properties:
+        columnMetricMonitor:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricMonitorDTO'
+      required:
+      - columnMetricMonitor
+    PublicApiUpdateCustomSqlMonitorRequestDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/CustomSqlMonitorConfigurationUpdateDTO'
+        name:
+          type: string
+    DatasetMonitorConfigurationDTO:
+      type: object
+      properties:
+        exclusionZones:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExclusionZoneDTO'
+        isEnabled:
+          type: boolean
+        isSamplingEnabled:
+          type: boolean
+        sensitivity:
+          type: number
+        thresholdStrategy:
+          type: object
+          $ref: '#/components/schemas/ThresholdStrategyDTO'
+        validRange:
+          type: object
+          $ref: '#/components/schemas/ValidRangeDTO'
+    ValueCountContentDTO:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        value:
+          type: object
+          $ref: '#/components/schemas/_object'
+    ColumnMetricMonitorConfigurationDTO:
+      type: object
+      properties:
+        configuration:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
+        metricType:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorMetricTypeDTO'
+      required:
+      - configuration
+      - metricType
+    PublicApiDatasetColumnContentDTO:
+      type: object
+      properties:
+        attributes:
+          type: object
+          $ref: '#/components/schemas/MapOfStringTo_object'
+        columnId:
+          type: string
+        columnName:
+          type: string
+      required:
+      - attributes
+      - columnId
+      - columnName
     PublicApiDatasetsResponse:
       type: object
       properties:
@@ -2382,96 +2720,6 @@ components:
       - size
       - totalElements
       - totalPages
-    DiagnosticsWarehouseFailedRowsStorageStrategyDTO:
-      type: string
-      enum:
-      - fullFailedRows
-      - uniqueKeys
-      - scansAndResultsOnly
-    UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO_WarehouseConfigurationDTO:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
-    PublicApiSetColumnAttributesRequestDTO:
-      type: object
-      properties:
-        columnAttributes:
-          type: object
-          $ref: '#/components/schemas/MapOfStringToMapOfStringTo_object'
-      required:
-      - columnAttributes
-    ZonedCronDTO:
-      type: object
-      properties:
-        cronExpression:
-          type: string
-        timezone:
-          type: string
-      required:
-      - cronExpression
-      - timezone
-    UserContentDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        fullName:
-          type: string
-        lastName:
-          type: string
-        userId:
-          type: string
-      required:
-      - email
-      - userId
-    DatasetMonitorConfigurationDTO:
-      type: object
-      properties:
-        exclusionZones:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ExclusionZoneDTO'
-        isEnabled:
-          type: boolean
-        isSamplingEnabled:
-          type: boolean
-        sensitivity:
-          type: number
-        thresholdStrategy:
-          type: object
-          $ref: '#/components/schemas/ThresholdStrategyDTO'
-        validRange:
-          type: object
-          $ref: '#/components/schemas/ValidRangeDTO'
-    DatasetColumnProfilingContentDTO:
-      type: object
-      properties:
-        id:
-          type: string
-        metrics:
-          type: object
-          $ref: '#/components/schemas/ColumnMetricContentDTO'
-        name:
-          type: string
-        type:
-          type: string
-      required:
-      - id
-      - name
-      - type
-    PublicApiDeleteCustomSqlMonitorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
     PublicApiDatasetRoleRequestDTO:
       type: object
       properties:
@@ -2497,6 +2745,66 @@ components:
           type: boolean
       required:
       - name
+    ColumnMonitorConfigurationDTO:
+      type: object
+      properties:
+        groupByColumns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/GroupByColumnConfigurationDTO'
+        exclusionZones:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ExclusionZoneDTO'
+        isEnabled:
+          type: boolean
+        isSamplingEnabled:
+          type: boolean
+        sensitivity:
+          type: number
+        thresholdStrategy:
+          type: object
+          $ref: '#/components/schemas/ThresholdStrategyDTO'
+        validRange:
+          type: object
+          $ref: '#/components/schemas/ValidRangeDTO'
+    PublicApiDatasetDiagnosticsWarehouseResponse:
+      type: object
+      properties:
+        failedRowsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseFailedRowsConfigurationDTO'
+        scanAndResultsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseScanAndResultsConfigurationDTO'
+        schema:
+          oneOf:
+          - type: string
+          - type: 'null'
+    DatasetTimePartitionTypeDTO:
+      type: string
+      enum:
+      - disabled
+      - partitionColumn
+      - sqlExpression
+    DatasetColumnProfilingContentDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        metrics:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricContentDTO'
+        name:
+          type: string
+        type:
+          type: string
+      required:
+      - id
+      - name
+      - type
     PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseFailedRowsConfigurationDTO:
       type: object
       properties:
@@ -2521,38 +2829,220 @@ components:
           type: array
           items:
             type: string
-    PublicApiDatasetResponsibilitiesResponse:
+    ColumnMonitorMetricTypeDTO:
+      type: string
+      enum:
+      - missingPercentage
+      - duplicatePercentage
+      - average
+      - columnFreshness
+      - sum
+      - distinctValuesCount
+      - count
+      - minimumValue
+      - maximumValue
+      - duplicateValuesPercentage
+      - minimumLength
+      - maximumLength
+      - averageLength
+      - standardDeviation
+      - variance
+      - q1
+      - median
+      - q3
+    PublicApiDeleteDatasetResponse:
       type: object
       properties:
-        content:
+        message:
+          type: string
+      required:
+      - message
+    DatasetRoleContentDTO:
+      type: object
+      properties:
+        configureDataset:
+          type: boolean
+        createCheckProposals:
+          type: boolean
+        deleteDataset:
+          type: boolean
+        executeContracts:
+          type: boolean
+          deprecated: true
+        id:
+          type: string
+        manageChecks:
+          type: boolean
+        manageContracts:
+          type: boolean
+        manageIncidents:
+          type: boolean
+        managePermissions:
+          type: boolean
+        name:
+          type: string
+        publishContracts:
+          type: boolean
+          deprecated: true
+        viewFailedRows:
+          type: boolean
+        viewProfilingAndSamples:
+          type: boolean
+      required:
+      - id
+      - name
+    ThresholdStrategyDTO:
+      type: object
+      properties:
+        isLowerBoundEnabled:
+          type: boolean
+        isUpperBoundEnabled:
+          type: boolean
+      required:
+      - isLowerBoundEnabled
+      - isUpperBoundEnabled
+    HistogramBinContentDTO:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        lowerBound:
+          type: number
+        upperBound:
+          type: number
+      required:
+      - count
+      - lowerBound
+      - upperBound
+    UpdateDatasetTimePartitionRequestDTO:
+      type: object
+      properties:
+        partitionColumn:
+          type: string
+        sqlExpression:
+          type: string
+    PublicApiCreateCustomSqlMonitorResponse:
+      type: object
+      properties:
+        customSqlMonitor:
+          type: object
+          $ref: '#/components/schemas/CustomMetricMonitorDTO'
+      required:
+      - customSqlMonitor
+    DatasetResponsibilityContentDTO:
+      type: object
+      properties:
+        managed:
+          type: boolean
+        role:
+          type: object
+          $ref: '#/components/schemas/DatasetRoleContentDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - managed
+      - role
+      - type
+    PublicApiUpdateDatasetRoleResponse:
+      type: object
+      properties:
+        datasetRole:
+          type: object
+          $ref: '#/components/schemas/DatasetRoleContentDTO'
+      required:
+      - datasetRole
+    DatasetTimePartitionDTO:
+      type: object
+      properties:
+        partitionColumn:
+          type: object
+          $ref: '#/components/schemas/DatasetPartitionColumnContentDTO'
+        sqlExpression:
+          type: string
+        timePartitionType:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionTypeDTO'
+    DatasetMonitorMetricTypeDTO:
+      type: string
+      enum:
+      - rowCount
+      - freshness
+      - schema
+      - rowsInserted
+      - totalRowCountChange
+      - timeliness
+      - recordAnomalyScore
+    PublicApiDatasetMetricMonitoringResponse:
+      type: object
+      properties:
+        columnMetricMonitors:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/DatasetResponsibilityContentDTO'
-        first:
+            $ref: '#/components/schemas/ColumnMetricMonitorDTO'
+        customSqlMetricMonitors:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/CustomMetricMonitorDTO'
+        datasetId:
+          type: string
+        datasetMetricMonitorsConfiguration:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetMetricMonitorConfigurationDTO'
+        enabled:
           type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
+        historicalMetricCollectionScanStartDate:
+          type: string
+          format: date-time
+        partitionColumn:
+          type: string
+          deprecated: true
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+        timePartition:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionDTO'
+    PublicApiCreateColumnMetricMonitorRequestDTO:
+      type: object
+      properties:
+        columnMetricMonitorConfiguration:
+          type: object
+          $ref: '#/components/schemas/ColumnMetricMonitorConfigurationDTO'
+        columnName:
+          type: string
       required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
+      - columnMetricMonitorConfiguration
+      - columnName
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiCreateCustomSqlMonitorRequestDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/CustomSqlMonitorConfigurationDTO'
+        monitorName:
+          type: string
+      required:
+      - configuration
+      - monitorName
     PublicApiUpdateDatasetDTO:
       type: object
       properties:
@@ -2588,87 +3078,87 @@ components:
         timePartition:
           type: object
           $ref: '#/components/schemas/UpdateDatasetTimePartitionRequestDTO'
-    UnitOfTimeDTO:
-      type: string
-      enum:
-      - hours
-      - days
-      - weeks
-    DatasetOwnerTypeDTO:
+    DatasetComputeWarehouseConfigurationDTO:
+      type: object
+      properties:
+        availableWarehouses:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        currentWarehouse:
+          type: object
+          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        datasetWarehouseOverride:
+          type: object
+          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        defaultWarehouse:
+          type: object
+          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
+        enabled:
+          type: boolean
+    PublicApiListDatasetColumnsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiDatasetColumnContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiUpdateColumnMetricMonitorRequestDTO:
+      type: object
+      properties:
+        configuration:
+          type: object
+          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
+      required:
+      - configuration
+    ResponsibilityTypeDTO:
       type: string
       enum:
       - user
       - userGroup
-    ThresholdStrategyDTO:
+    FailedRowsConfigurationStateDTO:
+      type: string
+      enum:
+      - ready
+      - doNotDetectAutomatically
+      - awaitingPrimaryKeysInformationFromAgent
+      - awaitingPrimaryKeysInformationFromRunner
+      - errorMissingUniqueKeys
+    FailedRowsCollectionStrategyTypeDTO:
+      type: string
+      enum:
+      - useDefaultMaxRowCount
+      - absolute
+      - percentage
+    MapOfStringToMapOfStringTo_object:
       type: object
-      properties:
-        isLowerBoundEnabled:
-          type: boolean
-        isUpperBoundEnabled:
-          type: boolean
-      required:
-      - isLowerBoundEnabled
-      - isUpperBoundEnabled
-    ColumnMetricMonitorDTO:
-      type: object
-      properties:
-        checkId:
-          type: string
-        columnName:
-          type: string
-        configuration:
-          type: object
-          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
-        metricType:
-          type: object
-          $ref: '#/components/schemas/ColumnMonitorMetricTypeDTO'
-      required:
-      - checkId
-      - columnName
-      - configuration
-      - metricType
-    DatasetResponsibilityContentDTO:
-      type: object
-      properties:
-        managed:
-          type: boolean
-        role:
-          type: object
-          $ref: '#/components/schemas/DatasetRoleContentDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/ResponsibilityTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - managed
-      - role
-      - type
-    CustomMetricMonitorDTO:
-      type: object
-      properties:
-        checkId:
-          type: string
-        columnName:
-          type: string
-        configuration:
-          type: object
-          $ref: '#/components/schemas/CustomSqlMonitorConfigurationDTO'
-        monitorName:
-          type: string
-      required:
-      - checkId
-      - configuration
-      - monitorName
-    ValidRangeDTO:
-      type: object
-      properties:
-        max:
-          type: number
-        min:
-          type: number
+      additionalProperties: true
     PublicApiDeleteDatasetRoleResponse:
       type: object
       properties:
@@ -2676,105 +3166,7 @@ components:
           type: string
       required:
       - message
-    ResponsibilityTypeDTO:
-      type: string
-      enum:
-      - user
-      - userGroup
-    MapOfStringTo_object:
-      type: object
-      additionalProperties: true
-    DatasetRoleContentDTO:
-      type: object
-      properties:
-        configureDataset:
-          type: boolean
-        createCheckProposals:
-          type: boolean
-        deleteDataset:
-          type: boolean
-        executeContracts:
-          type: boolean
-          deprecated: true
-        id:
-          type: string
-        manageChecks:
-          type: boolean
-        manageContracts:
-          type: boolean
-        manageIncidents:
-          type: boolean
-        managePermissions:
-          type: boolean
-        name:
-          type: string
-        publishContracts:
-          type: boolean
-          deprecated: true
-        viewFailedRows:
-          type: boolean
-        viewProfilingAndSamples:
-          type: boolean
-      required:
-      - id
-      - name
-    FailedRowsCollectionStrategyTypeDTO:
-      type: string
-      enum:
-      - useDefaultMaxRowCount
-      - absolute
-      - percentage
-    ExtremeValuesContentDTO:
-      type: object
-      properties:
-        maximum:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/_object'
-        minimum:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/_object'
-    _object:
-      type: object
-    DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
-    DatasetTimePartitionDTO:
-      type: object
-      properties:
-        partitionColumn:
-          type: object
-          $ref: '#/components/schemas/DatasetPartitionColumnContentDTO'
-        sqlExpression:
-          type: string
-        timePartitionType:
-          type: object
-          $ref: '#/components/schemas/DatasetTimePartitionTypeDTO'
-    ThresholdConditionDTO:
-      type: string
-      enum:
-      - greaterThan
-      - lessThan
-    ExclusionZoneDTO:
-      type: object
-      properties:
-        lowerLimit:
-          type: number
-        singleValue:
-          type: boolean
-        upperLimit:
-          type: number
-      required:
-      - lowerLimit
-      - upperLimit
-    CustomSqlMonitorConfigurationUpdateDTO:
+    CustomSqlMonitorConfigurationDTO:
       type: object
       properties:
         groupByColumnNames:
@@ -2802,11 +3194,208 @@ components:
         validRange:
           type: object
           $ref: '#/components/schemas/ValidRangeDTO'
+      required:
+      - resultMetric
+      - sqlQuery
+    ExclusionZoneDTO:
+      type: object
+      properties:
+        lowerLimit:
+          type: number
+        singleValue:
+          type: boolean
+        upperLimit:
+          type: number
+      required:
+      - lowerLimit
+      - upperLimit
+    DatasetResponsibilityContentRequestDTO:
+      type: object
+      properties:
+        roleId:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - roleId
+      - type
+    ZonedCronDTO:
+      type: object
+      properties:
+        cronExpression:
+          type: string
+        timezone:
+          type: string
+      required:
+      - cronExpression
+      - timezone
+    PublicApiDeleteColumnMetricMonitorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    ProfilingSamplingStrategyConfigurationDTO:
+      type: object
+      properties:
+        numberOfRows:
+          type: integer
+          format: int32
+        numberOfUnits:
+          type: integer
+          format: int32
+        unitOfTime:
+          type: object
+          $ref: '#/components/schemas/UnitOfTimeDTO'
     DatasetDiagnosticsWarehouseScanAndResultsConfigurationRequest:
       type: object
       properties:
         enabled:
           type: boolean
+    PublicApiDeleteCustomSqlMonitorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    CustomMetricMonitorDTO:
+      type: object
+      properties:
+        checkId:
+          type: string
+        columnName:
+          type: string
+        configuration:
+          type: object
+          $ref: '#/components/schemas/CustomSqlMonitorConfigurationDTO'
+        monitorName:
+          type: string
+      required:
+      - checkId
+      - configuration
+      - monitorName
+    DatasourcePropertiesDTO:
+      type: object
+      properties:
+        label:
+          type: string
+        name:
+          type: string
+        prefix:
+          type: string
+        type:
+          type: string
+        version:
+          type: object
+          $ref: '#/components/schemas/ModelVersionDTO'
+    DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    FailedRowSamplesDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        sampleSize:
+          type: integer
+          format: int32
+    PublicApiUpdateDatasetOwnerRequestDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - type
+    PublicApiCreateDatasetRoleResponse:
+      type: object
+      properties:
+        datasetRole:
+          type: object
+          $ref: '#/components/schemas/DatasetRoleContentDTO'
+      required:
+      - datasetRole
+    PublicApiDatasetProfilingResponse:
+      type: object
+      properties:
+        columnCount:
+          type: integer
+          format: int64
+        columns:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasetColumnProfilingContentDTO'
+        datasetId:
+          type: string
+        enabled:
+          type: boolean
+        partitionColumn:
+          type: string
+          deprecated: true
+        profilingTime:
+          type: string
+          format: date-time
+        rowCount:
+          type: integer
+          format: int64
+        samplingStrategyConfiguration:
+          type: object
+          $ref: '#/components/schemas/ProfilingSamplingStrategyConfigurationDTO'
+        scanSchedule:
+          type: object
+          $ref: '#/components/schemas/ZonedCronDTO'
+        timePartition:
+          type: object
+          $ref: '#/components/schemas/DatasetTimePartitionDTO'
+      required:
+      - columns
+      - datasetId
+    DatasetOwnerDTO:
+      type: object
+      properties:
+        type:
+          type: object
+          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
+        user:
+          type: object
+          $ref: '#/components/schemas/UserContentDTO'
+        userGroup:
+          type: object
+          $ref: '#/components/schemas/UserGroupContentBasicDTO'
+      required:
+      - type
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
     DatasetsContentDTO:
       type: object
       properties:
@@ -2866,175 +3455,7 @@ components:
       - id
       - incidents
       - name
-    DatasetTimePartitionTypeDTO:
-      type: string
-      enum:
-      - disabled
-      - partitionColumn
-      - sqlExpression
-    ColumnTypeDTO:
-      type: string
-      enum:
-      - unknown
-      - string
-      - integer
-      - float
-      - time
-      - boolean
-      - date
-      - dateTime
-    PublicApiCreateColumnMetricMonitorRequestDTO:
-      type: object
-      properties:
-        columnMetricMonitorConfiguration:
-          type: object
-          $ref: '#/components/schemas/ColumnMetricMonitorConfigurationDTO'
-        columnName:
-          type: string
-      required:
-      - columnMetricMonitorConfiguration
-      - columnName
-    ProfilingSamplingStrategyConfigurationDTO:
-      type: object
-      properties:
-        numberOfRows:
-          type: integer
-          format: int32
-        numberOfUnits:
-          type: integer
-          format: int32
-        unitOfTime:
-          type: object
-          $ref: '#/components/schemas/UnitOfTimeDTO'
-    DatasetComputeWarehouseConfigurationDTO:
-      type: object
-      properties:
-        availableWarehouses:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
-        currentWarehouse:
-          type: object
-          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
-        datasetWarehouseOverride:
-          type: object
-          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
-        defaultWarehouse:
-          type: object
-          $ref: '#/components/schemas/DatasetComputeWarehouseConfigurationDTO_WarehouseConfigurationDTO'
-        enabled:
-          type: boolean
-    DatasetMetricMonitorConfigurationDTO:
-      type: object
-      properties:
-        configuration:
-          type: object
-          $ref: '#/components/schemas/DatasetMonitorConfigurationDTO'
-        metricType:
-          type: object
-          $ref: '#/components/schemas/DatasetMonitorMetricTypeDTO'
-      required:
-      - configuration
-      - metricType
-    PublicApiUpdateColumnMetricMonitorResponse:
-      type: object
-      properties:
-        columnMetricMonitor:
-          type: object
-          $ref: '#/components/schemas/ColumnMetricMonitorDTO'
-      required:
-      - columnMetricMonitor
-    DatasetResponsibilityContentRequestDTO:
-      type: object
-      properties:
-        roleId:
-          type: string
-        type:
-          type: object
-          $ref: '#/components/schemas/ResponsibilityTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - roleId
-      - type
-    PublicApiDeleteDatasetResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    PublicApiUpdateDatasetOwnerRequestDTO:
-      type: object
-      properties:
-        type:
-          type: object
-          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - type
-    PublicApiCreateCustomSqlMonitorRequestDTO:
-      type: object
-      properties:
-        columnName:
-          type: string
-        configuration:
-          type: object
-          $ref: '#/components/schemas/CustomSqlMonitorConfigurationDTO'
-        monitorName:
-          type: string
-      required:
-      - configuration
-      - monitorName
-    PublicApiUpdateCustomSqlMonitorResponse:
-      type: object
-      properties:
-        customSqlMetricMonitor:
-          type: object
-          $ref: '#/components/schemas/CustomMetricMonitorDTO'
-      required:
-      - customSqlMetricMonitor
-    PublicApiDatasetMetricMonitoringResponse:
-      type: object
-      properties:
-        columnMetricMonitors:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ColumnMetricMonitorDTO'
-        customSqlMetricMonitors:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/CustomMetricMonitorDTO'
-        datasetId:
-          type: string
-        datasetMetricMonitorsConfiguration:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DatasetMetricMonitorConfigurationDTO'
-        enabled:
-          type: boolean
-        historicalMetricCollectionScanStartDate:
-          type: string
-          format: date-time
-        partitionColumn:
-          type: string
-          deprecated: true
-        scanSchedule:
-          type: object
-          $ref: '#/components/schemas/ZonedCronDTO'
-        timePartition:
-          type: object
-          $ref: '#/components/schemas/DatasetTimePartitionDTO'
-    CustomSqlMonitorConfigurationDTO:
+    CustomSqlMonitorConfigurationUpdateDTO:
       type: object
       properties:
         groupByColumnNames:
@@ -3062,73 +3483,38 @@ components:
         validRange:
           type: object
           $ref: '#/components/schemas/ValidRangeDTO'
-      required:
-      - resultMetric
-      - sqlQuery
-    ColumnMetricMonitorConfigurationDTO:
+    PublicApiDatasetResponsibilitiesResponse:
       type: object
       properties:
-        configuration:
-          type: object
-          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
-        metricType:
-          type: object
-          $ref: '#/components/schemas/ColumnMonitorMetricTypeDTO'
-      required:
-      - configuration
-      - metricType
-    PublicApiDatasetProfilingResponse:
-      type: object
-      properties:
-        columnCount:
-          type: integer
-          format: int64
-        columns:
+        content:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/DatasetColumnProfilingContentDTO'
-        datasetId:
-          type: string
-        enabled:
+            $ref: '#/components/schemas/DatasetResponsibilityContentDTO'
+        first:
           type: boolean
-        partitionColumn:
-          type: string
-          deprecated: true
-        profilingTime:
-          type: string
-          format: date-time
-        rowCount:
+        last:
+          type: boolean
+        number:
           type: integer
-          format: int64
-        samplingStrategyConfiguration:
-          type: object
-          $ref: '#/components/schemas/ProfilingSamplingStrategyConfigurationDTO'
-        scanSchedule:
-          type: object
-          $ref: '#/components/schemas/ZonedCronDTO'
-        timePartition:
-          type: object
-          $ref: '#/components/schemas/DatasetTimePartitionDTO'
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
       required:
-      - columns
-      - datasetId
-    UpdateDatasetProfilingConfigurationRequestDTO:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        profilingSamplingStrategy:
-          type: object
-          $ref: '#/components/schemas/ProfilingSamplingStrategyConfigurationDTO'
-        scanSchedule:
-          type: object
-          $ref: '#/components/schemas/ZonedCronDTO'
-    ModelVersionDTO:
-      type: string
-      enum:
-      - '3'
-      - '4'
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
     UpdateDatasetDiagnosticsWarehouseConfigurationRequestDTO:
       type: object
       properties:
@@ -3140,46 +3526,13 @@ components:
           $ref: '#/components/schemas/DatasetDiagnosticsWarehouseScanAndResultsConfigurationRequest'
         schema:
           type: string
-    UpdateDatasetMetricMonitoringConfigurationRequestDTO:
+    ValidRangeDTO:
       type: object
       properties:
-        datasetMetricMonitorsConfiguration:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DatasetMetricMonitorConfigurationDTO'
-        enabled:
-          type: boolean
-        historicalMetricCollectionScanStartDate:
-          type: string
-          format: date-time
-        scanSchedule:
-          type: object
-          $ref: '#/components/schemas/ZonedCronDTO'
-    DatasourcePropertiesDTO:
-      type: object
-      properties:
-        label:
-          type: string
-        name:
-          type: string
-        prefix:
-          type: string
-        type:
-          type: string
-        version:
-          type: object
-          $ref: '#/components/schemas/ModelVersionDTO'
-    DatasetMonitorMetricTypeDTO:
-      type: string
-      enum:
-      - rowCount
-      - freshness
-      - schema
-      - rowsInserted
-      - totalRowCountChange
-      - timeliness
-      - recordAnomalyScore
+        max:
+          type: number
+        min:
+          type: number
     PublicApiCreateColumnMetricMonitorResponse:
       type: object
       properties:
@@ -3188,227 +3541,6 @@ components:
           $ref: '#/components/schemas/ColumnMetricMonitorDTO'
       required:
       - columnMetricMonitor
-    HistogramBinContentDTO:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int64
-        lowerBound:
-          type: number
-        upperBound:
-          type: number
-      required:
-      - count
-      - lowerBound
-      - upperBound
-    DatasetOwnerDTO:
-      type: object
-      properties:
-        type:
-          type: object
-          $ref: '#/components/schemas/DatasetOwnerTypeDTO'
-        user:
-          type: object
-          $ref: '#/components/schemas/UserContentDTO'
-        userGroup:
-          type: object
-          $ref: '#/components/schemas/UserGroupContentBasicDTO'
-      required:
-      - type
-    ColumnMetricContentDTO:
-      type: object
-      properties:
-        average:
-          type: number
-        averageLength:
-          type: number
-        distinctCount:
-          type: integer
-          format: int64
-        extremeValues:
-          type: object
-          $ref: '#/components/schemas/ExtremeValuesContentDTO'
-        frequentValues:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ValueCountContentDTO'
-        histogram:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/HistogramBinContentDTO'
-        maximum:
-          type: object
-          $ref: '#/components/schemas/_object'
-        maximumLength:
-          type: integer
-          format: int32
-        maximumTimestamp:
-          type: string
-          format: date-time
-        median:
-          type: number
-        minimum:
-          type: object
-          $ref: '#/components/schemas/_object'
-        minimumLength:
-          type: integer
-          format: int32
-        minimumTimestamp:
-          type: string
-          format: date-time
-        missingCount:
-          type: integer
-          format: int64
-        standardDeviation:
-          type: number
-        sum:
-          type: number
-        variance:
-          type: number
-    PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseScanAndResultsConfigurationDTO:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-    PublicApiUpdateDatasetResponsibilitiesRequestDTO:
-      type: object
-      properties:
-        responsibilities:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DatasetResponsibilityContentRequestDTO'
-      required:
-      - responsibilities
-    DataQualityStatusDTO:
-      type: string
-      enum:
-      - pass
-      - warn
-      - fail
-    PublicApiDatasetDiagnosticsWarehouseResponse:
-      type: object
-      properties:
-        failedRowsConfiguration:
-          type: object
-          $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseFailedRowsConfigurationDTO'
-        scanAndResultsConfiguration:
-          type: object
-          $ref: '#/components/schemas/PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseScanAndResultsConfigurationDTO'
-        schema:
-          oneOf:
-          - type: string
-          - type: 'null'
-    PublicApiUpdateDatasetRoleResponse:
-      type: object
-      properties:
-        datasetRole:
-          type: object
-          $ref: '#/components/schemas/DatasetRoleContentDTO'
-      required:
-      - datasetRole
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    MapOfStringToMapOfStringTo_object:
-      type: object
-      additionalProperties: true
-    FailedRowsConfigurationStateDTO:
-      type: string
-      enum:
-      - ready
-      - doNotDetectAutomatically
-      - awaitingPrimaryKeysInformationFromAgent
-      - awaitingPrimaryKeysInformationFromRunner
-      - errorMissingUniqueKeys
-    DatasetDiagnosticsWarehouseFailedRowsConfigurationRequest:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        failedRowSamples:
-          type: object
-          $ref: '#/components/schemas/FailedRowSamplesDTO'
-        failedRowsCollectionStrategy:
-          type: object
-          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
-        maxRowCount:
-          type: integer
-          format: int32
-        schema:
-          type: string
-          deprecated: true
-        storageStrategy:
-          type: object
-          $ref: '#/components/schemas/DiagnosticsWarehouseFailedRowsStorageStrategyDTO'
-        uniqueKeyColumnNames:
-          type: array
-          items:
-            type: string
-    GroupByColumnConfigurationDTO:
-      type: object
-      properties:
-        columnName:
-          type: string
-        excludedValues:
-          type: array
-          items:
-            type: string
-      required:
-      - columnName
-    PublicApiDeleteColumnMetricMonitorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-      required:
-      - message
-    PublicApiDatasetColumnContentDTO:
-      type: object
-      properties:
-        attributes:
-          type: object
-          $ref: '#/components/schemas/MapOfStringTo_object'
-        columnId:
-          type: string
-        columnName:
-          type: string
-      required:
-      - attributes
-      - columnId
-      - columnName
-    ValueCountContentDTO:
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int64
-        value:
-          type: object
-          $ref: '#/components/schemas/_object'
-    PublicApiCreateCustomSqlMonitorResponse:
-      type: object
-      properties:
-        customSqlMonitor:
-          type: object
-          $ref: '#/components/schemas/CustomMetricMonitorDTO'
-      required:
-      - customSqlMonitor
-    FailedRowSamplesDTO:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        sampleSize:
-          type: integer
-          format: int32
     UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO:
       type: object
       properties:
@@ -3417,6 +3549,16 @@ components:
           $ref: '#/components/schemas/UpdateDatasetComputeWarehouseOverrideConfigurationRequestDTO_WarehouseConfigurationDTO'
         enabled:
           type: boolean
+    ModelVersionDTO:
+      type: string
+      enum:
+      - '3'
+      - '4'
+    DatasetOwnerTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
     PublicApiDatasetRolesResponse:
       type: object
       properties:
@@ -3449,155 +3591,13 @@ components:
       - size
       - totalElements
       - totalPages
-    ColumnMonitorConfigurationDTO:
+    PublicApiDatasetDiagnosticsWarehouseResponse_DiagnosticsWarehouseScanAndResultsConfigurationDTO:
       type: object
       properties:
-        groupByColumns:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/GroupByColumnConfigurationDTO'
-        exclusionZones:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/ExclusionZoneDTO'
-        isEnabled:
+        enabled:
           type: boolean
-        isSamplingEnabled:
-          type: boolean
-        sensitivity:
-          type: number
-        thresholdStrategy:
-          type: object
-          $ref: '#/components/schemas/ThresholdStrategyDTO'
-        validRange:
-          type: object
-          $ref: '#/components/schemas/ValidRangeDTO'
-    DatasetPartitionColumnContentDTO:
+    _object:
       type: object
-      properties:
-        columnType:
-          type: object
-          $ref: '#/components/schemas/ColumnTypeDTO'
-        name:
-          type: string
-      required:
-      - columnType
-      - name
-    UserGroupContentBasicDTO:
-      type: object
-      properties:
-        name:
-          type: string
-        userGroupId:
-          type: string
-      required:
-      - name
-      - userGroupId
-    UpdateDatasetTimePartitionRequestDTO:
-      type: object
-      properties:
-        partitionColumn:
-          type: string
-        sqlExpression:
-          type: string
-    FailedRowsCollectionStrategyDTO:
-      type: object
-      properties:
-        maxRowCountOverride:
-          type: integer
-          format: int32
-        threshold:
-          type: number
-        thresholdCondition:
-          type: object
-          $ref: '#/components/schemas/ThresholdConditionDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/FailedRowsCollectionStrategyTypeDTO'
-      required:
-      - threshold
-      - thresholdCondition
-    PublicApiListDatasetColumnsResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiDatasetColumnContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
-    PublicApiCreateDatasetRoleResponse:
-      type: object
-      properties:
-        datasetRole:
-          type: object
-          $ref: '#/components/schemas/DatasetRoleContentDTO'
-      required:
-      - datasetRole
-    ColumnMonitorMetricTypeDTO:
-      type: string
-      enum:
-      - missingPercentage
-      - duplicatePercentage
-      - average
-      - columnFreshness
-      - sum
-      - distinctValuesCount
-      - count
-      - minimumValue
-      - maximumValue
-      - duplicateValuesPercentage
-      - minimumLength
-      - maximumLength
-      - averageLength
-      - standardDeviation
-      - variance
-      - q1
-      - median
-      - q3
-    PublicApiUpdateColumnMetricMonitorRequestDTO:
-      type: object
-      properties:
-        configuration:
-          type: object
-          $ref: '#/components/schemas/ColumnMonitorConfigurationDTO'
-      required:
-      - configuration
-    PublicApiUpdateCustomSqlMonitorRequestDTO:
-      type: object
-      properties:
-        columnName:
-          type: string
-        configuration:
-          type: object
-          $ref: '#/components/schemas/CustomSqlMonitorConfigurationUpdateDTO'
-        name:
-          type: string
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

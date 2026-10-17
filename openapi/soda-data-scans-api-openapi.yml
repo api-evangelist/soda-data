@@ -389,40 +389,10 @@ components:
       required:
       - id
       - name
-    LogsContentDTO:
-      type: object
-      properties:
-        index:
-          type: integer
-          format: int32
-        level:
-          type: object
-          $ref: '#/components/schemas/LogLevelDTO'
-        message:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-      required:
-      - index
-      - level
-      - message
-      - timestamp
-    LogLevelDTO:
+    PublicApiPostProcessingStageTypeDTO:
       type: string
       enum:
-      - debug
-      - info
-      - warning
-      - error
-    EvaluationStatusDTO:
-      type: string
-      enum:
-      - pass
-      - warn
-      - fail
-      - notEvaluated
-      - excluded
+      - diagnosticWarehouse
     ScanStateDTO:
       type: string
       enum:
@@ -438,23 +408,14 @@ components:
       - completedWithFailures
       - completedWithWarnings
       - completed
-    PublicApiPostProcessingStageDTO:
+    PublicApiCheckSlimDTO:
       type: object
       properties:
-        ended:
-          type: string
-          format: date-time
-        name:
+        evaluationStatus:
           type: object
-          $ref: '#/components/schemas/PublicApiPostProcessingStageTypeDTO'
-        started:
+          $ref: '#/components/schemas/EvaluationStatusDTO'
+        id:
           type: string
-          format: date-time
-        state:
-          type: object
-          $ref: '#/components/schemas/PublicApiPostProcessingStageStateDTO'
-      required:
-      - name
     PublicApiScanStatusResponse:
       type: object
       properties:
@@ -514,31 +475,25 @@ components:
       - created
       - id
       - state
-    PublicApiPostProcessingStageTypeDTO:
-      type: string
-      enum:
-      - diagnosticWarehouse
-    PublicApiCheckSlimDTO:
+    LogsContentDTO:
       type: object
       properties:
-        evaluationStatus:
+        index:
+          type: integer
+          format: int32
+        level:
           type: object
-          $ref: '#/components/schemas/EvaluationStatusDTO'
-        id:
-          type: string
-    PublicApiPostProcessingStageStateDTO:
-      type: string
-      enum:
-      - ongoing
-      - completed
-      - failed
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
+          $ref: '#/components/schemas/LogLevelDTO'
         message:
           type: string
+        timestamp:
+          type: string
+          format: date-time
+      required:
+      - index
+      - level
+      - message
+      - timestamp
     PublicApiScanLogsResponse:
       type: object
       properties:
@@ -571,6 +526,51 @@ components:
       - size
       - totalElements
       - totalPages
+    PublicApiPostProcessingStageStateDTO:
+      type: string
+      enum:
+      - ongoing
+      - completed
+      - failed
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiPostProcessingStageDTO:
+      type: object
+      properties:
+        ended:
+          type: string
+          format: date-time
+        name:
+          type: object
+          $ref: '#/components/schemas/PublicApiPostProcessingStageTypeDTO'
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/PublicApiPostProcessingStageStateDTO'
+      required:
+      - name
+    EvaluationStatusDTO:
+      type: string
+      enum:
+      - pass
+      - warn
+      - fail
+      - notEvaluated
+      - excluded
+    LogLevelDTO:
+      type: string
+      enum:
+      - debug
+      - info
+      - warning
+      - error
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

@@ -156,6 +156,13 @@ components:
       - size
       - totalElements
       - totalPages
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     DiscoveredDatasetContentDTO:
       type: object
       properties:
@@ -178,13 +185,6 @@ components:
       - name
       - onboarded
       - qualifiedName
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

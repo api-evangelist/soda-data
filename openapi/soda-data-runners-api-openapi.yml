@@ -372,6 +372,57 @@ paths:
       - Runners
 components:
   schemas:
+    PublicApiRunnerDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        isOnline:
+          type: boolean
+        label:
+          type: string
+        lastSeenTimestamp:
+          type: string
+          format: date-time
+        name:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/PublicApiRunnerTypeDTO'
+        versions:
+          type: object
+          $ref: '#/components/schemas/PublicApiRunnerVersionsDTO'
+    PublicApiCreateRunnerResponse:
+      type: object
+      properties:
+        apiKeyId:
+          type: string
+        apiKeySecret:
+          type: string
+    PublicApiDeleteRunnerResponse:
+      type: object
+    PublicApiRunnerTypeDTO:
+      type: string
+      enum:
+      - SELF_HOSTED
+      - SODA_HOSTED
+    PublicApiRunnerVersionsDTO:
+      type: object
+      properties:
+        agent:
+          type: string
+          deprecated: true
+        library:
+          type: string
+        runner:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     PublicApiListRunnersResponse:
       type: object
       properties:
@@ -404,63 +455,12 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiRunnerTypeDTO:
-      type: string
-      enum:
-      - SELF_HOSTED
-      - SODA_HOSTED
-    PublicApiRunnerDTO:
-      type: object
-      properties:
-        id:
-          type: string
-        isOnline:
-          type: boolean
-        label:
-          type: string
-        lastSeenTimestamp:
-          type: string
-          format: date-time
-        name:
-          type: string
-        type:
-          type: object
-          $ref: '#/components/schemas/PublicApiRunnerTypeDTO'
-        versions:
-          type: object
-          $ref: '#/components/schemas/PublicApiRunnerVersionsDTO'
     PublicApiGetRunnerResponse:
       type: object
       properties:
         runner:
           type: object
           $ref: '#/components/schemas/PublicApiRunnerDTO'
-    PublicApiRunnerVersionsDTO:
-      type: object
-      properties:
-        agent:
-          type: string
-          deprecated: true
-        library:
-          type: string
-        runner:
-          type: string
-    PublicApiCreateRunnerResponse:
-      type: object
-      properties:
-        apiKeyId:
-          type: string
-        apiKeySecret:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-    PublicApiDeleteRunnerResponse:
-      type: object
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

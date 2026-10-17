@@ -1746,6 +1746,14 @@ paths:
       - Data Sources
 components:
   schemas:
+    PublicApiCreateDatasourceRoleResponse:
+      type: object
+      properties:
+        datasourceRole:
+          type: object
+          $ref: '#/components/schemas/DatasourceRoleContentDTO'
+      required:
+      - datasourceRole
     PublicApiUpdateDatasourceResponsibilitiesRequestDTO:
       type: object
       properties:
@@ -1756,6 +1764,19 @@ components:
             $ref: '#/components/schemas/DatasourceResponsibilityContentRequestDTO'
       required:
       - responsibilities
+    ThresholdConditionDTO:
+      type: string
+      enum:
+      - greaterThan
+      - lessThan
+    FailedRowSamplesDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        sampleSize:
+          type: integer
+          format: int32
     PublicApiOnboardDatasetsRequestDTO:
       type: object
       properties:
@@ -1765,6 +1786,13 @@ components:
             type: string
       required:
       - discoveredDatasetIds
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
     PublicApiCreateDatasourceResponse:
       type: object
       properties:
@@ -1772,6 +1800,35 @@ components:
           type: object
           $ref: '#/components/schemas/PublicApiDatasourceDTO'
         discoveryScanId:
+          type: string
+    PublicApiOnboardDatasetsStatusResponse:
+      type: object
+      properties:
+        ended:
+          type: string
+          format: date-time
+        id:
+          type: string
+        message:
+          type: string
+        started:
+          type: string
+          format: date-time
+        state:
+          type: object
+          $ref: '#/components/schemas/PublicApiOnboardingStateDTO'
+      required:
+      - id
+      - state
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ScanAndResultsConfigurationRequestDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+    PublicApiDeleteDatasourceResponse:
+      type: object
+      properties:
+        message:
           type: string
     PublicApiDatasourceTypeDTO:
       type: string
@@ -1799,7 +1856,66 @@ components:
       - synapse
       - fabric
       - salesforce
-    PublicApiUpdateDatasourceRequestDTO:
+    DatasourceRoleContentDTO:
+      type: object
+      properties:
+        createDatasets:
+          type: boolean
+        deleteDatasource:
+          type: boolean
+        id:
+          type: string
+        manageDatasourceSettings:
+          type: boolean
+        managePermissions:
+          type: boolean
+        name:
+          type: string
+        viewDatasource:
+          type: boolean
+      required:
+      - id
+      - name
+    PublicApiGetDatasourceResponse:
+      type: object
+      properties:
+        datasource:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDTO'
+    PublicApiOnboardingStateDTO:
+      type: string
+      enum:
+      - queued
+      - processing
+      - completed
+      - failed
+      - cancelled
+    DatasourceResponsibilityContentDTO:
+      type: object
+      properties:
+        managed:
+          type: boolean
+        role:
+          type: object
+          $ref: '#/components/schemas/DatasourceRoleContentDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - managed
+      - role
+      - type
+    PublicApiUpdateDatasourceResponse:
+      type: object
+      properties:
+        datasource:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDTO'
+    PublicApiCreateDatasourceRequestDTO:
       type: object
       properties:
         configurationFileContents:
@@ -1807,6 +1923,59 @@ components:
         label:
           type: string
         runnerId:
+          type: string
+      required:
+      - configurationFileContents
+    ResponsibilityTypeDTO:
+      type: string
+      enum:
+      - user
+      - userGroup
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_FailedRowsConfigurationRequestDTO:
+      type: object
+      properties:
+        actionButton:
+          type: object
+          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ActionButtonRequestDTO'
+        enabled:
+          type: boolean
+        exposeQueries:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        locationMessage:
+          type: string
+        maxRowCount:
+          type: integer
+          format: int32
+    FailedRowsCollectionStrategyTypeDTO:
+      type: string
+      enum:
+      - useDefaultMaxRowCount
+      - absolute
+      - percentage
+    PublicApiTestConnectionRequestDTO:
+      type: object
+      properties:
+        configurationFileContents:
+          type: string
+        runnerId:
+          type: string
+      required:
+      - configurationFileContents
+      - runnerId
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ActionButtonRequestDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        title:
+          type: string
+        url:
           type: string
     PublicApiDatasourceDiagnosticsWarehouseResponse:
       type: object
@@ -1823,63 +1992,6 @@ components:
           $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse_ScanAndResultsConfigurationDTO'
         tableNameTemplate:
           type: string
-    PublicApiDatasourceRolesResponse:
-      type: object
-      properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/DatasourceRoleContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
-    FailedRowSamplesDTO:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-        sampleSize:
-          type: integer
-          format: int32
-    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO:
-      type: object
-      properties:
-        configurationFileContents:
-          type: string
-        enabled:
-          type: boolean
-        failedRowsConfiguration:
-          type: object
-          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_FailedRowsConfigurationRequestDTO'
-        reuseDatasource:
-          type: boolean
-        scanAndResultsConfiguration:
-          type: object
-          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ScanAndResultsConfigurationRequestDTO'
-        tableNameTemplate:
-          type: string
     PublicApiDeleteDatasourceRoleResponse:
       type: object
       properties:
@@ -1887,13 +1999,7 @@ components:
           type: string
       required:
       - message
-    PublicApiGetDatasourceResponse:
-      type: object
-      properties:
-        datasource:
-          type: object
-          $ref: '#/components/schemas/PublicApiDatasourceDTO'
-    PublicApiOnboardingStateDTO:
+    PublicApiTestConnectionStateDTO:
       type: string
       enum:
       - queued
@@ -1901,11 +2007,23 @@ components:
       - completed
       - failed
       - cancelled
-    PublicApiDatasourceDiagnosticsWarehouseResponse_ScanAndResultsConfigurationDTO:
+    FailedRowsCollectionStrategyDTO:
       type: object
       properties:
-        enabled:
-          type: boolean
+        maxRowCountOverride:
+          type: integer
+          format: int32
+        threshold:
+          type: number
+        thresholdCondition:
+          type: object
+          $ref: '#/components/schemas/ThresholdConditionDTO'
+        type:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyTypeDTO'
+      required:
+      - threshold
+      - thresholdCondition
     PublicApiDatasourceRoleRequestDTO:
       type: object
       properties:
@@ -1923,11 +2041,6 @@ components:
           type: boolean
       required:
       - name
-    PublicApiDeleteDatasourceResponse:
-      type: object
-      properties:
-        message:
-          type: string
     PublicApiDatasourceDTO:
       type: object
       properties:
@@ -1946,16 +2059,32 @@ components:
         updatedAt:
           type: string
           format: date-time
-    PublicApiTestConnectionRequestDTO:
+    PublicApiDatasourceDiagnosticsWarehouseResponse_FailedRowsConfigurationDTO:
       type: object
       properties:
-        configurationFileContents:
+        actionButton:
+          type: object
+          $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse_ActionButtonDTO'
+        enabled:
+          type: boolean
+        exposeQueries:
+          type: boolean
+        failedRowSamples:
+          type: object
+          $ref: '#/components/schemas/FailedRowSamplesDTO'
+        failedRowsCollectionStrategy:
+          type: object
+          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
+        locationMessage:
           type: string
-        runnerId:
-          type: string
-      required:
-      - configurationFileContents
-      - runnerId
+        maxRowCount:
+          type: integer
+          format: int32
+    PublicApiDatasourceDiagnosticsWarehouseResponse_ScanAndResultsConfigurationDTO:
+      type: object
+      properties:
+        enabled:
+          type: boolean
     PublicApiListDatasourcesResponse:
       type: object
       properties:
@@ -1988,27 +2117,38 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_FailedRowsConfigurationRequestDTO:
+    PublicApiDatasourceRolesResponse:
       type: object
       properties:
-        actionButton:
-          type: object
-          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ActionButtonRequestDTO'
-        enabled:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/DatasourceRoleContentDTO'
+        first:
           type: boolean
-        exposeQueries:
+        last:
           type: boolean
-        failedRowSamples:
-          type: object
-          $ref: '#/components/schemas/FailedRowSamplesDTO'
-        failedRowsCollectionStrategy:
-          type: object
-          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
-        locationMessage:
-          type: string
-        maxRowCount:
+        number:
           type: integer
           format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
     PublicApiDatasourceResponsibilitiesResponse:
       type: object
       properties:
@@ -2041,32 +2181,6 @@ components:
       - size
       - totalElements
       - totalPages
-    DatasourceRoleContentDTO:
-      type: object
-      properties:
-        createDatasets:
-          type: boolean
-        deleteDatasource:
-          type: boolean
-        id:
-          type: string
-        manageDatasourceSettings:
-          type: boolean
-        managePermissions:
-          type: boolean
-        name:
-          type: string
-        viewDatasource:
-          type: boolean
-      required:
-      - id
-      - name
-    PublicApiUpdateDatasourceResponse:
-      type: object
-      properties:
-        datasource:
-          type: object
-          $ref: '#/components/schemas/PublicApiDatasourceDTO'
     PublicApiUpdateDatasourceRoleResponse:
       type: object
       properties:
@@ -2075,11 +2189,21 @@ components:
           $ref: '#/components/schemas/DatasourceRoleContentDTO'
       required:
       - datasourceRole
-    ResponsibilityTypeDTO:
-      type: string
-      enum:
-      - user
-      - userGroup
+    DatasourceResponsibilityContentRequestDTO:
+      type: object
+      properties:
+        roleId:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/ResponsibilityTypeDTO'
+        userGroupId:
+          type: string
+        userId:
+          type: string
+      required:
+      - roleId
+      - type
     PublicApiTestConnectionStatusResponse:
       type: object
       properties:
@@ -2096,69 +2220,15 @@ components:
       required:
       - id
       - state
-    PublicApiTestConnectionStateDTO:
-      type: string
-      enum:
-      - queued
-      - processing
-      - completed
-      - failed
-      - cancelled
-    PublicApiCreateDatasourceRoleResponse:
+    PublicApiUpdateDatasourceRequestDTO:
       type: object
       properties:
-        datasourceRole:
-          type: object
-          $ref: '#/components/schemas/DatasourceRoleContentDTO'
-      required:
-      - datasourceRole
-    DatasourceResponsibilityContentDTO:
-      type: object
-      properties:
-        managed:
-          type: boolean
-        role:
-          type: object
-          $ref: '#/components/schemas/DatasourceRoleContentDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/ResponsibilityTypeDTO'
-        userGroupId:
+        configurationFileContents:
           type: string
-        userId:
+        label:
           type: string
-      required:
-      - managed
-      - role
-      - type
-    ErrorResponse:
-      type: object
-      properties:
-        code:
+        runnerId:
           type: string
-        message:
-          type: string
-    PublicApiDatasourceDiagnosticsWarehouseResponse_FailedRowsConfigurationDTO:
-      type: object
-      properties:
-        actionButton:
-          type: object
-          $ref: '#/components/schemas/PublicApiDatasourceDiagnosticsWarehouseResponse_ActionButtonDTO'
-        enabled:
-          type: boolean
-        exposeQueries:
-          type: boolean
-        failedRowSamples:
-          type: object
-          $ref: '#/components/schemas/FailedRowSamplesDTO'
-        failedRowsCollectionStrategy:
-          type: object
-          $ref: '#/components/schemas/FailedRowsCollectionStrategyDTO'
-        locationMessage:
-          type: string
-        maxRowCount:
-          type: integer
-          format: int32
     PublicApiDatasourceDiagnosticsWarehouseResponse_ActionButtonDTO:
       type: object
       properties:
@@ -2168,93 +2238,23 @@ components:
           type: string
         url:
           type: string
-    PublicApiOnboardDatasetsStatusResponse:
-      type: object
-      properties:
-        ended:
-          type: string
-          format: date-time
-        id:
-          type: string
-        message:
-          type: string
-        started:
-          type: string
-          format: date-time
-        state:
-          type: object
-          $ref: '#/components/schemas/PublicApiOnboardingStateDTO'
-      required:
-      - id
-      - state
-    FailedRowsCollectionStrategyTypeDTO:
-      type: string
-      enum:
-      - useDefaultMaxRowCount
-      - absolute
-      - percentage
-    FailedRowsCollectionStrategyDTO:
-      type: object
-      properties:
-        maxRowCountOverride:
-          type: integer
-          format: int32
-        threshold:
-          type: number
-        thresholdCondition:
-          type: object
-          $ref: '#/components/schemas/ThresholdConditionDTO'
-        type:
-          type: object
-          $ref: '#/components/schemas/FailedRowsCollectionStrategyTypeDTO'
-      required:
-      - threshold
-      - thresholdCondition
-    DatasourceResponsibilityContentRequestDTO:
-      type: object
-      properties:
-        roleId:
-          type: string
-        type:
-          type: object
-          $ref: '#/components/schemas/ResponsibilityTypeDTO'
-        userGroupId:
-          type: string
-        userId:
-          type: string
-      required:
-      - roleId
-      - type
-    PublicApiCreateDatasourceRequestDTO:
+    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO:
       type: object
       properties:
         configurationFileContents:
           type: string
-        label:
-          type: string
-        runnerId:
-          type: string
-      required:
-      - configurationFileContents
-    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ActionButtonRequestDTO:
-      type: object
-      properties:
         enabled:
           type: boolean
-        title:
-          type: string
-        url:
-          type: string
-    ThresholdConditionDTO:
-      type: string
-      enum:
-      - greaterThan
-      - lessThan
-    PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ScanAndResultsConfigurationRequestDTO:
-      type: object
-      properties:
-        enabled:
+        failedRowsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_FailedRowsConfigurationRequestDTO'
+        reuseDatasource:
           type: boolean
+        scanAndResultsConfiguration:
+          type: object
+          $ref: '#/components/schemas/PublicApiUpdateDatasourceDiagnosticsWarehouseRequestDTO_ScanAndResultsConfigurationRequestDTO'
+        tableNameTemplate:
+          type: string
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

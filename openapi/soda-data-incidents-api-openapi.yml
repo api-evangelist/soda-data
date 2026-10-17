@@ -563,74 +563,112 @@ paths:
       - Incidents
 components:
   schemas:
+    PublicApiRcaAgentDTO:
+      type: object
+      properties:
+        model:
+          type: string
+        name:
+          type: string
+        sessionId:
+          type: string
+        version:
+          type: string
+      required:
+      - name
+    PublicApiCreateIncidentDTO:
+      type: object
+      properties:
+        description:
+          type: string
+        leadId:
+          type: string
+        monitorResultIds:
+          type: array
+          items:
+            type: string
+        resolutionNotes:
+          type: string
+        severity:
+          type: object
+          $ref: '#/components/schemas/IncidentSeverityDTO'
+        status:
+          type: object
+          $ref: '#/components/schemas/IncidentStatusDTO'
+        title:
+          type: string
+      required:
+      - description
+      - monitorResultIds
+      - severity
+      - title
+    RcaResourceTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - datasource
+      - check
+      - checkResult
+    RcaConfidenceDTO:
+      type: string
+      enum:
+      - high
+      - medium
+      - low
     RcaNodeStatusDTO:
       type: string
       enum:
       - rootCause
       - affected
       - healthy
-    RcaReportStatusDTO:
-      type: string
-      enum:
-      - completed
-      - partial
-      - inconclusive
-      - failed
-    PublicApiIncidentsResponse:
+    PublicApiRcaLineageDTO:
       type: object
       properties:
-        content:
+        edges:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/PublicApiIncidentWithRcaReportDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
-    PublicApiRcaInvestigationStepDTO:
-      type: object
-      properties:
-        detail:
-          type: string
-        evidence:
+            $ref: '#/components/schemas/PublicApiRcaLineageEdgeDTO'
+        nodes:
           type: array
           items:
             type: object
-            $ref: '#/components/schemas/PublicApiRcaEvidenceDTO'
-        order:
-          type: integer
-          format: int32
-        title:
+            $ref: '#/components/schemas/PublicApiRcaLineageNodeDTO'
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiRcaResourceRefDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: object
+          $ref: '#/components/schemas/RcaResourceTypeDTO'
+        url:
           type: string
       required:
-      - title
-    IncidentSeverityDTO:
-      type: string
-      enum:
-      - minor
-      - major
-      - critical
+      - id
+      - type
+    PublicApiImpactAssessmentDTO:
+      type: object
+      properties:
+        affectedResources:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaAffectedResourceDTO'
+        blastRadius:
+          type: object
+          $ref: '#/components/schemas/PublicApiBlastRadiusDTO'
+        summary:
+          type: string
     PublicApiIncidentWithRcaReportDTO:
       type: object
       properties:
@@ -663,13 +701,6 @@ components:
       - number
       - severity
       - status
-    RcaResourceTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - datasource
-      - check
-      - checkResult
     PublicApiUpdateIncidentDTO:
       type: object
       properties:
@@ -685,6 +716,65 @@ components:
           $ref: '#/components/schemas/IncidentStatusDTO'
         title:
           type: string
+    PublicApiRcaInvestigationStepDTO:
+      type: object
+      properties:
+        detail:
+          type: string
+        evidence:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaEvidenceDTO'
+        order:
+          type: integer
+          format: int32
+        title:
+          type: string
+      required:
+      - title
+    IncidentSeverityDTO:
+      type: string
+      enum:
+      - minor
+      - major
+      - critical
+    PublicApiRcaAffectedResourceDTO:
+      type: object
+      properties:
+        description:
+          type: string
+        metrics:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiRcaMetricDTO'
+        resource:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
+      required:
+      - description
+      - resource
+    RcaAssetTypeDTO:
+      type: string
+      enum:
+      - dataset
+      - datasource
+    PublicApiRcaReportDTO:
+      type: object
+      properties:
+        agent:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaAgentDTO'
+        impactAssessment:
+          type: object
+          $ref: '#/components/schemas/PublicApiImpactAssessmentDTO'
+        rootCauseAnalysis:
+          type: object
+          $ref: '#/components/schemas/PublicApiRootCauseAnalysisDTO'
+      required:
+      - agent
+      - rootCauseAnalysis
     PublicApiRcaLineageNodeDTO:
       type: object
       properties:
@@ -717,24 +807,6 @@ components:
       required:
       - label
       - value
-    RcaAssetTypeDTO:
-      type: string
-      enum:
-      - dataset
-      - datasource
-    PublicApiRcaAgentDTO:
-      type: object
-      properties:
-        model:
-          type: string
-        name:
-          type: string
-        sessionId:
-          type: string
-        version:
-          type: string
-      required:
-      - name
     PublicApiRcaReportContentDTO:
       type: object
       properties:
@@ -769,91 +841,6 @@ components:
         status:
           type: object
           $ref: '#/components/schemas/RcaReportStatusDTO'
-    PublicApiRcaEvidenceDTO:
-      type: object
-      properties:
-        kind:
-          type: string
-        resource:
-          type: object
-          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
-        text:
-          type: string
-    PublicApiBlastRadiusDTO:
-      type: object
-      properties:
-        assetType:
-          type: object
-          $ref: '#/components/schemas/RcaAssetTypeDTO'
-        count:
-          type: integer
-          format: int32
-    PublicApiRcaLineageEdgeDTO:
-      type: object
-      properties:
-        from:
-          type: string
-        to:
-          type: string
-      required:
-      - from
-      - to
-    PublicApiImpactAssessmentDTO:
-      type: object
-      properties:
-        affectedResources:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiRcaAffectedResourceDTO'
-        blastRadius:
-          type: object
-          $ref: '#/components/schemas/PublicApiBlastRadiusDTO'
-        summary:
-          type: string
-    IncidentContentDTO:
-      type: object
-      properties:
-        description:
-          type: string
-        resolutionNotes:
-          type: string
-        severity:
-          type: object
-          $ref: '#/components/schemas/IncidentSeverityDTO'
-        cloudUrl:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        number:
-          type: integer
-          format: int32
-        status:
-          type: object
-          $ref: '#/components/schemas/IncidentStatusDTO'
-      required:
-      - cloudUrl
-      - description
-      - id
-      - name
-      - number
-      - severity
-      - status
-    PublicApiRcaLineageDTO:
-      type: object
-      properties:
-        edges:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiRcaLineageEdgeDTO'
-        nodes:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiRcaLineageNodeDTO'
     RcaPriorityDTO:
       type: string
       enum:
@@ -861,19 +848,16 @@ components:
       - medium
       - high
       - urgent
-    ErrorResponse:
+    PublicApiRcaRemediationItemDTO:
       type: object
       properties:
-        code:
+        action:
           type: string
-        message:
-          type: string
-    RcaConfidenceDTO:
-      type: string
-      enum:
-      - high
-      - medium
-      - low
+        priority:
+          type: object
+          $ref: '#/components/schemas/RcaPriorityDTO'
+      required:
+      - action
     IncidentStatusDTO:
       type: string
       enum:
@@ -881,32 +865,6 @@ components:
       - investigating
       - fixing
       - resolved
-    PublicApiCreateIncidentDTO:
-      type: object
-      properties:
-        description:
-          type: string
-        leadId:
-          type: string
-        monitorResultIds:
-          type: array
-          items:
-            type: string
-        resolutionNotes:
-          type: string
-        severity:
-          type: object
-          $ref: '#/components/schemas/IncidentSeverityDTO'
-        status:
-          type: object
-          $ref: '#/components/schemas/IncidentStatusDTO'
-        title:
-          type: string
-      required:
-      - description
-      - monitorResultIds
-      - severity
-      - title
     PublicApiRootCauseAnalysisDTO:
       type: object
       properties:
@@ -945,62 +903,104 @@ components:
       - generatedAt
       - status
       - summary
-    PublicApiRcaAffectedResourceDTO:
+    RcaReportStatusDTO:
+      type: string
+      enum:
+      - completed
+      - partial
+      - inconclusive
+      - failed
+    PublicApiRcaEvidenceDTO:
+      type: object
+      properties:
+        kind:
+          type: string
+        resource:
+          type: object
+          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
+        text:
+          type: string
+    PublicApiIncidentsResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/PublicApiIncidentWithRcaReportDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
+    PublicApiBlastRadiusDTO:
+      type: object
+      properties:
+        assetType:
+          type: object
+          $ref: '#/components/schemas/RcaAssetTypeDTO'
+        count:
+          type: integer
+          format: int32
+    IncidentContentDTO:
       type: object
       properties:
         description:
           type: string
-        metrics:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/PublicApiRcaMetricDTO'
-        resource:
-          type: object
-          $ref: '#/components/schemas/PublicApiRcaResourceRefDTO'
-      required:
-      - description
-      - resource
-    PublicApiRcaRemediationItemDTO:
-      type: object
-      properties:
-        action:
+        resolutionNotes:
           type: string
-        priority:
+        severity:
           type: object
-          $ref: '#/components/schemas/RcaPriorityDTO'
-      required:
-      - action
-    PublicApiRcaReportDTO:
-      type: object
-      properties:
-        agent:
-          type: object
-          $ref: '#/components/schemas/PublicApiRcaAgentDTO'
-        impactAssessment:
-          type: object
-          $ref: '#/components/schemas/PublicApiImpactAssessmentDTO'
-        rootCauseAnalysis:
-          type: object
-          $ref: '#/components/schemas/PublicApiRootCauseAnalysisDTO'
-      required:
-      - agent
-      - rootCauseAnalysis
-    PublicApiRcaResourceRefDTO:
-      type: object
-      properties:
+          $ref: '#/components/schemas/IncidentSeverityDTO'
+        cloudUrl:
+          type: string
         id:
           type: string
         name:
           type: string
-        type:
+        number:
+          type: integer
+          format: int32
+        status:
           type: object
-          $ref: '#/components/schemas/RcaResourceTypeDTO'
-        url:
+          $ref: '#/components/schemas/IncidentStatusDTO'
+      required:
+      - cloudUrl
+      - description
+      - id
+      - name
+      - number
+      - severity
+      - status
+    PublicApiRcaLineageEdgeDTO:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
           type: string
       required:
-      - id
-      - type
+      - from
+      - to
   securitySchemes:
     basicAuthApiKey:
       scheme: basic

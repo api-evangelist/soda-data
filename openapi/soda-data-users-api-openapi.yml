@@ -833,13 +833,10 @@ paths:
       - Users
 components:
   schemas:
-    ErrorResponse:
+    PublicApiDeleteUserGroupResponse:
       type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
+    PublicApiDisableUserResponse:
+      type: object
     PublicApiInviteUserRequestDTO:
       type: object
       properties:
@@ -849,38 +846,13 @@ components:
             type: string
       required:
       - emails
-    PublicApiUserGroupsResponse:
+    FailedInvitationDTO:
       type: object
       properties:
-        content:
-          type: array
-          items:
-            type: object
-            $ref: '#/components/schemas/UserGroupContentDTO'
-        first:
-          type: boolean
-        last:
-          type: boolean
-        number:
-          type: integer
-          format: int32
-        size:
-          type: integer
-          format: int32
-        totalElements:
-          type: integer
-          format: int32
-        totalPages:
-          type: integer
-          format: int32
-      required:
-      - content
-      - first
-      - last
-      - number
-      - size
-      - totalElements
-      - totalPages
+        email:
+          type: string
+        error:
+          type: string
     UserGroupContentDTO:
       type: object
       properties:
@@ -897,6 +869,17 @@ components:
       - name
       - userGroupId
       - users
+    PublicApiCreateUserGroupRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        userIds:
+          type: array
+          items:
+            type: string
+      required:
+      - name
     PublicApiInviteUserResponse:
       type: object
       properties:
@@ -909,40 +892,6 @@ components:
           type: array
           items:
             type: string
-    FailedInvitationDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        error:
-          type: string
-    UserContentDTO:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        fullName:
-          type: string
-        lastName:
-          type: string
-        userId:
-          type: string
-      required:
-      - email
-      - userId
-    PublicApiCreateUserGroupRequestDTO:
-      type: object
-      properties:
-        name:
-          type: string
-        userIds:
-          type: array
-          items:
-            type: string
-      required:
-      - name
     PublicApiUsersResponse:
       type: object
       properties:
@@ -975,10 +924,45 @@ components:
       - size
       - totalElements
       - totalPages
-    PublicApiDeleteUserGroupResponse:
+    ErrorResponse:
       type: object
-    PublicApiDisableUserResponse:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    PublicApiUserGroupsResponse:
       type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/UserGroupContentDTO'
+        first:
+          type: boolean
+        last:
+          type: boolean
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+      required:
+      - content
+      - first
+      - last
+      - number
+      - size
+      - totalElements
+      - totalPages
     PublicApiUpdateUserGroupRequestDTO:
       type: object
       properties:
@@ -986,6 +970,22 @@ components:
           type: array
           items:
             type: string
+    UserContentDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        lastName:
+          type: string
+        userId:
+          type: string
+      required:
+      - email
+      - userId
   securitySchemes:
     basicAuthApiKey:
       scheme: basic
