@@ -1,0 +1,70 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://soda.io/pricing
+sources:
+- https://soda.io/pricing
+- https://www.soda.io/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+published: true
+note: Pricing page with Free/Team/Enterprise tiers; annual billing and volume discounts mentioned.
+plan_count: 3
+currency: USD
+plans:
+- name: Free
+  price_text: $0 per month
+  price: 0
+  currency: USD
+  period: month
+  included_quota: Soda Processing Units (SPUs), Pipeline testing, Metrics observability, Alerting & ticketing
+    integrations. No credit card required
+- name: Team
+  price_text: $750 per month
+  price: 750
+  currency: USD
+  period: month
+  included_quota: All Free features, Unlimited users, Catalog integrations, Add-ons available
+  overage: Pay as you go for additional SPUs
+- name: Enterprise
+  price_text: Custom pricing
+  period: none
+  included_quota: All Team features, Collaborative data contracts, No-code interface, Advanced AI-powered
+    data quality features, Audit logs, custom roles, RBAC, Private deployment, SSO, Premium support
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  - hybrid
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Team
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
