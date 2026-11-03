@@ -74,6 +74,9 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-02.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -83,7 +86,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-10-31T095417.yml:
+  kin/checks-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -138,6 +141,15 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-10-31T095417.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T171331.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T200237.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/soda-data-lifecycle.yml:
@@ -293,6 +305,9 @@ artifacts:
   packages/soda-data-packages.yml:
     method: searched
     evidence: declared in the artifact
+  patterns/soda-data-patterns.yml:
+    method: derived
+    evidence: declared in the artifact
   plans/soda-data-plans-pricing.yml:
     method: searched
     evidence: declared in the artifact
@@ -301,6 +316,9 @@ artifacts:
     evidence: no authorship recorded
   rate-limits/soda-data-rate-limits.yml:
     method: searched
+    evidence: declared in the artifact
+  rules/soda-data-rules.yml:
+    method: generated
     evidence: declared in the artifact
   security/soda-data-domain-security.yml:
     method: unknown
@@ -318,6 +336,9 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   skills/soda-data-triage-failing-checks.md:
+    method: generated
+    evidence: declared in the artifact
+  sla/soda-data-sla.yml:
     method: generated
     evidence: declared in the artifact
   well-known/soda-data-well-known.yml:
